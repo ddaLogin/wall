@@ -7,10 +7,16 @@
 
     <title>@yield('title')</title>
 
+    <script>
+        window.Laravel = '{{json_encode(['csrfToken' => csrf_token()])}}';
+    </script>
+
     <link rel="stylesheet" href="/css/app.css">
-    <script src="/css/app.js"></script>
+    <script src="/js/app.js"></script>
 </head>
 <body>
+    @include('layouts.header')
+
     @yield('content')
 </body>
 </html>
