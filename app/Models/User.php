@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use app\Interfaces\Validatable;
+use App\Interfaces\Validatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 

@@ -6,7 +6,7 @@
  * Time: 15:40
  */
 
-namespace app\Services;
+namespace App\Services;
 
 
 use App\Models\User;

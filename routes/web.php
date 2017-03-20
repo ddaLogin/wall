@@ -12,3 +12,7 @@
 */
 
 Route::get('/', ['as' => 'home.index', 'uses' => 'HomeController@index']);
+Route::get('/log-in', ['as' => 'home.login', 'uses' => 'HomeController@login']);
+Route::get('/sign-up', ['as' => 'home.signup', 'uses' => 'HomeController@signup']);
+Route::post('/authenticate', ['as' => 'home.authenticate', 'uses' => 'HomeController@authenticate']);
+Route::post('/registration', ['as' => 'home.registration', 'uses' => 'HomeController@registration']);

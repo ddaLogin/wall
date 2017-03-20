@@ -6,7 +6,7 @@
  * Time: 15:36
  */
 
-namespace app\Interfaces;
+namespace App\Interfaces;
 
 
 interface Validatable

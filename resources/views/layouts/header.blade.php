@@ -1,4 +1,4 @@
-<div class="navbar navbar-inverse">
+<div class="navbar navbar-primary">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
@@ -32,18 +32,18 @@
                 </div>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="javascript:void(0)">Link</a></li>
-                <li class="dropdown">
-                    <a href="http://fezvrasta.github.io/bootstrap-material-design/bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown
-                        <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="javascript:void(0)">Action</a></li>
-                        <li><a href="javascript:void(0)">Another action</a></li>
-                        <li><a href="javascript:void(0)">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li><a href="javascript:void(0)">Separated link</a></li>
-                    </ul>
-                </li>
+                <li><a href="{{route('home.login')}}">Log in</a></li>
+                {{--<li class="dropdown">--}}
+                    {{--<a href="http://fezvrasta.github.io/bootstrap-material-design/bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown--}}
+                        {{--<b class="caret"></b></a>--}}
+                    {{--<ul class="dropdown-menu">--}}
+                        {{--<li><a href="javascript:void(0)">Action</a></li>--}}
+                        {{--<li><a href="javascript:void(0)">Another action</a></li>--}}
+                        {{--<li><a href="javascript:void(0)">Something else here</a></li>--}}
+                        {{--<li class="divider"></li>--}}
+                        {{--<li><a href="javascript:void(0)">Separated link</a></li>--}}
+                    {{--</ul>--}}
+                {{--</li>--}}
             </ul>
         </div>
     </div>
