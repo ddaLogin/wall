@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 41);
+/******/ 	return __webpack_require__(__webpack_require__.s = 34);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,7 +73,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(8);
+var bind = __webpack_require__(7);
 
 /*global toString:true*/
 
@@ -374,6 +374,558 @@ module.exports = {
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(0);
+var normalizeHeaderName = __webpack_require__(27);
+
+var PROTECTION_PREFIX = /^\)\]\}',?\n/;
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(3);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(3);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      data = data.replace(PROTECTION_PREFIX, '');
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMehtodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(0);
+var settle = __webpack_require__(19);
+var buildURL = __webpack_require__(22);
+var parseHeaders = __webpack_require__(28);
+var isURLSameOrigin = __webpack_require__(26);
+var createError = __webpack_require__(6);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(21);
+
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
+
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
+    var request = new XMLHttpRequest();
+    var loadEvent = 'onreadystatechange';
+    var xDomain = false;
+
+    // For IE 8/9 CORS support
+    // Only supports POST and GET calls and doesn't returns the response headers.
+    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
+    if (process.env.NODE_ENV !== 'test' &&
+        typeof window !== 'undefined' &&
+        window.XDomainRequest && !('withCredentials' in request) &&
+        !isURLSameOrigin(config.url)) {
+      request = new window.XDomainRequest();
+      loadEvent = 'onload';
+      xDomain = true;
+      request.onprogress = function handleProgress() {};
+      request.ontimeout = function handleTimeout() {};
+    }
+
+    // HTTP basic authentication
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password || '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+    }
+
+    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+
+    // Set the request timeout in MS
+    request.timeout = config.timeout;
+
+    // Listen for ready state
+    request[loadEvent] = function handleLoad() {
+      if (!request || (request.readyState !== 4 && !xDomain)) {
+        return;
+      }
+
+      // The request errored out and we didn't get a response, this will be
+      // handled by onerror instead
+      // With one exception: request that using file: protocol, most browsers
+      // will return status as 0 even though it's a successful request
+      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+        return;
+      }
+
+      // Prepare the response
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+      var response = {
+        data: responseData,
+        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
+        status: request.status === 1223 ? 204 : request.status,
+        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+
+      settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle low level network errors
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle timeout
+    request.ontimeout = function handleTimeout() {
+      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED'));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = __webpack_require__(24);
+
+      // Add xsrf header
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+          cookies.read(config.xsrfCookieName) :
+          undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+      }
+    }
+
+    // Add headers to the request
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
+        }
+      });
+    }
+
+    // Add withCredentials to request if needed
+    if (config.withCredentials) {
+      request.withCredentials = true;
+    }
+
+    // Add responseType to request if needed
+    if (config.responseType) {
+      try {
+        request.responseType = config.responseType;
+      } catch (e) {
+        if (request.responseType !== 'json') {
+          throw e;
+        }
+      }
+    }
+
+    // Handle progress if needed
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    }
+
+    // Not all browsers support upload events
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken) {
+      // Handle cancellation
+      config.cancelToken.promise.then(function onCanceled(cancel) {
+        if (!request) {
+          return;
+        }
+
+        request.abort();
+        reject(cancel);
+        // Clean up request
+        request = null;
+      });
+    }
+
+    if (requestData === undefined) {
+      requestData = null;
+    }
+
+    // Send the request
+    request.send(requestData);
+  });
+};
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+function Cancel(message) {
+  this.message = message;
+}
+
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
+
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var enhanceError = __webpack_require__(18);
+
+/**
+ * Create an Error with the specified message, config, error code, and response.
+ *
+ * @param {string} message The error message.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ @ @param {Object} [response] The response.
+ * @returns {Error} The created error.
+ */
+module.exports = function createError(message, config, code, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, response);
+};
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
+  };
+};
+
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10624,558 +11176,6 @@ return jQuery;
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(27);
-
-var PROTECTION_PREFIX = /^\)\]\}',?\n/;
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(4);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(4);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      data = data.replace(PROTECTION_PREFIX, '');
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMehtodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(0);
-var settle = __webpack_require__(19);
-var buildURL = __webpack_require__(22);
-var parseHeaders = __webpack_require__(28);
-var isURLSameOrigin = __webpack_require__(26);
-var createError = __webpack_require__(7);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(21);
-
-module.exports = function xhrAdapter(config) {
-  return new Promise(function dispatchXhrRequest(resolve, reject) {
-    var requestData = config.data;
-    var requestHeaders = config.headers;
-
-    if (utils.isFormData(requestData)) {
-      delete requestHeaders['Content-Type']; // Let the browser set it
-    }
-
-    var request = new XMLHttpRequest();
-    var loadEvent = 'onreadystatechange';
-    var xDomain = false;
-
-    // For IE 8/9 CORS support
-    // Only supports POST and GET calls and doesn't returns the response headers.
-    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if (process.env.NODE_ENV !== 'test' &&
-        typeof window !== 'undefined' &&
-        window.XDomainRequest && !('withCredentials' in request) &&
-        !isURLSameOrigin(config.url)) {
-      request = new window.XDomainRequest();
-      loadEvent = 'onload';
-      xDomain = true;
-      request.onprogress = function handleProgress() {};
-      request.ontimeout = function handleTimeout() {};
-    }
-
-    // HTTP basic authentication
-    if (config.auth) {
-      var username = config.auth.username || '';
-      var password = config.auth.password || '';
-      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
-    }
-
-    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
-
-    // Set the request timeout in MS
-    request.timeout = config.timeout;
-
-    // Listen for ready state
-    request[loadEvent] = function handleLoad() {
-      if (!request || (request.readyState !== 4 && !xDomain)) {
-        return;
-      }
-
-      // The request errored out and we didn't get a response, this will be
-      // handled by onerror instead
-      // With one exception: request that using file: protocol, most browsers
-      // will return status as 0 even though it's a successful request
-      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
-        return;
-      }
-
-      // Prepare the response
-      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
-      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
-      var response = {
-        data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
-        status: request.status === 1223 ? 204 : request.status,
-        statusText: request.status === 1223 ? 'No Content' : request.statusText,
-        headers: responseHeaders,
-        config: config,
-        request: request
-      };
-
-      settle(resolve, reject, response);
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle low level network errors
-    request.onerror = function handleError() {
-      // Real errors are hidden from us by the browser
-      // onerror should only fire if it's a network error
-      reject(createError('Network Error', config));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle timeout
-    request.ontimeout = function handleTimeout() {
-      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED'));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Add xsrf header
-    // This is only done if running in a standard browser environment.
-    // Specifically not if we're in a web worker, or react-native.
-    if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(24);
-
-      // Add xsrf header
-      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-          cookies.read(config.xsrfCookieName) :
-          undefined;
-
-      if (xsrfValue) {
-        requestHeaders[config.xsrfHeaderName] = xsrfValue;
-      }
-    }
-
-    // Add headers to the request
-    if ('setRequestHeader' in request) {
-      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
-        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
-          // Remove Content-Type if data is undefined
-          delete requestHeaders[key];
-        } else {
-          // Otherwise add header to the request
-          request.setRequestHeader(key, val);
-        }
-      });
-    }
-
-    // Add withCredentials to request if needed
-    if (config.withCredentials) {
-      request.withCredentials = true;
-    }
-
-    // Add responseType to request if needed
-    if (config.responseType) {
-      try {
-        request.responseType = config.responseType;
-      } catch (e) {
-        if (request.responseType !== 'json') {
-          throw e;
-        }
-      }
-    }
-
-    // Handle progress if needed
-    if (typeof config.onDownloadProgress === 'function') {
-      request.addEventListener('progress', config.onDownloadProgress);
-    }
-
-    // Not all browsers support upload events
-    if (typeof config.onUploadProgress === 'function' && request.upload) {
-      request.upload.addEventListener('progress', config.onUploadProgress);
-    }
-
-    if (config.cancelToken) {
-      // Handle cancellation
-      config.cancelToken.promise.then(function onCanceled(cancel) {
-        if (!request) {
-          return;
-        }
-
-        request.abort();
-        reject(cancel);
-        // Clean up request
-        request = null;
-      });
-    }
-
-    if (requestData === undefined) {
-      requestData = null;
-    }
-
-    // Send the request
-    request.send(requestData);
-  });
-};
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * A `Cancel` is an object that is thrown when an operation is canceled.
- *
- * @class
- * @param {string=} message The message.
- */
-function Cancel(message) {
-  this.message = message;
-}
-
-Cancel.prototype.toString = function toString() {
-  return 'Cancel' + (this.message ? ': ' + this.message : '');
-};
-
-Cancel.prototype.__CANCEL__ = true;
-
-module.exports = Cancel;
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function isCancel(value) {
-  return !!(value && value.__CANCEL__);
-};
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var enhanceError = __webpack_require__(18);
-
-/**
- * Create an Error with the specified message, config, error code, and response.
- *
- * @param {string} message The error message.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- @ @param {Object} [response] The response.
- * @returns {Error} The created error.
- */
-module.exports = function createError(message, config, code, response) {
-  var error = new Error(message);
-  return enhanceError(error, config, code, response);
-};
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function bind(fn, thisArg) {
-  return function wrap() {
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-    return fn.apply(thisArg, args);
-  };
-};
-
-
-/***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
@@ -11213,7 +11213,53 @@ module.exports = g;
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-__webpack_require__(31);
+// require('./bootstrap');
+
+window._ = __webpack_require__(31);
+
+/**
+ * We'll load jQuery and the Bootstrap jQuery plugin which provides support
+ * for JavaScript based Bootstrap features such as modals and tabs. This
+ * code may be modified to fit the specific needs of your application.
+ */
+
+window.$ = window.jQuery = __webpack_require__(8);
+
+__webpack_require__(30);
+
+/**
+ * Vue is a modern JavaScript library for building interactive web interfaces
+ * using reactive data binding and reusable components. Vue's API is clean
+ * and simple, leaving you to focus on building your next great project.
+ */
+
+window.Vue = __webpack_require__(32);
+
+/**
+ * We'll load the axios HTTP library which allows us to easily issue requests
+ * to our Laravel back-end. This library automatically handles sending the
+ * CSRF token as a header based on the value of the "XSRF" token cookie.
+ */
+
+window.axios = __webpack_require__(12);
+
+window.axios.defaults.headers.common = {
+  'X-CSRF-TOKEN': window.Laravel.csrfToken,
+  'X-Requested-With': 'XMLHttpRequest'
+};
+
+/**
+ * Echo exposes an expressive API for subscribing to channels and listening
+ * for events that are broadcast by Laravel. Echo and event broadcasting
+ * allows your team to easily build robust real-time web applications.
+ */
+
+// import Echo from "laravel-echo"
+
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: 'your-pusher-key'
+// });
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -11221,11 +11267,11 @@ __webpack_require__(31);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', __webpack_require__(36));
-
-var app = new Vue({
-  el: '#app'
-});
+// Vue.component('example', require('./components/Example.vue'));
+//
+// const app = new Vue({
+//     el: '#app'
+// });
 
 /***/ }),
 /* 11 */
@@ -11247,9 +11293,9 @@ module.exports = __webpack_require__(13);
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(8);
+var bind = __webpack_require__(7);
 var Axios = __webpack_require__(15);
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(1);
 
 /**
  * Create an instance of Axios
@@ -11282,9 +11328,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(5);
+axios.Cancel = __webpack_require__(4);
 axios.CancelToken = __webpack_require__(14);
-axios.isCancel = __webpack_require__(6);
+axios.isCancel = __webpack_require__(5);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -11305,7 +11351,7 @@ module.exports.default = axios;
 "use strict";
 
 
-var Cancel = __webpack_require__(5);
+var Cancel = __webpack_require__(4);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -11369,7 +11415,7 @@ module.exports = CancelToken;
 "use strict";
 
 
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(1);
 var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(16);
 var dispatchRequest = __webpack_require__(17);
@@ -11522,8 +11568,8 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(20);
-var isCancel = __webpack_require__(6);
-var defaults = __webpack_require__(2);
+var isCancel = __webpack_require__(5);
+var defaults = __webpack_require__(1);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -11632,7 +11678,7 @@ module.exports = function enhanceError(error, config, code, response) {
 "use strict";
 
 
-var createError = __webpack_require__(7);
+var createError = __webpack_require__(6);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -12076,784 +12122,6 @@ module.exports = function spread(callback) {
 
 /***/ }),
 /* 30 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = {
-    mounted: function mounted() {
-        console.log('Component mounted.');
-    }
-};
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function($) {
-window._ = __webpack_require__(35);
-
-/**
- * We'll load jQuery and the Bootstrap jQuery plugin which provides support
- * for JavaScript based Bootstrap features such as modals and tabs. This
- * code may be modified to fit the specific needs of your application.
- */
-
-window.$ = window.jQuery = __webpack_require__(1);
-
-__webpack_require__(34);
-__webpack_require__(32);
-__webpack_require__(33);
-
-/**
- * Init all libs
- */
-$.material.init();
-
-/**
- * Vue is a modern JavaScript library for building interactive web interfaces
- * using reactive data binding and reusable components. Vue's API is clean
- * and simple, leaving you to focus on building your next great project.
- */
-
-window.Vue = __webpack_require__(39);
-
-/**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
- */
-
-window.axios = __webpack_require__(12);
-
-window.axios.defaults.headers.common = {
-  'X-CSRF-TOKEN': window.Laravel.csrfToken,
-  'X-Requested-With': 'XMLHttpRequest'
-};
-
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
-// import Echo from "laravel-echo"
-
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: 'your-pusher-key'
-// });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(jQuery) {/* globals jQuery */
-
-(function ($) {
-  // Selector to select only not already processed elements
-  $.expr[":"].notmdproc = function (obj) {
-    if ($(obj).data("mdproc")) {
-      return false;
-    } else {
-      return true;
-    }
-  };
-
-  function _isChar(evt) {
-    if (typeof evt.which == "undefined") {
-      return true;
-    } else if (typeof evt.which == "number" && evt.which > 0) {
-      return (
-        !evt.ctrlKey
-        && !evt.metaKey
-        && !evt.altKey
-        && evt.which != 8  // backspace
-        && evt.which != 9  // tab
-        && evt.which != 13 // enter
-        && evt.which != 16 // shift
-        && evt.which != 17 // ctrl
-        && evt.which != 20 // caps lock
-        && evt.which != 27 // escape
-      );
-    }
-    return false;
-  }
-
-  function _addFormGroupFocus(element) {
-    var $element = $(element);
-    if (!$element.prop('disabled')) {  // this is showing as undefined on chrome but works fine on firefox??
-      $element.closest(".form-group").addClass("is-focused");
-    }
-  }
-
-  function _toggleDisabledState($element, state) {
-    var $target;
-    if ($element.hasClass('checkbox-inline') || $element.hasClass('radio-inline')) {
-      $target = $element;
-    } else {
-      $target = $element.closest('.checkbox').length ? $element.closest('.checkbox') : $element.closest('.radio');
-    }
-    return $target.toggleClass('disabled', state);
-  }
-
-  function _toggleTypeFocus($input) {
-    var disabledToggleType = false;
-    if ($input.is($.material.options.checkboxElements) || $input.is($.material.options.radioElements)) {
-      disabledToggleType = true;
-    }
-    $input.closest('label').hover(function () {
-        var $i = $(this).find('input');
-        var isDisabled = $i.prop('disabled'); // hack because the _addFormGroupFocus() wasn't identifying the property on chrome
-        if (disabledToggleType) {
-          _toggleDisabledState($(this), isDisabled);
-        }
-        if (!isDisabled) {
-          _addFormGroupFocus($i);     // need to find the input so we can check disablement
-        }
-      },
-      function () {
-        _removeFormGroupFocus($(this).find('input'));
-      });
-  }
-
-  function _removeFormGroupFocus(element) {
-    $(element).closest(".form-group").removeClass("is-focused"); // remove class from form-group
-  }
-
-  $.material = {
-    "options": {
-      // These options set what will be started by $.material.init()
-      "validate": true,
-      "input": true,
-      "ripples": true,
-      "checkbox": true,
-      "togglebutton": true,
-      "radio": true,
-      "arrive": true,
-      "autofill": false,
-
-      "withRipples": [
-        ".btn:not(.btn-link)",
-        ".card-image",
-        ".navbar a:not(.withoutripple)",
-        ".dropdown-menu a",
-        ".nav-tabs a:not(.withoutripple)",
-        ".withripple",
-        ".pagination li:not(.active):not(.disabled) a:not(.withoutripple)"
-      ].join(","),
-      "inputElements": "input.form-control, textarea.form-control, select.form-control",
-      "checkboxElements": ".checkbox > label > input[type=checkbox], label.checkbox-inline > input[type=checkbox]",
-      "togglebuttonElements": ".togglebutton > label > input[type=checkbox]",
-      "radioElements": ".radio > label > input[type=radio], label.radio-inline > input[type=radio]"
-    },
-    "checkbox": function (selector) {
-      // Add fake-checkbox to material checkboxes
-      var $input = $((selector) ? selector : this.options.checkboxElements)
-        .filter(":notmdproc")
-        .data("mdproc", true)
-        .after("<span class='checkbox-material'><span class='check'></span></span>");
-
-      _toggleTypeFocus($input);
-    },
-    "togglebutton": function (selector) {
-      // Add fake-checkbox to material checkboxes
-      var $input = $((selector) ? selector : this.options.togglebuttonElements)
-        .filter(":notmdproc")
-        .data("mdproc", true)
-        .after("<span class='toggle'></span>");
-
-      _toggleTypeFocus($input);
-    },
-    "radio": function (selector) {
-      // Add fake-radio to material radios
-      var $input = $((selector) ? selector : this.options.radioElements)
-        .filter(":notmdproc")
-        .data("mdproc", true)
-        .after("<span class='circle'></span><span class='check'></span>");
-
-      _toggleTypeFocus($input);
-    },
-    "input": function (selector) {
-      $((selector) ? selector : this.options.inputElements)
-        .filter(":notmdproc")
-        .data("mdproc", true)
-        .each(function () {
-          var $input = $(this);
-
-          // Requires form-group standard markup (will add it if necessary)
-          var $formGroup = $input.closest(".form-group"); // note that form-group may be grandparent in the case of an input-group
-          if ($formGroup.length === 0 && $input.attr('type') !== "hidden" && !$input.attr('hidden')) {
-            $input.wrap("<div class='form-group'></div>");
-            $formGroup = $input.closest(".form-group"); // find node after attached (otherwise additional attachments don't work)
-          }
-
-          // Legacy - Add hint label if using the old shorthand data-hint attribute on the input
-          if ($input.attr("data-hint")) {
-            $input.after("<p class='help-block'>" + $input.attr("data-hint") + "</p>");
-            $input.removeAttr("data-hint");
-          }
-
-          // Legacy - Change input-sm/lg to form-group-sm/lg instead (preferred standard and simpler css/less variants)
-          var legacySizes = {
-            "input-lg": "form-group-lg",
-            "input-sm": "form-group-sm"
-          };
-          $.each(legacySizes, function (legacySize, standardSize) {
-            if ($input.hasClass(legacySize)) {
-              $input.removeClass(legacySize);
-              $formGroup.addClass(standardSize);
-            }
-          });
-
-          // Legacy - Add label-floating if using old shorthand <input class="floating-label" placeholder="foo">
-          if ($input.hasClass("floating-label")) {
-            var placeholder = $input.attr("placeholder");
-            $input.attr("placeholder", null).removeClass("floating-label");
-            var id = $input.attr("id");
-            var forAttribute = "";
-            if (id) {
-              forAttribute = "for='" + id + "'";
-            }
-            $formGroup.addClass("label-floating");
-            $input.after("<label " + forAttribute + "class='control-label'>" + placeholder + "</label>");
-          }
-
-          // Set as empty if is empty (damn I must improve this...)
-          if ($input.val() === null || $input.val() == "undefined" || $input.val() === "") {
-            $formGroup.addClass("is-empty");
-          }
-
-          // Support for file input
-          if ($formGroup.find("input[type=file]").length > 0) {
-            $formGroup.addClass("is-fileinput");
-          }
-        });
-    },
-    "attachInputEventHandlers": function () {
-      var validate = this.options.validate;
-
-      $(document)
-        .on("keydown paste", ".form-control", function (e) {
-          if (_isChar(e)) {
-            $(this).closest(".form-group").removeClass("is-empty");
-          }
-        })
-        .on("keyup change", ".form-control", function () {
-          var $input = $(this);
-          var $formGroup = $input.closest(".form-group");
-          var isValid = (typeof $input[0].checkValidity === "undefined" || $input[0].checkValidity());
-
-          if ($input.val() === "") {
-            $formGroup.addClass("is-empty");
-          }
-          else {
-            $formGroup.removeClass("is-empty");
-          }
-
-          // Validation events do not bubble, so they must be attached directly to the input: http://jsfiddle.net/PEpRM/1/
-          //  Further, even the bind method is being caught, but since we are already calling #checkValidity here, just alter
-          //  the form-group on change.
-          //
-          // NOTE: I'm not sure we should be intervening regarding validation, this seems better as a README and snippet of code.
-          //        BUT, I've left it here for backwards compatibility.
-          if (validate) {
-            if (isValid) {
-              $formGroup.removeClass("has-error");
-            }
-            else {
-              $formGroup.addClass("has-error");
-            }
-          }
-        })
-        .on("focus", ".form-control, .form-group.is-fileinput", function () {
-          _addFormGroupFocus(this);
-        })
-        .on("blur", ".form-control, .form-group.is-fileinput", function () {
-          _removeFormGroupFocus(this);
-        })
-        // make sure empty is added back when there is a programmatic value change.
-        //  NOTE: programmatic changing of value using $.val() must trigger the change event i.e. $.val('x').trigger('change')
-        .on("change", ".form-group input", function () {
-          var $input = $(this);
-          if ($input.attr("type") == "file") {
-            return;
-          }
-
-          var $formGroup = $input.closest(".form-group");
-          var value = $input.val();
-          if (value) {
-            $formGroup.removeClass("is-empty");
-          } else {
-            $formGroup.addClass("is-empty");
-          }
-        })
-        // set the fileinput readonly field with the name of the file
-        .on("change", ".form-group.is-fileinput input[type='file']", function () {
-          var $input = $(this);
-          var $formGroup = $input.closest(".form-group");
-          var value = "";
-          $.each(this.files, function (i, file) {
-            value += file.name + ", ";
-          });
-          value = value.substring(0, value.length - 2);
-          if (value) {
-            $formGroup.removeClass("is-empty");
-          } else {
-            $formGroup.addClass("is-empty");
-          }
-          $formGroup.find("input.form-control[readonly]").val(value);
-        });
-    },
-    "ripples": function (selector) {
-      $((selector) ? selector : this.options.withRipples).ripples();
-    },
-    "autofill": function () {
-      // This part of code will detect autofill when the page is loading (username and password inputs for example)
-      var loading = setInterval(function () {
-        $("input[type!=checkbox]").each(function () {
-          var $this = $(this);
-          if ($this.val() && $this.val() !== $this.attr("value")) {
-            $this.trigger("change");
-          }
-        });
-      }, 100);
-
-      // After 10 seconds we are quite sure all the needed inputs are autofilled then we can stop checking them
-      setTimeout(function () {
-        clearInterval(loading);
-      }, 10000);
-    },
-    "attachAutofillEventHandlers": function () {
-      // Listen on inputs of the focused form (because user can select from the autofill dropdown only when the input has focus)
-      var focused;
-      $(document)
-        .on("focus", "input", function () {
-          var $inputs = $(this).parents("form").find("input").not("[type=file]");
-          focused = setInterval(function () {
-            $inputs.each(function () {
-              var $this = $(this);
-              if ($this.val() !== $this.attr("value")) {
-                $this.trigger("change");
-              }
-            });
-          }, 100);
-        })
-        .on("blur", ".form-group input", function () {
-          clearInterval(focused);
-        });
-    },
-    "init": function (options) {
-      this.options = $.extend({}, this.options, options);
-      var $document = $(document);
-
-      if ($.fn.ripples && this.options.ripples) {
-        this.ripples();
-      }
-      if (this.options.input) {
-        this.input();
-        this.attachInputEventHandlers();
-      }
-      if (this.options.checkbox) {
-        this.checkbox();
-      }
-      if (this.options.togglebutton) {
-        this.togglebutton();
-      }
-      if (this.options.radio) {
-        this.radio();
-      }
-      if (this.options.autofill) {
-        this.autofill();
-        this.attachAutofillEventHandlers();
-      }
-
-      if (document.arrive && this.options.arrive) {
-        if ($.fn.ripples && this.options.ripples) {
-          $document.arrive(this.options.withRipples, function () {
-            $.material.ripples($(this));
-          });
-        }
-        if (this.options.input) {
-          $document.arrive(this.options.inputElements, function () {
-            $.material.input($(this));
-          });
-        }
-        if (this.options.checkbox) {
-          $document.arrive(this.options.checkboxElements, function () {
-            $.material.checkbox($(this));
-          });
-        }
-        if (this.options.radio) {
-          $document.arrive(this.options.radioElements, function () {
-            $.material.radio($(this));
-          });
-        }
-        if (this.options.togglebutton) {
-          $document.arrive(this.options.togglebuttonElements, function () {
-            $.material.togglebutton($(this));
-          });
-        }
-
-      }
-    }
-  };
-
-})(jQuery);
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(jQuery) {/* Copyright 2014+, Federico Zivolo, LICENSE at https://github.com/FezVrasta/bootstrap-material-design/blob/master/LICENSE.md */
-/* globals jQuery, navigator */
-
-(function($, window, document, undefined) {
-
-  "use strict";
-
-  /**
-   * Define the name of the plugin
-   */
-  var ripples = "ripples";
-
-
-  /**
-   * Get an instance of the plugin
-   */
-  var self = null;
-
-
-  /**
-   * Define the defaults of the plugin
-   */
-  var defaults = {};
-
-
-  /**
-   * Create the main plugin function
-   */
-  function Ripples(element, options) {
-    self = this;
-
-    this.element = $(element);
-
-    this.options = $.extend({}, defaults, options);
-
-    this._defaults = defaults;
-    this._name = ripples;
-
-    this.init();
-  }
-
-
-  /**
-   * Initialize the plugin
-   */
-  Ripples.prototype.init = function() {
-    var $element  = this.element;
-
-    $element.on("mousedown touchstart", function(event) {
-      /**
-       * Verify if the user is just touching on a device and return if so
-       */
-      if(self.isTouch() && event.type === "mousedown") {
-        return;
-      }
-
-
-      /**
-       * Verify if the current element already has a ripple wrapper element and
-       * creates if it doesn't
-       */
-      if(!($element.find(".ripple-container").length)) {
-        $element.append("<div class=\"ripple-container\"></div>");
-      }
-
-
-      /**
-       * Find the ripple wrapper
-       */
-      var $wrapper = $element.children(".ripple-container");
-
-
-      /**
-       * Get relY and relX positions
-       */
-      var relY = self.getRelY($wrapper, event);
-      var relX = self.getRelX($wrapper, event);
-
-
-      /**
-       * If relY and/or relX are false, return the event
-       */
-      if(!relY && !relX) {
-        return;
-      }
-
-
-      /**
-       * Get the ripple color
-       */
-      var rippleColor = self.getRipplesColor($element);
-
-
-      /**
-       * Create the ripple element
-       */
-      var $ripple = $("<div></div>");
-
-      $ripple
-      .addClass("ripple")
-      .css({
-        "left": relX,
-        "top": relY,
-        "background-color": rippleColor
-      });
-
-
-      /**
-       * Append the ripple to the wrapper
-       */
-      $wrapper.append($ripple);
-
-
-      /**
-       * Make sure the ripple has the styles applied (ugly hack but it works)
-       */
-      (function() { return window.getComputedStyle($ripple[0]).opacity; })();
-
-
-      /**
-       * Turn on the ripple animation
-       */
-      self.rippleOn($element, $ripple);
-
-
-      /**
-       * Call the rippleEnd function when the transition "on" ends
-       */
-      setTimeout(function() {
-        self.rippleEnd($ripple);
-      }, 500);
-
-
-      /**
-       * Detect when the user leaves the element
-       */
-      $element.on("mouseup mouseleave touchend", function() {
-        $ripple.data("mousedown", "off");
-
-        if($ripple.data("animating") === "off") {
-          self.rippleOut($ripple);
-        }
-      });
-
-    });
-  };
-
-
-  /**
-   * Get the new size based on the element height/width and the ripple width
-   */
-  Ripples.prototype.getNewSize = function($element, $ripple) {
-
-    return (Math.max($element.outerWidth(), $element.outerHeight()) / $ripple.outerWidth()) * 2.5;
-  };
-
-
-  /**
-   * Get the relX
-   */
-  Ripples.prototype.getRelX = function($wrapper,  event) {
-    var wrapperOffset = $wrapper.offset();
-
-    if(!self.isTouch()) {
-      /**
-       * Get the mouse position relative to the ripple wrapper
-       */
-      return event.pageX - wrapperOffset.left;
-    } else {
-      /**
-       * Make sure the user is using only one finger and then get the touch
-       * position relative to the ripple wrapper
-       */
-      event = event.originalEvent;
-
-      if(event.touches.length === 1) {
-        return event.touches[0].pageX - wrapperOffset.left;
-      }
-
-      return false;
-    }
-  };
-
-
-  /**
-   * Get the relY
-   */
-  Ripples.prototype.getRelY = function($wrapper, event) {
-    var wrapperOffset = $wrapper.offset();
-
-    if(!self.isTouch()) {
-      /**
-       * Get the mouse position relative to the ripple wrapper
-       */
-      return event.pageY - wrapperOffset.top;
-    } else {
-      /**
-       * Make sure the user is using only one finger and then get the touch
-       * position relative to the ripple wrapper
-       */
-      event = event.originalEvent;
-
-      if(event.touches.length === 1) {
-        return event.touches[0].pageY - wrapperOffset.top;
-      }
-
-      return false;
-    }
-  };
-
-
-  /**
-   * Get the ripple color
-   */
-  Ripples.prototype.getRipplesColor = function($element) {
-
-    var color = $element.data("ripple-color") ? $element.data("ripple-color") : window.getComputedStyle($element[0]).color;
-
-    return color;
-  };
-
-
-  /**
-   * Verify if the client browser has transistion support
-   */
-  Ripples.prototype.hasTransitionSupport = function() {
-    var thisBody  = document.body || document.documentElement;
-    var thisStyle = thisBody.style;
-
-    var support = (
-      thisStyle.transition !== undefined ||
-      thisStyle.WebkitTransition !== undefined ||
-      thisStyle.MozTransition !== undefined ||
-      thisStyle.MsTransition !== undefined ||
-      thisStyle.OTransition !== undefined
-    );
-
-    return support;
-  };
-
-
-  /**
-   * Verify if the client is using a mobile device
-   */
-  Ripples.prototype.isTouch = function() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  };
-
-
-  /**
-   * End the animation of the ripple
-   */
-  Ripples.prototype.rippleEnd = function($ripple) {
-    $ripple.data("animating", "off");
-
-    if($ripple.data("mousedown") === "off") {
-      self.rippleOut($ripple);
-    }
-  };
-
-
-  /**
-   * Turn off the ripple effect
-   */
-  Ripples.prototype.rippleOut = function($ripple) {
-    $ripple.off();
-
-    if(self.hasTransitionSupport()) {
-      $ripple.addClass("ripple-out");
-    } else {
-      $ripple.animate({"opacity": 0}, 100, function() {
-        $ripple.trigger("transitionend");
-      });
-    }
-
-    $ripple.on("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function() {
-      $ripple.remove();
-    });
-  };
-
-
-  /**
-   * Turn on the ripple effect
-   */
-  Ripples.prototype.rippleOn = function($element, $ripple) {
-    var size = self.getNewSize($element, $ripple);
-
-    if(self.hasTransitionSupport()) {
-      $ripple
-      .css({
-        "-ms-transform": "scale(" + size + ")",
-        "-moz-transform": "scale(" + size + ")",
-        "-webkit-transform": "scale(" + size + ")",
-        "transform": "scale(" + size + ")"
-      })
-      .addClass("ripple-on")
-      .data("animating", "on")
-      .data("mousedown", "on");
-    } else {
-      $ripple.animate({
-        "width": Math.max($element.outerWidth(), $element.outerHeight()) * 2,
-        "height": Math.max($element.outerWidth(), $element.outerHeight()) * 2,
-        "margin-left": Math.max($element.outerWidth(), $element.outerHeight()) * (-1),
-        "margin-top": Math.max($element.outerWidth(), $element.outerHeight()) * (-1),
-        "opacity": 0.2
-      }, 500, function() {
-        $ripple.trigger("transitionend");
-      });
-    }
-  };
-
-
-  /**
-   * Create the jquery plugin function
-   */
-  $.fn.ripples = function(options) {
-    return this.each(function() {
-      if(!$.data(this, "plugin_" + ripples)) {
-        $.data(this, "plugin_" + ripples, new Ripples(this, options));
-      }
-    });
-  };
-
-})(jQuery, window, document);
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
-
-/***/ }),
-/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(jQuery) {/*!
@@ -15234,10 +14502,10 @@ if (typeof jQuery === 'undefined') {
 
 }(jQuery);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 35 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -32326,126 +31594,10 @@ if (typeof jQuery === 'undefined') {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(40)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(33)(module)))
 
 /***/ }),
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(37)(
-  /* script */
-  __webpack_require__(30),
-  /* template */
-  __webpack_require__(38),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "C:\\OpenServer\\domains\\wall\\resources\\assets\\js\\components\\Example.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Example.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-082b1abc", Component.options)
-  } else {
-    hotAPI.reload("data-v-082b1abc", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports) {
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  scopeId,
-  cssModules
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  // inject cssModules
-  if (cssModules) {
-    var computed = options.computed || (options.computed = {})
-    Object.keys(cssModules).forEach(function (key) {
-      var module = cssModules[key]
-      computed[key] = function () { return module }
-    })
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "container"
-  }, [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-8 col-md-offset-2"
-  }, [_c('div', {
-    staticClass: "panel panel-default"
-  }, [_c('div', {
-    staticClass: "panel-heading"
-  }, [_vm._v("Example Component")]), _vm._v(" "), _c('div', {
-    staticClass: "panel-body"
-  }, [_vm._v("\n                    I'm an example component!\n                ")])])])])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-082b1abc", module.exports)
-  }
-}
-
-/***/ }),
-/* 39 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41695,10 +40847,10 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(9)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(9)))
 
 /***/ }),
-/* 40 */
+/* 33 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -41726,7 +40878,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 41 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(10);

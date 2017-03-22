@@ -10,13 +10,6 @@ window._ = require('lodash');
 window.$ = window.jQuery = require('jquery');
 
 require('bootstrap-sass');
-require('bootstrap-material-design/dist/js/material.js');
-require('bootstrap-material-design/dist/js/ripples.js');
-
-/**
- * Init all libs
- */
-$.material.init();
 
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces

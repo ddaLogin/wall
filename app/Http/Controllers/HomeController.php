@@ -25,6 +25,17 @@ class HomeController extends Controller
     }
 
     /**
+     * log out page
+     * @param UserService $userService
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function logout(UserService $userService)
+    {
+        $userService->logout();
+        return redirect()->route('home.login');
+    }
+
+    /**
      * return sign up page
      */
     public function signup()
@@ -32,12 +43,26 @@ class HomeController extends Controller
         return view('home.signup');
     }
 
+    /**
+     * registration new user
+     *
+     * @param UserStoreRequest $request
+     * @param UserService $userService
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function registration(UserStoreRequest $request, UserService $userService)
     {
         $userService->registration($request);
         return redirect()->route('home.login');
     }
 
+    /**
+     * authenticate user
+     *
+     * @param Request $request
+     * @param UserService $userService
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function authenticate(Request $request, UserService $userService)
     {
         if ($userService->auth($request)){

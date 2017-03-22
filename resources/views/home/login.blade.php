@@ -19,17 +19,17 @@
                         </div>
                     @endif
 
-                    <div class="form-group label-floating @if(!old('email')) is-empty @endif">
+                    <div class="form-group">
                         <label class="control-label">Email address</label>
                         <input type="email" name="email" class="form-control" value="{{old('email')}}">
                     </div>
-                    <div class="form-group label-floating is-empty">
+                    <div class="form-group">
                         <label class="control-label">Password</label>
                         <input type="password" name="password" class="form-control">
                     </div>
                     <div class="form-group">
-                        <div class="col-md-6"><button type="submit" class="btn btn-raised btn-primary">Log In</button></div>
-                        <div class="col-md-6 text-right"><a class="btn btn-raised btn-info" href="{{route('home.signup')}}">Sing Up</a></div>
+                        <div class="col-md-6"><button type="submit" class="btn btn-success">Log In</button></div>
+                        <div class="col-md-6 text-right"><a class="btn btn-info" href="{{route('home.signup')}}">Sing Up</a></div>
                     </div>
                 </form>
             </div>
