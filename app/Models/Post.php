@@ -24,6 +24,11 @@ class Post extends Model implements Validatable
         'created_at', 'updated_at', 'deleted_at'
     ];
 
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id');
+    }
+
     /**
      * return validation rules
      * @return array
