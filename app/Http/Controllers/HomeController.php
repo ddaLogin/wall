@@ -13,7 +13,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home.index');
+        return view('home');
     }
 
     /**
@@ -21,7 +21,7 @@ class HomeController extends Controller
      */
     public function login()
     {
-        return view('home.login');
+        return view('login');
     }
 
     /**
@@ -32,7 +32,7 @@ class HomeController extends Controller
     public function logout(UserService $userService)
     {
         $userService->logout();
-        return redirect()->route('home.login');
+        return redirect()->route('login');
     }
 
     /**
@@ -40,7 +40,7 @@ class HomeController extends Controller
      */
     public function signup()
     {
-        return view('home.signup');
+        return view('signup');
     }
 
     /**
@@ -53,7 +53,7 @@ class HomeController extends Controller
     public function registration(UserStoreRequest $request, UserService $userService)
     {
         $userService->registration($request);
-        return redirect()->route('home.login');
+        return redirect()->route('login');
     }
 
     /**

@@ -11,9 +11,14 @@
 |
 */
 
-Route::get('/', ['as' => 'home.index', 'uses' => 'HomeController@index']);
-Route::get('/log-in', ['as' => 'home.login', 'uses' => 'HomeController@login']);
-Route::get('/log-out', ['as' => 'home.logout', 'uses' => 'HomeController@logout']);
-Route::get('/sign-up', ['as' => 'home.signup', 'uses' => 'HomeController@signup']);
-Route::post('/authenticate', ['as' => 'home.authenticate', 'uses' => 'HomeController@authenticate']);
-Route::post('/registration', ['as' => 'home.registration', 'uses' => 'HomeController@registration']);
+Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
+Route::get('/log-in', ['as' => 'login', 'uses' => 'HomeController@login']);
+Route::get('/log-out', ['as' => 'logout', 'uses' => 'HomeController@logout']);
+Route::get('/sign-up', ['as' => 'signup', 'uses' => 'HomeController@signup']);
+Route::post('/authenticate', ['as' => 'authenticate', 'uses' => 'HomeController@authenticate']);
+Route::post('/registration', ['as' => 'registration', 'uses' => 'HomeController@registration']);
+
+Route::group(['middleware' => 'auth'], function (){
+    Route::get('/post/create', ['as' => 'post.create', 'uses' => 'PostController@create']);
+    Route::post('/post/store', ['as' => 'post.store', 'uses' => 'PostController@store']);
+});

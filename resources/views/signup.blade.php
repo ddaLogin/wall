@@ -6,10 +6,10 @@
     <div class="col col-md-6 col-md-offset-3">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">Registration</h3>
+                <h3 class="panel-title"><i class="fa fa-user-plus" aria-hidden="true"></i> Registration</h3>
             </div>
             <div class="panel-body">
-                <form action="{{route('home.registration')}}" method="post">
+                <form action="{{route('registration')}}" method="post">
                     {{csrf_field()}}
                     <div class="form-group @if($errors->has('nickname')) has-error @endif">
                         <label class="control-label">Nickname</label>
@@ -32,8 +32,8 @@
                         @if($errors->has('password_confirmation')) <span class="help-block">{{$errors->first('password_confirmation')}}</span> @endif
                     </div>
                     <div class="form-group">
-                        <div class="col-md-6"><button type="submit" class="btn btn-success">Sign Up</button></div>
-                        <div class="col-md-6 text-right"><a class="btn btn-info" href="{{route('home.login')}}">Log In</a></div>
+                        <div class="col-md-6"><button type="submit" class="btn btn-success"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up</button></div>
+                        <div class="col-md-6 text-right"><a class="btn btn-info" href="{{route('login')}}">Log In</a></div>
                     </div>
                 </form>
             </div>
