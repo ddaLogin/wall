@@ -35,6 +35,18 @@ class PostService
      */
     public function publish(Request $request)
     {
-        $this->postRepository->store($request->all(), Auth::user()->id);
+        return $this->postRepository->store($request->all(), Auth::user()->id);
+    }
+
+    /**
+     * update post
+     *
+     * @param Post $post
+     * @param Request $request
+     * @return Post
+     */
+    public function update(Post $post, Request $request)
+    {
+        return $this->postRepository->store($request->all(), Auth::user()->id, $post);
     }
 }

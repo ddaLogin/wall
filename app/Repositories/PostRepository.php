@@ -29,11 +29,16 @@ class PostRepository implements \App\Interfaces\PostRepository
      *
      * @param $data
      * @param $userId
+     * @param Post $post
      * @return Post
      */
-    public function store($data, $userId)
+    public function store($data, $userId, Post $post = null)
     {
-        $post = new Post($data);
+        if (!$post){
+            $post = new Post();
+        }
+
+        $post->fill($data);
         $post->author_id = $userId;
         $post->save();
 

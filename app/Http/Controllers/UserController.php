@@ -28,7 +28,7 @@ class UserController extends Controller
      *
      * @param Request $request
      * @param $nickname
-     * @return mixed
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function wall(Request $request, $nickname)
     {
