@@ -13,7 +13,15 @@ class Post extends Model implements Validatable
      * @var array
      */
     protected $fillable = [
-        'text', 'author_id',
+        'text',
+    ];
+
+    protected $guarded = [
+        'author_id'
+    ];
+
+    protected $dates = [
+        'created_at', 'updated_at', 'deleted_at'
     ];
 
     /**

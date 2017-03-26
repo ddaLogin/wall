@@ -21,4 +21,6 @@ Route::post('/registration', ['as' => 'registration', 'uses' => 'HomeController@
 Route::group(['middleware' => 'auth'], function (){
     Route::get('/post/create', ['as' => 'post.create', 'uses' => 'PostController@create']);
     Route::post('/post/store', ['as' => 'post.store', 'uses' => 'PostController@store']);
+
+    Route::get('/{nickname}', ['as' => 'user.wall', 'uses' => 'UserController@wall']);
 });

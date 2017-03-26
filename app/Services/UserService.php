@@ -10,11 +10,23 @@ namespace App\Services;
 
 
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserService
 {
+    private $userRepository;
+
+    /**
+     * UserService constructor.
+     * @param UserRepository $userRepository
+     */
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * Authenticate user
      *
@@ -42,10 +54,6 @@ class UserService
      */
     public function registration(Request $request)
     {
-        $user = new User($request->all());
-        $user->password = bcrypt($user->password);
-        $user->save();
-
-        return $user;
+        return $this->userRepository->store($request->all());
     }
 }

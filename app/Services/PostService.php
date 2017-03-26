@@ -10,23 +10,31 @@ namespace App\Services;
 
 
 use App\Models\Post;
+use App\Repositories\PostRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PostService
 {
+    private $postRepository;
+
     /**
-     * store post
+     * PostService constructor.
+     * @param PostRepository $postRepository
+     */
+    public function __construct(PostRepository $postRepository)
+    {
+        $this->postRepository = $postRepository;
+    }
+
+    /**
+     * publish post
      *
      * @param Request $request
      * @return Post
      */
-    public function store(Request $request)
+    public function publish(Request $request)
     {
-        $post = new Post($request->all());
-        $post->author_id = Auth::user()->id;
-        $post->save();
-
-        return $post;
+        $this->postRepository->store($request->all(), Auth::user()->id);
     }
 }
