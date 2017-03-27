@@ -38,4 +38,11 @@ interface PostRepository
      * @return Collection
      */
     public function getByAuthorId($authorId);
+
+    /**
+     * get top posts for home page
+     *
+     * @return Collection
+     */
+    public function getTopPosts();
 }

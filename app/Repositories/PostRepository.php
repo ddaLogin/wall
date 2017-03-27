@@ -55,4 +55,14 @@ class PostRepository implements \App\Interfaces\PostRepository
     {
         return Post::where('author_id', $authorId)->orderBy('created_at', 'desc')->get();
     }
+
+    /**
+     * get top posts for home page
+     *
+     * @return Collection
+     */
+    public function getTopPosts()
+    {
+        return Post::orderBy('created_at', 'desc')->take(10)->get();
+    }
 }
