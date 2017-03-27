@@ -11,7 +11,7 @@
                         <div class="col-md-11">
                             posted by {{$post->author->nickname}}
                         </div>
-                        @if(!Auth::guest() && $post->author_id == Auth::user()->id)
+                        @if(!Auth::guest() && Auth::user()->can('update', $post))
                             <div class="col-md-1 text-right">
                                 <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
