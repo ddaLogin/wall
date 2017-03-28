@@ -12,6 +12,7 @@
     </script>
 
     <link rel="stylesheet" href="/css/app.css">
+    <script src="/js/app.js"></script>
 </head>
 <body>
     <div id="app">
@@ -19,6 +20,6 @@
 
         @yield('content')
     </div>
-    <script src="/js/app.js"></script>
+    <script src="/js/vue.js"></script>
 </body>
 </html>
