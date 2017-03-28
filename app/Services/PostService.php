@@ -36,10 +36,6 @@ class PostService
      */
     public function publish(Request $request)
     {
-        if (Auth::guest() || !Auth::user()->can('create', new Post())){
-            throw new AccessDeniedException("Could not create post");
-        }
-
         return $this->postRepository->store($request->all(), Auth::user()->id);
     }
 
@@ -52,10 +48,6 @@ class PostService
      */
     public function update(Post $post, Request $request)
     {
-        if(Auth::guest() || !Auth::user()->can('update', $post)){
-            throw new AccessDeniedException("Could not update post - {$post->id}");
-        }
-
         return $this->postRepository->store($request->all(), Auth::user()->id, $post);
     }
 
