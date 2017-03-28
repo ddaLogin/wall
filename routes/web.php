@@ -17,6 +17,7 @@ Route::get('/log-out', ['as' => 'logout', 'uses' => 'HomeController@logout']);
 Route::get('/sign-up', ['as' => 'signup', 'uses' => 'HomeController@signup']);
 Route::post('/authenticate', ['as' => 'authenticate', 'uses' => 'HomeController@authenticate']);
 Route::post('/registration', ['as' => 'registration', 'uses' => 'HomeController@registration']);
+Route::get('/search/{q}', ['as' => 'search', 'uses' => 'HomeController@search']);
 
 Route::group(['middleware' => 'auth'], function (){
     Route::get('/post/create', ['as' => 'post.create', 'uses' => 'PostController@create']);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserStoreRequest;
+use App\Services\PostService;
 use App\Repositories\PostRepository;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -85,5 +86,21 @@ class HomeController extends Controller
         } else {
             return redirect()->back()->withInput()->withErrors(['authenticate' => 'Incorrect email or password']);
         }
+    }
+
+    /**
+     * return all users by nickname
+     *
+     * @param Request $request
+     * @param $q
+     * @param UserService $userService
+     * @param PostService $postService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search(Request $request, $q, UserService $userService, PostService $postService)
+    {
+        $data['users'] = $userService->search($q);
+        $data['posts'] = $postService->search($q);
+        return response()->json($data,200);
     }
 }

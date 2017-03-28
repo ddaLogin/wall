@@ -29,6 +29,23 @@ class User extends Authenticatable implements Validatable
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['link'];
+
+    /**
+     * get url to user wall
+     *
+     * @return bool
+     */
+    public function getLinkAttribute()
+    {
+        return $this->attributes['link'] = route('user.wall', $this->nickname);
+    }
+
+    /**
      * return validation rules
      * @return array
      */

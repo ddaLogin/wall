@@ -9,6 +9,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserRepository implements \App\Interfaces\UserRepository
 {
@@ -47,5 +48,16 @@ class UserRepository implements \App\Interfaces\UserRepository
         $user->save();
 
         return $user;
+    }
+
+    /**
+     * search user by nickname
+     *
+     * @param $q
+     * @return Collection
+     */
+    public function searchByNickname($q)
+    {
+        return User::where('nickname', 'LIKE', "%{$q}%")->get();
     }
 }

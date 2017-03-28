@@ -57,6 +57,17 @@ class PostRepository implements \App\Interfaces\PostRepository
     }
 
     /**
+     * search posts by text
+     *
+     * @param $q
+     * @return Collection
+     */
+    public function searchByText($q)
+    {
+        return Post::where('text', 'LIKE', "%{$q}%")->get();
+    }
+
+    /**
      * get top posts for home page
      *
      * @return Collection

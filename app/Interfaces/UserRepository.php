@@ -10,6 +10,7 @@ namespace App\Interfaces;
 
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 
 interface UserRepository
 {
@@ -36,4 +37,12 @@ interface UserRepository
      * @return User
      */
     public function store($data);
+
+    /**
+     * search user by nickname
+     *
+     * @param $q
+     * @return Collection
+     */
+    public function searchByNickname($q);
 }

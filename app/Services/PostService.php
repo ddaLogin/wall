@@ -58,4 +58,15 @@ class PostService
 
         return $this->postRepository->store($request->all(), Auth::user()->id, $post);
     }
+
+    /**
+     * return all posts by text
+     *
+     * @param $q
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function search($q)
+    {
+        return $this->postRepository->searchByText($q);
+    }
 }

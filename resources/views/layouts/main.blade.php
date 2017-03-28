@@ -12,11 +12,13 @@
     </script>
 
     <link rel="stylesheet" href="/css/app.css">
-    <script src="/js/app.js"></script>
 </head>
 <body>
-    @include('layouts.header')
+    <div id="app">
+        @include('layouts.header')
 
-    @yield('content')
+        @yield('content')
+    </div>
+    <script src="/js/app.js"></script>
 </body>
 </html>

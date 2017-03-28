@@ -24,6 +24,23 @@ class Post extends Model implements Validatable
         'created_at', 'updated_at', 'deleted_at'
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['link'];
+
+    /**
+     * get url to user wall
+     *
+     * @return bool
+     */
+    public function getLinkAttribute()
+    {
+        return $this->attributes['link'] = '#';
+    }
+
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id');

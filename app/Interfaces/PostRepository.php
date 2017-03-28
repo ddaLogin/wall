@@ -40,6 +40,14 @@ interface PostRepository
     public function getByAuthorId($authorId);
 
     /**
+     * search posts by text
+     *
+     * @param $q
+     * @return Collection
+     */
+    public function searchByText($q);
+
+    /**
      * get top posts for home page
      *
      * @return Collection

@@ -56,4 +56,15 @@ class UserService
     {
         return $this->userRepository->store($request->all());
     }
+
+    /**
+     * return all users, by nickname
+     *
+     * @param $q
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function search($q)
+    {
+        return $this->userRepository->searchByNickname($q);
+    }
 }
