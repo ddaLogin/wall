@@ -28,4 +28,9 @@ class PostPolicy
     {
         return ($user && $user->id == $post->author_id);
     }
+
+    public function like(Models\User $user, Models\Post $post)
+    {
+        return ($user && $user->id);
+    }
 }

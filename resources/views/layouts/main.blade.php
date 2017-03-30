@@ -8,7 +8,7 @@
     <title>@yield('title')</title>
 
     <script>
-        window.Laravel = '{{json_encode(['csrfToken' => csrf_token()])}}';
+        window.csrfToken = '{{csrf_token()}}';
     </script>
 
     <link rel="stylesheet" href="/css/app.css">

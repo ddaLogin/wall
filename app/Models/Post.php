@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Interfaces\Validatable;
+use App\Repositories\LikeRepository;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model implements Validatable
@@ -44,6 +45,25 @@ class Post extends Model implements Validatable
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'post_id')->where('like', true);
+    }
+
+    public function dislikes()
+    {
+        return $this->hasMany(Like::class, 'post_id')->where('like', false);
+    }
+
+    public function likeByUser($user_id)
+    {
+        $likeRepository = new LikeRepository();
+        $like = $likeRepository->getByUserAndPost($user_id, $this->id);
+        if ($like){
+            return $like->like;
+        } else return null;
     }
 
     /**

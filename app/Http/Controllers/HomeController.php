@@ -7,6 +7,7 @@ use App\Services\PostService;
 use App\Repositories\PostRepository;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -42,12 +43,11 @@ class HomeController extends Controller
 
     /**
      * log out page
-     * @param UserService $userService
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function logout(UserService $userService)
+    public function logout()
     {
-        $userService->logout();
+        Auth::logout();
         return redirect()->route('login');
     }
 
@@ -76,12 +76,11 @@ class HomeController extends Controller
      * authenticate user
      *
      * @param Request $request
-     * @param UserService $userService
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function authenticate(Request $request, UserService $userService)
+    public function authenticate(Request $request)
     {
-        if ($userService->auth($request)){
+        if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])){
             return redirect()->intended();
         } else {
             return redirect()->back()->withInput()->withErrors(['authenticate' => 'Incorrect email or password']);

@@ -27,14 +27,12 @@
     <div class="panel-footer">
         <div class="row">
             <div class="col-md-6">
-                <div class="btn-group" role="group" aria-label="...">
-                    <button type="button" class="btn btn-default btn-sm">
-                        <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 0
-                    </button>
-                    <button type="button" class="btn btn-default btn-sm">
-                        <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> 0
-                    </button>
-                </div>
+                @if(!Auth::guest() && Auth::user()->can('like', $post))
+                    <like like-status="{{$post->likeByUser(Auth::user()->id)}}"
+                          like-count="{{$post->likes()->count()}}"
+                          dislike-count="{{$post->dislikes()->count()}}"
+                          post-id="{{$post->id}}"></like>
+                @endif
             </div>
             <div class="col-md-6 text-right">
                 {{$post->updated_at->diffForHumans()}}
