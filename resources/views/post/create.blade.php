@@ -1,3 +1,4 @@
+<?php /** @var \App\Models\Post $post */ ?>
 @extends('layouts.main')
 
 @section('title', 'Post create')

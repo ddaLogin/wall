@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Interfaces\Validatable;
+use App\Repositories\SubscriptionRepository;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -43,6 +44,27 @@ class User extends Authenticatable implements Validatable
     public function getLinkAttribute()
     {
         return $this->attributes['link'] = route('user.wall', $this->nickname);
+    }
+
+    public function subscribers()
+    {
+        return $this->hasMany(Subscription::class, 'target_id');
+    }
+
+    /**
+     * return true if user subscribe, else return false
+     *
+     * @param $user_id
+     * @return bool
+     */
+    public function subscribeByUser($user_id)
+    {
+        $subscriptionRepository = new SubscriptionRepository();
+        if ($subscriptionRepository->getByUserAndTarget($user_id, $this->id)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

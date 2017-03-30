@@ -34,7 +34,7 @@ class LikeController extends Controller
     public function toggle(LikeToggleRequest $request, LikeService $likeService)
     {
         if(Auth::guest() || !Auth::user()->can('like', new Post())){
-            throw new AccessDeniedException("Could not create post");
+            throw new AccessDeniedException("Could not liked it {$request->input('post_id')}");
         }
 
         $toggleResult = $likeService->toggleLike(Auth::user()->id, $request->input('post_id'), $request->input('like'));

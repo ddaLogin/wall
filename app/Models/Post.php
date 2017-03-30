@@ -57,6 +57,13 @@ class Post extends Model implements Validatable
         return $this->hasMany(Like::class, 'post_id')->where('like', false);
     }
 
+    /**
+     * return Like instance if user like it
+     * or return null
+     *
+     * @param $user_id
+     * @return mixed|null
+     */
     public function likeByUser($user_id)
     {
         $likeRepository = new LikeRepository();

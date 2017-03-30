@@ -1,3 +1,5 @@
+<?php /** @var \Illuminate\Database\Eloquent\Collection $posts */ ?>
+<?php /** @var \App\Models\Post $post */ ?>
 @extends('layouts.main')
 
 @section('title', 'Welcome')
