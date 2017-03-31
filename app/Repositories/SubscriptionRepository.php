@@ -24,7 +24,7 @@ class SubscriptionRepository implements \App\Interfaces\SubscriptionRepository
      */
     public function getByUser($user_id)
     {
-        return Subscription::where('user_id', $user_id)->get();
+        return Subscription::where('user_id', $user_id)->with(['user', 'target'])->get();
     }
 
     /**
@@ -36,7 +36,7 @@ class SubscriptionRepository implements \App\Interfaces\SubscriptionRepository
      */
     public function getByTarget($target_id)
     {
-        return Subscription::where('target_id', $target_id)->get();
+        return Subscription::where('target_id', $target_id)->with(['user', 'target'])->get();
     }
 
     /**

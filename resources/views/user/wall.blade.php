@@ -11,9 +11,9 @@
         <h3>{{$user->email}}</h3>
         <hr>
         @if(!Auth::guest() && \Illuminate\Support\Facades\Auth::user()->can('subscribe', $user))
-            <subscription subscribe-status="{{$user->subscribeByUser(Auth::user()->id)}}"
+            <subscription-button subscribe-status="{{$user->subscribeByUser(Auth::user()->id)}}"
                           target-user-id="{{$user->id}}"
-                          subscribers-count="{{$user->subscribers()->count()}}"></subscription>
+                          subscribers-count="{{$user->subscribers()->count()}}"></subscription-button>
         @endif
     </div>
     <div class="col col-md-6">

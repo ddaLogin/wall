@@ -28,6 +28,9 @@ Route::group(['middleware' => 'auth'], function (){
     Route::post('/like/toggle', ['as' => 'like.toggle', 'uses' => 'LikeController@toggle']);
 
     Route::post('/subscription/toggle', ['as' => 'subscription.toggle', 'uses' => 'SubscriptionController@toggle']);
+
+
+    Route::get('/subscriptions', ['as' => 'user.subscriptions', 'uses' => 'UserController@subscriptions']);
 });
 
 Route::get('/{nickname}', ['as' => 'user.wall', 'uses' => 'UserController@wall']);

@@ -28,7 +28,8 @@ window.axios.defaults.headers.common = {
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('search', require('./components/Search.vue'));
 Vue.component('like', require('./components/Like.vue'));
-Vue.component('subscription', require('./components/Subscription.vue'));
+Vue.component('subscriptionButton', require('./components/SubscriptionButton.vue'));
+Vue.component('subscriptionsTable', require('./components/SubscriptionsTable.vue'));
 
 const app = new Vue({
     el: '#app'

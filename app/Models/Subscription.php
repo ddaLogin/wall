@@ -16,6 +16,16 @@ class Subscription extends Model implements Validatable
         'user_id', 'target_id'
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function target()
+    {
+        return $this->belongsTo(User::class, 'target_id');
+    }
+
     /**
      * return validation rules
      * @return array
