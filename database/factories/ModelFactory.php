@@ -22,3 +22,19 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
+    return [
+        'text' => $faker->realText(),
+        'author_id' => 1,
+    ];
+});
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Models\Subscription::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => 1,
+        'target_id' => 2,
+    ];
+});

@@ -10,7 +10,7 @@
         <h3>{{$user->nickname}}</h3>
         <h3>{{$user->email}}</h3>
         <hr>
-        @if(\Illuminate\Support\Facades\Auth::user()->can('subscribe', $user))
+        @if(!Auth::guest() && \Illuminate\Support\Facades\Auth::user()->can('subscribe', $user))
             <subscription subscribe-status="{{$user->subscribeByUser(Auth::user()->id)}}"
                           target-user-id="{{$user->id}}"
                           subscribers-count="{{$user->subscribers()->count()}}"></subscription>
