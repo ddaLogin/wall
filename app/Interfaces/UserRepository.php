@@ -45,4 +45,14 @@ interface UserRepository
      * @return Collection
      */
     public function searchByNickname($q);
+
+    /**
+     * update user photo
+     *
+     * @param $user_id
+     * @param $url
+     * @param $urlMini
+     * @return mixed
+     */
+    public function updatePhoto($user_id, $url, $urlMini);
 }

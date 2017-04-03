@@ -10,6 +10,7 @@ window._ = require('lodash');
 window.$ = window.jQuery = require('jquery');
 
 require('bootstrap-sass');
+window.jCrop = require('jquery-jcrop');
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

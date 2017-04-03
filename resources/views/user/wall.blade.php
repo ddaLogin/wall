@@ -7,6 +7,10 @@
 
 @section('content')
     <div class="col col-md-3">
+        <a href="#" class="thumbnail">
+            <img src="{{($user->photo)?Storage::disk('public')->url($user->photo):config('values.noPhoto')}}" alt="Profile photo" id="photoImage">
+        </a>
+        <hr>
         <h3>{{$user->nickname}}</h3>
         <h3>{{$user->email}}</h3>
         <hr>

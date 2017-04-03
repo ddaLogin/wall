@@ -2,7 +2,7 @@
     <div class="panel-heading">
         <div class="row">
             <div class="col-md-11">
-                posted by
+                <img style="height: 50px;" src="{{($post->author->photo_mini)?Storage::disk('public')->url($post->author->photo_mini):config('values.noPhoto')}}" alt="">
                 <a href="{{route('user.wall', $post->author->nickname)}}">
                     {{$post->author->nickname}}
                 </a>

@@ -25,6 +25,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="{{route('user.wall', Auth::user()->nickname)}}"><i class="fa fa-th-list" aria-hidden="true"></i> My wall</a></li>
                             <li><a href="{{route('user.subscriptions')}}"><i class="fa fa-users" aria-hidden="true"></i> Subscriptions</a></li>
+                            <li><a href="{{route('user.settings')}}"><i class="fa fa-cogs" aria-hidden="true"></i> Settings</a></li>
                             <li><a href="#">Another action</a></li>
                             <li><a href="#">Something else here</a></li>
                             <li role="separator" class="divider"></li>

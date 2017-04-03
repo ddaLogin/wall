@@ -58,4 +58,17 @@ class UserController extends Controller
             'subscribers' => $this->subscriptionRepository->getByTarget(Auth::user()->id),
         ]);
     }
+
+    /**
+     * return user's page settings
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function settings(Request $request)
+    {
+        return view('user.settings')->with([
+            'user' => Auth::user()
+        ]);
+    }
 }

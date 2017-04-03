@@ -21,5 +21,6 @@
         @yield('content')
     </div>
     <script src="/js/vue.js"></script>
+    @yield('js')
 </body>
 </html>

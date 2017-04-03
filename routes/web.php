@@ -29,8 +29,10 @@ Route::group(['middleware' => 'auth'], function (){
 
     Route::post('/subscription/toggle', ['as' => 'subscription.toggle', 'uses' => 'SubscriptionController@toggle']);
 
-
     Route::get('/subscriptions', ['as' => 'user.subscriptions', 'uses' => 'UserController@subscriptions']);
+    Route::get('/settings', ['as' => 'user.settings', 'uses' => 'UserController@settings']);
+
+    Route::post('/file/photo', ['as' => 'file.photo', 'uses' => 'FileController@photo']);
 });
 
 Route::get('/{nickname}', ['as' => 'user.wall', 'uses' => 'UserController@wall']);

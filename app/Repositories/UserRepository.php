@@ -60,4 +60,22 @@ class UserRepository implements \App\Interfaces\UserRepository
     {
         return User::where('nickname', 'LIKE', "%{$q}%")->get();
     }
+
+    /**
+     * update user photo
+     *
+     * @param $user_id
+     * @param $url
+     * @param $urlMini
+     * @return mixed
+     */
+    public function updatePhoto($user_id, $url, $urlMini)
+    {
+        $user = $this->getById($user_id);
+        $user->photo = $url;
+        $user->photo_mini = $urlMini;
+        $user->save();
+
+        return true;
+    }
 }

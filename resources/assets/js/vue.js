@@ -30,6 +30,7 @@ Vue.component('search', require('./components/Search.vue'));
 Vue.component('like', require('./components/Like.vue'));
 Vue.component('subscriptionButton', require('./components/SubscriptionButton.vue'));
 Vue.component('subscriptionsTable', require('./components/SubscriptionsTable.vue'));
+Vue.component('avatarSetter', require('./components/AvatarSetter.vue'));
 
 const app = new Vue({
     el: '#app'
