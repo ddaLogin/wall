@@ -5,7 +5,10 @@
                 <input v-on:keyup="search" v-model="q"  type="text" class="form-control" placeholder="Search" data-toggle="dropdown">
                 <ul class="dropdown-menu search-dropdown-menu" aria-labelledby="dropdownMenuDivider" v-if="users || posts">
                     <li v-if="users" class="dropdown-header">Users</li>
-                    <li v-for="user in users"><a v-bind:href="user.link" >{{user.nickname}}</a></li>
+                    <li v-for="user in users"><a v-bind:href="user.link" >
+                        <img :src="user.photo_link" alt="" class="photo-mini-search">
+                        {{user.nickname}}
+                    </a></li>
                     <li v-if="posts" class="dropdown-header">Posts</li>
                     <li v-for="post in posts"><a v-bind:href="post.link" >{{post.text}}</a></li>
                 </ul>

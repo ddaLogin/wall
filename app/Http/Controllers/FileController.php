@@ -51,7 +51,7 @@ class FileController extends Controller
             $fullUrl = Storage::disk('public')->url($path);
             return response()->json(['url' => $fullUrl], 200);
         } else {
-            return response()->json(['error' => 'Could not upload photo'], 500);
+            return response()->json(['error' => 'Could not upload photo'], 400);
         }
     }
 }

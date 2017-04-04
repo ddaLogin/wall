@@ -2,8 +2,8 @@
     <div class="panel-heading">
         <div class="row">
             <div class="col-md-11">
-                <img style="height: 50px;" src="{{($post->author->photo_mini)?Storage::disk('public')->url($post->author->photo_mini):config('values.noPhoto')}}" alt="">
                 <a href="{{route('user.wall', $post->author->nickname)}}">
+                    <img class="photo-mini" src="{{($post->author->photo_mini)?Storage::disk('public')->url($post->author->photo_mini):config('values.noPhoto')}}" alt="">
                     {{$post->author->nickname}}
                 </a>
             </div>
