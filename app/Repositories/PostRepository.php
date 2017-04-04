@@ -64,7 +64,11 @@ class PostRepository implements \App\Interfaces\PostRepository
      */
     public function searchByText($q)
     {
-        return Post::where('text', 'LIKE', "%{$q}%")->get();
+        $posts = Post::where('text', 'LIKE', "%{$q}%")->get();
+        $posts->each(function ($item, $key) use($q) {
+            $item->setSearchText($q);
+        });
+        return $posts;
     }
 
     /**

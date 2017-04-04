@@ -84,4 +84,20 @@ class Post extends Model implements Validatable
             'author_id' => 'exists:users,id',
         ];
     }
+
+    /**
+     * set new attribute "search_text" to show search text with context
+     *
+     * @param $q
+     * @return mixed
+     */
+    public function setSearchText($q)
+    {
+        $context = $this->text;
+        if (preg_match('/(?:\S+\s|){8}\S*'.$q.'\S*(?:\s\S+|){8}/iu', $context, $matches)){
+            return $this->attributes['search_text'] = $matches[0];
+        } else {
+            return $this->attributes['search_text'] = mb_substr($context, 0, 80);
+        }
+    }
 }

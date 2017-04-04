@@ -10,7 +10,7 @@
                         {{user.nickname}}
                     </a></li>
                     <li v-if="posts" class="dropdown-header">Posts</li>
-                    <li v-for="post in posts"><a v-bind:href="post.link" >{{post.text}}</a></li>
+                    <li v-for="post in posts"><a v-bind:href="post.link" v-html="highlight(post.search_text)"></a></li>
                 </ul>
             </div>
             <button type="submit" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
@@ -36,6 +36,12 @@
             searchSuccess: function (response) {
                 this.users = (response.data.users.length)?response.data.users:null;
                 this.posts = (response.data.posts.length)?response.data.posts:null;
+                $(".form-group").addClass('open');
+            },
+            highlight: function (text) {
+                var reg = new RegExp(this.q, "i");
+                var originQ = text.match(reg);
+                return text.replace(reg, '<span class=\'highlight\'>' + originQ + '</span>');
             }
         },
     }
