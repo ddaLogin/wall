@@ -71,4 +71,16 @@ class UserController extends Controller
             'user' => Auth::user()
         ]);
     }
+
+    public function notifications(Request $request)
+    {
+        $unreadNotifications = Auth::user()->unreadNotifications;
+        $notifications = Auth::user()->notifications;
+        Auth::user()->unreadNotifications->markAsRead();
+        return view('user.notifications')->with([
+            'user' => Auth::user(),
+            'unreadNotifications' => $unreadNotifications,
+            'notifications' => $notifications,
+        ]);
+    }
 }

@@ -31,6 +31,7 @@ Route::group(['middleware' => 'auth'], function (){
 
     Route::get('/subscriptions', ['as' => 'user.subscriptions', 'uses' => 'UserController@subscriptions']);
     Route::get('/settings', ['as' => 'user.settings', 'uses' => 'UserController@settings']);
+    Route::get('/notifications', ['as' => 'user.notifications', 'uses' => 'UserController@notifications']);
 
     Route::post('/file/photo', ['as' => 'file.photo', 'uses' => 'FileController@photo']);
 });

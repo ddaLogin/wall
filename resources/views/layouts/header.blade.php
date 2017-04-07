@@ -19,6 +19,7 @@
                     <li><a href="{{route('login')}}"><i class="fa fa-sign-in" aria-hidden="true"></i> Log In</a></li>
                     <li><a href="{{route('signup')}}"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up</a></li>
                 @else
+                    <li><a href="{{route('user.notifications')}}"><span class="label label-primary"><i class="fa fa-bell" aria-hidden="true"></i> {{Auth::user()->unreadNotifications->count()}}</span></a></li>
                     <li><a href="{{route('post.create')}}"><i class="fa fa-plus" aria-hidden="true"></i> New post</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{Auth::user()->nickname}} <span class="caret"></span></a>

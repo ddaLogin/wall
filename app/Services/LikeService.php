@@ -8,21 +8,30 @@
 
 namespace App\Services;
 
-
+use App\Notifications;
 use App\Models\Like;
 use App\Repositories\LikeRepository;
+use App\Repositories\PostRepository;
+use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Notification;
 
 class LikeService
 {
     private $likeRepository;
+    private $userRepository;
+    private $postRepository;
 
     /**
      * UserService constructor.
      * @param LikeRepository $likeRepository
+     * @param UserRepository $userRepository
+     * @param PostRepository $postRepository
      */
-    public function __construct(LikeRepository $likeRepository)
+    public function __construct(LikeRepository $likeRepository, UserRepository $userRepository, PostRepository $postRepository)
     {
         $this->likeRepository = $likeRepository;
+        $this->userRepository = $userRepository;
+        $this->postRepository = $postRepository;
     }
 
     /**
@@ -46,11 +55,25 @@ class LikeService
         } else {
 
             $like = ($like)?$like:null;
-            return $this->likeRepository->store([
+            $likeInstance = $this->likeRepository->store([
                 'user_id' => $user_id,
                 'post_id' => $post_id,
                 'like' => $like_value,
             ], $like);
+
+            $user = $this->userRepository->getById($user_id);
+            $post = $this->postRepository->getById($post_id);
+            $target = $post->author;
+
+            if ($user->id != $target->id){
+                if ($like_value){
+                    Notification::send($target, new Notifications\UserLiked($post, $user));
+                } else {
+                    Notification::send($target, new Notifications\UserDisliked($post, $user));
+                }
+            }
+
+            return $likeInstance;
         }
     }
 }
