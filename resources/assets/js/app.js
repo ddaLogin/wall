@@ -18,9 +18,18 @@ window.jCrop = require('jquery-jcrop');
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from "laravel-echo"
+import Echo from "laravel-echo"
 
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: 'your-pusher-key'
-// });
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: 'cebf0a224b0022a28e19',
+    cluster: 'ap2',
+    encrypted: false
+});
+//
+// window.Echo.private('App.Models.User.31')
+//     .notification((notification) => {
+//         console.log(notification.type);
+//     });

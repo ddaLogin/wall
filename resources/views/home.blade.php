@@ -15,3 +15,12 @@
         @endforeach
     </div>
 @endsection
+
+@section('js')
+    <script>
+        window.Echo.channel('orders')
+            .listen('test', function () {
+                alert('qwe');
+            });
+    </script>
+@endsection

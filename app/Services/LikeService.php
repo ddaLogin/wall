@@ -8,6 +8,7 @@
 
 namespace App\Services;
 
+use App\Events\SocketTest;
 use App\Notifications;
 use App\Models\Like;
 use App\Repositories\LikeRepository;
@@ -65,13 +66,16 @@ class LikeService
             $post = $this->postRepository->getById($post_id);
             $target = $post->author;
 
-            if ($user->id != $target->id){
-                if ($like_value){
-                    Notification::send($target, new Notifications\UserLiked($post, $user));
-                } else {
-                    Notification::send($target, new Notifications\UserDisliked($post, $user));
-                }
-            }
+            event(new SocketTest('random string'));
+            broadcast(new SocketTest('random string'));
+
+//            if ($user->id != $target->id){
+//                if ($like_value){
+//                    Notification::send($target, new Notifications\UserLiked($post, $user));
+//                } else {
+//                    Notification::send($target, new Notifications\UserDisliked($post, $user));
+//                }
+//            }
 
             return $likeInstance;
         }
