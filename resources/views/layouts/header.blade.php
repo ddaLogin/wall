@@ -13,6 +13,11 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            @if(!Auth::guest())
+                <ul class="nav navbar-nav">
+                    <li><a href="{{route('user.feed')}}">Feed</a></li>
+                </ul>
+            @endif
             <search></search>
             <ul class="nav navbar-nav navbar-right">
                 @if(Auth::guest())
@@ -27,8 +32,6 @@
                             <li><a href="{{route('user.wall', Auth::user()->nickname)}}"><i class="fa fa-th-list" aria-hidden="true"></i> My wall</a></li>
                             <li><a href="{{route('user.subscriptions')}}"><i class="fa fa-users" aria-hidden="true"></i> Subscriptions</a></li>
                             <li><a href="{{route('user.settings')}}"><i class="fa fa-cogs" aria-hidden="true"></i> Settings</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="{{route('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i> Log Out</a></li>
                         </ul>

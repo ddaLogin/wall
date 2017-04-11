@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\PostRepository;
 use App\Repositories\SubscriptionRepository;
 use App\Repositories\UserRepository;
+use App\Services\PostService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -72,6 +73,27 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * return page with user's feed
+     *
+     * @param Request $request
+     * @param PostService $postService
+     * @return $this
+     */
+    public function feed(Request $request, PostService $postService)
+    {
+        return view('user.feed')->with([
+            'user' => Auth::user(),
+            'posts' => $postService->feedPosts(Auth::user()->id),
+        ]);
+    }
+
+    /**
+     * return page with all user's notifications
+     *
+     * @param Request $request
+     * @return $this
+     */
     public function notifications(Request $request)
     {
         $unreadNotifications = Auth::user()->unreadNotifications;
