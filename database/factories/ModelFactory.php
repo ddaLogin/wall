@@ -28,6 +28,7 @@ $factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
     return [
         'text' => $faker->realText(),
         'author_id' => 1,
+        'tags' => $faker->words(5)
     ];
 });
 
