@@ -59,7 +59,7 @@ class PostRepository implements \App\Interfaces\PostRepository
     /**
      * search posts by text
      *
-     * @param $q
+     * @param string $q
      * @return Collection
      */
     public function searchByText($q)
@@ -79,5 +79,18 @@ class PostRepository implements \App\Interfaces\PostRepository
     public function getTopPosts()
     {
         return Post::orderBy('created_at', 'desc')->take(10)->get();
+    }
+
+    /**
+     * returns all the users posts
+     *
+     * @param array $usersIdArray
+     * @return Collection
+     */
+    public function getByUsers($usersIdArray)
+    {
+        return Post::whereIn('author_id', $usersIdArray)
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 }

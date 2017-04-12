@@ -14,11 +14,15 @@ class Post extends Model implements Validatable
      * @var array
      */
     protected $fillable = [
-        'text',
+        'text', 'tags'
     ];
 
     protected $guarded = [
         'author_id'
+    ];
+
+    protected $casts = [
+        'tags' => 'json',
     ];
 
     protected $dates = [
@@ -82,6 +86,7 @@ class Post extends Model implements Validatable
         return [
             'text' => 'required|string',
             'author_id' => 'exists:users,id',
+            'tags' => 'required|array',
         ];
     }
 

@@ -19,6 +19,18 @@
                 <form action="{{($post->exists)?route('post.update', $post->id):route('post.store')}}" method="post">
                     {{csrf_field()}}
                     <div class="form-group @if($errors->has('text')) has-error @endif">
+                        <input type="text" class="form-control" name="tags[]">
+                        @if($errors->has('text')) <span class="help-block">{{$errors->first('text')}}</span> @endif
+                    </div>
+                    <div class="form-group @if($errors->has('text')) has-error @endif">
+                        <input type="text" class="form-control" name="tags[]">
+                        @if($errors->has('text')) <span class="help-block">{{$errors->first('text')}}</span> @endif
+                    </div>
+                    <div class="form-group @if($errors->has('text')) has-error @endif">
+                        <input type="text" class="form-control" name="tags[]">
+                        @if($errors->has('text')) <span class="help-block">{{$errors->first('text')}}</span> @endif
+                    </div>
+                    <div class="form-group @if($errors->has('text')) has-error @endif">
                         <textarea name="text" class="form-control" >{{(old('text'))?old('text'):($post->exists)?$post->text:''}}</textarea>
                         @if($errors->has('text')) <span class="help-block">{{$errors->first('text')}}</span> @endif
                     </div>

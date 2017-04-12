@@ -11,6 +11,8 @@ namespace App\Services;
 
 use App\Models\Post;
 use App\Repositories\PostRepository;
+use App\Repositories\SubscriptionRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
@@ -18,14 +20,20 @@ use Symfony\Component\Finder\Exception\AccessDeniedException;
 class PostService
 {
     private $postRepository;
+    private $userRepository;
+    private $subscriptionRepository;
 
     /**
      * PostService constructor.
      * @param PostRepository $postRepository
+     * @param UserRepository $userRepository
+     * @param SubscriptionRepository $subscriptionRepository
      */
-    public function __construct(PostRepository $postRepository)
+    public function __construct(PostRepository $postRepository, UserRepository $userRepository, SubscriptionRepository $subscriptionRepository)
     {
         $this->postRepository = $postRepository;
+        $this->userRepository = $userRepository;
+        $this->subscriptionRepository = $subscriptionRepository;
     }
 
     /**
@@ -60,5 +68,17 @@ class PostService
     public function search($q)
     {
         return $this->postRepository->searchByText($q);
+    }
+
+    /**
+     * return all feed posts
+     *
+     * @param $user_id
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function feedPosts($user_id)
+    {
+        $subscriptions = $this->subscriptionRepository->getByUser($user_id);
+        return $this->postRepository->getByUsers($subscriptions->pluck('target_id'));
     }
 }

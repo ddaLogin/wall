@@ -23,7 +23,15 @@
             @endif
         </div>
     </div>
-    <div class="panel-body">{{$post->text}}</div>
+    <div class="panel-body">
+        @if ($post->tags)
+            @foreach($post->tags as $tag)
+                <span class="label label-primary">{{$tag}}</span>
+            @endforeach
+            <hr>
+        @endif
+        {{$post->text}}
+    </div>
     <div class="panel-footer">
         <div class="row">
             <div class="col-md-6">
