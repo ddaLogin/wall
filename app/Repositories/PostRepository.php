@@ -63,22 +63,23 @@ class PostRepository implements \App\Interfaces\PostRepository
      * @param string $q
      * @return Collection
      */
-    public function searchByText($q)
+    public function search($q)
     {
         $language = config('values.fullTextSearchLanguage');
         $q = str_replace(' ', ' & ', $q);
         $posts = Post::from(
             DB::raw("
                 (SELECT posts.*, 
-                    ts_headline('{$language}', text,q,'StartSel=<searched-word>,StopSel=</searched-word>,MaxWords=50,MinWords=5') as searched_text, 
+                    ts_headline('{$language}', text,q,'StartSel=<searched-word>,StopSel=</searched-word>,MaxWords=50,MinWords=10') as searched_text, 
                     ts_headline('{$language}', tags::text,q,'StartSel=<searched-word>,StopSel=</searched-word>') as searched_tags, 
                     ts_rank_cd(searchable, q) as rank 
                     FROM posts, to_tsquery('{$language}', '{$q}') as q 
                     WHERE searchable @@ q
                 ) as search
             ")
-        )->orderBy('search.rank', 'desc')
-            ->take(10)
+        )->with('author')
+            ->orderBy('search.rank', 'desc')
+            ->take(7)
             ->get();
         return $posts;
     }

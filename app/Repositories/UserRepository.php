@@ -58,7 +58,7 @@ class UserRepository implements \App\Interfaces\UserRepository
      */
     public function searchByNickname($q)
     {
-        return User::where('nickname', 'LIKE', "%{$q}%")->get();
+        return User::where('nickname', 'LIKE', "%{$q}%")->take(7)->get();
     }
 
     /**

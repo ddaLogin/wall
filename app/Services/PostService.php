@@ -67,7 +67,7 @@ class PostService
      */
     public function search($q)
     {
-        return $this->postRepository->searchByText($q);
+        return $this->postRepository->search($q);
     }
 
     /**

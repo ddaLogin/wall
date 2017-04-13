@@ -35,7 +35,7 @@ class User extends Authenticatable implements Validatable
      *
      * @var array
      */
-    protected $appends = ['link', 'photo_link'];
+    protected $appends = ['link', 'photo_link', 'photo_link_mini'];
 
     /**
      * ganarate url to user wall
@@ -48,13 +48,23 @@ class User extends Authenticatable implements Validatable
     }
 
     /**
-     * ganarate url to user photo
+     * generate url to user photo
      *
      * @return bool
      */
     public function getPhotoLinkAttribute()
     {
         return $this->attributes['photo_link'] = ($this->photo)?Storage::disk('public')->url($this->photo):config('values.noPhoto');
+    }
+
+    /**
+     * generate url to user photo
+     *
+     * @return bool
+     */
+    public function getPhotoLinkMiniAttribute()
+    {
+        return $this->attributes['photo_link_mini'] = ($this->photo)?Storage::disk('public')->url($this->photo_mini):config('values.noPhotoMini');
     }
 
     public function subscribers()

@@ -45,7 +45,7 @@ interface PostRepository
      * @param $q
      * @return Collection
      */
-    public function searchByText($q);
+    public function search($q);
 
     /**
      * get top posts for home page
