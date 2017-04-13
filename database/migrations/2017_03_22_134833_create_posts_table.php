@@ -16,11 +16,13 @@ class CreatePostsTable extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
             $table->text('text');
-            $table->json('tags');
+            $table->jsonb('tags');
             $table->integer('author_id')->unsigned()->index();
             $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
+
+        DB::statement("ALTER TABLE posts ADD searchable tsvector");
     }
 
     /**
