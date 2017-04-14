@@ -15,7 +15,7 @@ window.Vue = require('vue');
 window.axios = require('axios');
 
 window.axios.defaults.headers.common = {
-    'X-CSRF-TOKEN': window.csrfToken,
+    'X-CSRF-TOKEN': window.Laravel.csrfToken,
     'X-Requested-With': 'XMLHttpRequest'
 };
 
@@ -31,6 +31,7 @@ Vue.component('like', require('./components/Like.vue'));
 Vue.component('subscriptionButton', require('./components/SubscriptionButton.vue'));
 Vue.component('subscriptionsTable', require('./components/SubscriptionsTable.vue'));
 Vue.component('avatarSetter', require('./components/AvatarSetter.vue'));
+Vue.component('notificator', require('./components/Notificator.vue'));
 
 const app = new Vue({
     el: '#app'

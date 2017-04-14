@@ -20,16 +20,8 @@ window.jCrop = require('jquery-jcrop');
 
 import Echo from "laravel-echo"
 
-window.Pusher = require('pusher-js');
-
 window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: 'cebf0a224b0022a28e19',
-    cluster: 'ap2',
-    encrypted: false
+    broadcaster: 'socket.io',
+    host: window.Laravel.socketHost+':'+window.Laravel.socketPort,
+    namespace: 'App\\Events'
 });
-//
-// window.Echo.private('App.Models.User.31')
-//     .notification((notification) => {
-//         console.log(notification.type);
-//     });

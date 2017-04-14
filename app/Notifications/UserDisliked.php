@@ -34,7 +34,7 @@ class UserDisliked extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -62,6 +62,7 @@ class UserDisliked extends Notification
         return [
             'post_id' => $this->post->id,
             'user_id' => $this->user->id,
+            'icon' => $this->user->photo_link,
             'text' => '<a href="'.route('user.wall', $this->user->nickname).'">'.$this->user->nickname.'</a> disliked your <a href="#">post</a>.'
         ];
     }

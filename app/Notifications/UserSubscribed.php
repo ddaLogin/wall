@@ -32,7 +32,7 @@ class UserSubscribed extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -59,6 +59,7 @@ class UserSubscribed extends Notification
     {
         return [
             'user_id' => $this->user->id,
+            'icon' => $this->user->photo_link,
             'text' => '<a href="'.route('user.wall', $this->user->nickname).'">'.$this->user->nickname.'</a> subscribed on you.'
         ];
     }
