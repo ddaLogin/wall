@@ -31,7 +31,7 @@ class UserUnsubscribed extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -58,6 +58,7 @@ class UserUnsubscribed extends Notification
     {
         return [
             'user_id' => $this->user->id,
+            'icon' => $this->user->photo_link,
             'text' => '<a href="'.route('user.wall', $this->user->nickname).'">'.$this->user->nickname.'</a> unsubscribed from you.'
         ];
     }

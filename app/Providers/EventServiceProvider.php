@@ -13,9 +13,6 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SocketTest' => [
-            'App\Listeners\SocketTestPush',
-        ],
     ];
 
     /**

@@ -9,10 +9,15 @@
     <title>@yield('title')</title>
 
     <script>
-        window.csrfToken = '{{csrf_token()}}';
+        window.Laravel = {};
+        window.Laravel.socketHost = '{{env('ECHO_SERVER_HOST')}}';
+        window.Laravel.socketPort = '{{env('ECHO_SERVER_PORT')}}';
+        window.Laravel.userId = '{{(Auth::guest())?null:Auth::user()->id}}';
+        window.Laravel.csrfToken = '{{csrf_token()}}';
     </script>
 
     <link rel="stylesheet" href="/css/app.css">
+    <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
     <script src="/js/app.js"></script>
 </head>
 <body>
