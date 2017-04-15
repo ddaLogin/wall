@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Repositories\PostRepository;
 use App\Repositories\SubscriptionRepository;
 use App\Repositories\UserRepository;
@@ -43,6 +44,8 @@ class UserController extends Controller
         return view('user.wall')->with([
             'user' => $user,
             'posts' => $posts,
+            'subscriptions' => $this->subscriptionRepository->getByUser($user->id),
+            'subscribers' => $this->subscriptionRepository->getByTarget($user->id),
         ]);
     }
 
@@ -50,13 +53,14 @@ class UserController extends Controller
      * return page with user subscriptions and subscribers
      *
      * @param Request $request
+     * @param User $user
      * @return $this
      */
-    public function subscriptions(Request $request)
+    public function subscriptions(Request $request, User $user)
     {
         return view('user.subscriptions')->with([
-            'subscriptions' => $this->subscriptionRepository->getByUser(Auth::user()->id),
-            'subscribers' => $this->subscriptionRepository->getByTarget(Auth::user()->id),
+            'subscriptions' => $this->subscriptionRepository->getByUser($user->id),
+            'subscribers' => $this->subscriptionRepository->getByTarget($user->id),
         ]);
     }
 

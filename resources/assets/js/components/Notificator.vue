@@ -14,12 +14,19 @@
             notification: function (notify) {
                 this.count ++;
                 var stripper = this.stripTags;
+                var url = this.notificationPage;
                 Notification.requestPermission(function () {
-                    new Notification("New notify", {
+                    var notification = new Notification("New notify", {
                         tag: notify.type,
                         body: stripper(notify.text),
-                        icon: notify.icon
+                        icon: notify.icon,
                     });
+
+                    notification.onclick = function () {
+                        window.location = url;
+                        window.focus();
+                        this.close();
+                    };
                 });
 
             },

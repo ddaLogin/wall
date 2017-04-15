@@ -7,6 +7,8 @@
 
 @import "node_modules/font-awesome/scss/font-awesome";
 
+@import "node_modules/jquery-jcrop/css/jquery.Jcrop";
+
 .search-dropdown-menu{
   left: auto !important;
 }
@@ -23,20 +25,26 @@
   padding: 0 !important;
 }
 
+.padding-5{
+  padding: 5px !important;
+}
+
 .photo-mini{
   width: 40px;
   height: 40px;
-  border-radius: 50%;
 }
 
 .photo-mini-search{
   width: 30px;
   height: 30px;
-  border-radius: 50%;
 }
 
 searched-word{
   background-color:orange;
   padding:2px;
   font-weight: bold !important;
+}
+
+.width-percentage-100 {
+  width: 100%;
 }

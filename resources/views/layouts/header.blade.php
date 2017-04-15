@@ -30,7 +30,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{Auth::user()->nickname}} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{route('user.wall', Auth::user()->nickname)}}"><i class="fa fa-th-list" aria-hidden="true"></i> My wall</a></li>
-                            <li><a href="{{route('user.subscriptions')}}"><i class="fa fa-users" aria-hidden="true"></i> Subscriptions</a></li>
+                            <li><a href="{{route('user.subscriptions', Auth::user()->id)}}"><i class="fa fa-users" aria-hidden="true"></i> Subscriptions</a></li>
                             <li><a href="{{route('user.settings')}}"><i class="fa fa-cogs" aria-hidden="true"></i> Settings</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="{{route('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i> Log Out</a></li>

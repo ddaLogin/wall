@@ -14,10 +14,12 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     static $password;
-
+    $photo = $faker->image(storage_path('app\public\photos'), 500, 500, null, false);
     return [
-        'nickname' => $faker->unique()->name,
+        'nickname' => $faker->unique()->firstName,
         'email' => $faker->unique()->safeEmail,
+        'photo' => 'photos/'.$photo,
+        'photo_mini' => 'photos/'.$photo,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
     ];
@@ -25,10 +27,13 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
+    $date = $faker->date();
     return [
         'text' => $faker->realText(),
         'author_id' => 1,
-        'tags' => $faker->words(5)
+        'tags' => $faker->words(10),
+        'created_at' => $date,
+        'updated_at' => $date,
     ];
 });
 

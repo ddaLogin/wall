@@ -10,6 +10,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Storage;
 
 class UserRepository implements \App\Interfaces\UserRepository
 {
@@ -72,6 +73,14 @@ class UserRepository implements \App\Interfaces\UserRepository
     public function updatePhoto($user_id, $url, $urlMini)
     {
         $user = $this->getById($user_id);
+        if($user->photo != null){
+            Storage::delete($user->photo);
+        }
+
+        if($user->photo_mini != null){
+            Storage::delete($user->photo_mini);
+        }
+
         $user->photo = $url;
         $user->photo_mini = $urlMini;
         $user->save();

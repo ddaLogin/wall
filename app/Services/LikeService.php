@@ -47,7 +47,7 @@ class LikeService
     public function toggleLike($user_id, $post_id, $like_value)
     {
         $like = $this->likeRepository->getByUserAndPost($user_id, $post_id);
-        if ($like && $like->like == $like_value){
+        if ($like && $like->like->getStatus() == $like_value){
 
             $this->likeRepository->delete($like->id);
             return null;

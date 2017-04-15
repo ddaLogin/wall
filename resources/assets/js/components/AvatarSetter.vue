@@ -1,13 +1,11 @@
 <template>
-    <div>
+    <div class="text-center">
         <h4 class="text-center">
             <i v-if="uploadComplete" class="fa fa-check text-success" aria-hidden="true"></i>
             <i v-if="uploadProgress" class="fa fa-refresh fa-spin text-info" aria-hidden="true"></i>
             Profile photo
         </h4>
-        <a href="#" class="thumbnail">
-            <img v-bind:src="url" alt="Profile photo" id="photoImage" >
-        </a>
+        <img class="width-percentage-100" v-bind:src="url" alt="Profile photo" id="photoImage" >
         <div class="text-center">
             <button v-on:click="photoChooseDialog" type="button" class="btn btn-default btn-xs"><i class="fa fa-camera" aria-hidden="true"></i> Choose photo</button>
             <button v-if="photoSelected" v-on:click="photoReset" type="button" class="btn btn-warning btn-xs"><i class="fa fa-times" aria-hidden="true"></i> Reset</button>
@@ -34,13 +32,6 @@
         },
         props: ['src'],
         methods:  {
-            jCropDestroy: function () {
-                if (this.jcropPlugin){
-                    document.getElementById("photoImage").style = '';
-                    this.jcropPlugin.destroy();
-                    this.jcropPlugin = null;
-                }
-            },
             photoChooseDialog: function () {
                 document.getElementById("photoInput").click();
             },
@@ -57,7 +48,9 @@
             },
             photoReset: function () {
                 document.getElementById("photoImage").src = this.url;
+                document.getElementById("photoInput").value = null;
                 this.photoSelected = false;
+                this.coordinate = null;
                 this.jCropDestroy();
             },
             photoUpload: function () {
@@ -101,6 +94,13 @@
                     canResize: true,
                     onSelect: coordUpd,
                 });
+            },
+            jCropDestroy: function () {
+                if (this.jcropPlugin){
+                    document.getElementById("photoImage").style = '';
+                    this.jcropPlugin.destroy();
+                    this.jcropPlugin = null;
+                }
             },
             coordinatesUpdates: function (coord) {
                 this.coordinate = coord;

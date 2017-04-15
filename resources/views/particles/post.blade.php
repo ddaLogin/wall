@@ -25,7 +25,7 @@
     </div>
     <div class="panel-body">
         @if ($post->tags)
-            @foreach($post->tags as $tag)
+            @foreach($post->hashtags as $tag)
                 <span class="label label-primary">{{$tag}}</span>
             @endforeach
             <hr>
@@ -36,14 +36,14 @@
         <div class="row">
             <div class="col-md-6">
                 @if(!Auth::guest() && Auth::user()->can('like', $post))
-                    <like like-status="{{$post->likeByUser(Auth::user()->id)}}"
+                    <like like-status="{{$post->likeStatusByUser(Auth::user()->id)->getStatusLikeInt()}}"
                           like-count="{{$post->likes()->count()}}"
                           dislike-count="{{$post->dislikes()->count()}}"
                           post-id="{{$post->id}}"></like>
                 @endif
             </div>
             <div class="col-md-6 text-right">
-                {{$post->updated_at->diffForHumans()}}
+                {{$post->created_at->diffForHumans()}}
             </div>
         </div>
     </div>

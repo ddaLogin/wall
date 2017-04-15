@@ -34,16 +34,31 @@ class Post extends Model implements Validatable
      *
      * @var array
      */
-    protected $appends = ['link'];
+    protected $appends = ['link', 'hashtags'];
 
     /**
-     * get url to user wall
+     * get url to post view page
      *
      * @return bool
      */
     public function getLinkAttribute()
     {
         return $this->attributes['link'] = '#';
+    }
+
+    /**
+     * add '#' char to each tag
+     *
+     * @return bool
+     */
+    public function getHashtagsAttribute()
+    {
+        $hashtags = [];
+        foreach ($this->tags as $key=>$tag){
+            $hashtags[$key] = '#'.$tag;
+        }
+
+        return $this->attributes['hashtags'] = $hashtags;
     }
 
     public function author()
@@ -62,19 +77,18 @@ class Post extends Model implements Validatable
     }
 
     /**
-     * return Like instance if user like it
-     * or return null
+     * return like status as class by user_id
      *
      * @param $user_id
-     * @return mixed|null
+     * @return \App\Classes\Like
      */
-    public function likeByUser($user_id)
+    public function likeStatusByUser($user_id)
     {
         $likeRepository = new LikeRepository();
         $like = $likeRepository->getByUserAndPost($user_id, $this->id);
-        if ($like){
+        if (isset($like)){
             return $like->like;
-        } else return null;
+        } else return new \App\Classes\Like(null);
     }
 
     /**

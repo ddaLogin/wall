@@ -76,7 +76,11 @@
             },
         },
         mounted() {
-            this.status = (!this.likeStatus.length)?null:this.likeStatus;
+            switch (this.likeStatus){
+                case '1': this.status = true; break;
+                case '-1': this.status = false; break;
+                default: this.status = null; break;
+            }
             this.likes = this.likeCount;
             this.dislikes = this.dislikeCount;
         }

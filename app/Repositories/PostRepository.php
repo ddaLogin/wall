@@ -39,6 +39,10 @@ class PostRepository implements \App\Interfaces\PostRepository
             $post = new Post();
         }
 
+        foreach ($data['tags'] as $key=>$tag){
+            if (starts_with($tag, '#')) $data['tags'][$key] = ltrim($tag, '#');
+        }
+
         $post->fill($data);
         $post->author_id = $userId;
         $post->save();
@@ -104,6 +108,7 @@ class PostRepository implements \App\Interfaces\PostRepository
     {
         return Post::whereIn('author_id', $usersIdArray)
             ->orderBy('created_at', 'desc')
+            ->take(20)
             ->get();
     }
 

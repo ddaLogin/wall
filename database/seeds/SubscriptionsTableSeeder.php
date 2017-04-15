@@ -13,7 +13,7 @@ class SubscriptionsTableSeeder extends Seeder
     {
         $max = \App\Models\User::all()->count();
         foreach (\App\Models\User::all() as $user){
-            for ($i=0; $i<rand(0,6); $i++){
+            for ($i=0; $i<rand(0,30); $i++){
                 $target_id = rand(1, $max);
                 if ($target_id != $user->id){
                     factory(\App\Models\Subscription::class)->create(['user_id' => $user->id, 'target_id' => $target_id]);

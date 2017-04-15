@@ -18,6 +18,17 @@ class Like extends Model implements Validatable
     ];
 
     /**
+     * return like value as class
+     *
+     * @param $value
+     * @return \App\Classes\Like
+     */
+    public function getLikeAttribute($value)
+    {
+        return new \App\Classes\Like($value);
+    }
+
+    /**
      * return validation rules
      * @return array
      */

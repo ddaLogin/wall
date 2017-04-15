@@ -17,7 +17,7 @@
                         <hr class="margin-0 padding-0">
                         <a v-bind:href="post.link" >
                             <img class="photo-mini-search" :src="post.author.photo_link_mini" alt="">
-                            <span v-for="tag in toJson(post.searched_tags)" class="label label-primary margin-right-4" v-html="tag"></span>
+                            <span v-for="tag in toJson(post.searched_tags)" class="label label-primary margin-right-4" v-html="asHashtag(tag)"></span>
                             <br>
                             <span v-html="post.searched_text"></span>
                         </a>
@@ -52,6 +52,9 @@
             toJson: function (tags) {
                 var t = JSON.parse(tags);
                 return t;
+            },
+            asHashtag: function (tag) {
+                return '#'+tag;
             }
         },
     }
