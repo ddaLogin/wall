@@ -18,20 +18,15 @@
             <div class="panel-body">
                 <form action="{{($post->exists)?route('post.update', $post->id):route('post.store')}}" method="post">
                     {{csrf_field()}}
-                    <div class="form-group @if($errors->has('text')) has-error @endif">
-                        <input type="text" class="form-control" name="tags[]">
-                        @if($errors->has('text')) <span class="help-block">{{$errors->first('text')}}</span> @endif
+                    <div class="form-group">
+                        <label>Tags for search</label><br>
+                        <input id="tagsinput" placeholder="enter tag" class="col-md-12" type="text" value="{{(old('tags'))?implode(',', old('tags')):($post->exists)?implode(',', $post->tags):''}}" />
+                        <div id="tag-container" class="hidden"></div>
                     </div>
+                    <hr>
                     <div class="form-group @if($errors->has('text')) has-error @endif">
-                        <input type="text" class="form-control" name="tags[]">
-                        @if($errors->has('text')) <span class="help-block">{{$errors->first('text')}}</span> @endif
-                    </div>
-                    <div class="form-group @if($errors->has('text')) has-error @endif">
-                        <input type="text" class="form-control" name="tags[]">
-                        @if($errors->has('text')) <span class="help-block">{{$errors->first('text')}}</span> @endif
-                    </div>
-                    <div class="form-group @if($errors->has('text')) has-error @endif">
-                        <textarea name="text" class="form-control" >{{(old('text'))?old('text'):($post->exists)?$post->text:''}}</textarea>
+                        <label>Text</label>
+                        <textarea name="text" rows="6" class="form-control" >{{(old('text'))?old('text'):($post->exists)?$post->text:''}}</textarea>
                         @if($errors->has('text')) <span class="help-block">{{$errors->first('text')}}</span> @endif
                     </div>
                     <div class="form-group text-right">
@@ -39,7 +34,7 @@
                             @if($post->exists)
                                 <i class="fa fa-save" aria-hidden="true"></i> Save
                             @else
-                                <i class="fa fa-plus" aria-hidden="true"></i> Post
+                                <i class="fa fa-plus" aria-hidden="true"></i> Publish
                             @endif
                         </button>
                     </div>
@@ -47,4 +42,42 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script>
+
+        $('#tagsinput').tagsinput({
+            freeInput: true,
+            maxTags: 10,
+            maxChars: 15,
+            tagClass: 'label label-primary',
+            itemText: function(item) {
+                var tag = item.replace(new RegExp('#', 'g'), '');
+                return '#'+tag;
+            }
+        });
+
+        $('#tagsinput').on('itemAddedOnInit', function(event) {
+            tagAdd(event.item);
+        });
+
+        $('#tagsinput').on('itemAdded', function(event) {
+            tagAdd(event.item);
+        });
+
+        $('#tagsinput').on('itemRemoved', function(event) {
+            tagRemove(event.item);
+        });
+
+        function tagAdd(tag) {
+            var id = 'tag_'+tag.replace(new RegExp(' ', 'g'), '_');
+            $("#tag-container").append('<input id="'+id+'" type="text" name="tags[]" value="'+tag+'"/>');
+        }
+
+        function tagRemove(tag) {
+            var id = 'tag_'+tag.replace(new RegExp(' ', 'g'), '_');
+            $("#"+id).remove();
+        }
+    </script>
 @endsection

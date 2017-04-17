@@ -60,7 +60,8 @@
             search: function () {
                 if (this.q.length >= 3){
                     this.loading = true;
-                    axios.get('/search/'+this.q).then(this.searchSuccess);
+                    var q = encodeURIComponent(this.q);
+                    axios.get('/search/'+q).then(this.searchSuccess);
                 }
             },
             searchSuccess: function (response) {
@@ -77,7 +78,6 @@
                 $("#dropdown-toggle").addClass('open');
                 if (typeof(Storage) !== undefined) {
                     localStorage.setItem("search_type", this.type);
-                    console.log(localStorage.getItem("search_type"));
                 }
             },
             toJson: function (tags) {
