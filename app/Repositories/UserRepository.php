@@ -10,6 +10,7 @@ namespace App\Repositories;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class UserRepository implements \App\Interfaces\UserRepository
@@ -52,17 +53,6 @@ class UserRepository implements \App\Interfaces\UserRepository
     }
 
     /**
-     * search user by nickname
-     *
-     * @param $q
-     * @return Collection
-     */
-    public function searchByNickname($q)
-    {
-        return User::where('nickname', 'LIKE', "%{$q}%")->take(7)->get();
-    }
-
-    /**
      * update user photo
      *
      * @param $user_id
@@ -86,5 +76,42 @@ class UserRepository implements \App\Interfaces\UserRepository
         $user->save();
 
         return true;
+    }
+
+    /**
+     * Update search field for Postgres Full Text Search system
+     *
+     * @param $user_id
+     */
+    public function updateFullTextSearchField($user_id)
+    {
+        $language = config('values.fullTextSearchLanguage');
+        DB::statement("UPDATE users SET searchable = setweight(to_tsvector('{$language}', nickname), 'B') ||' '|| setweight(to_tsvector('{$language}', email), 'D') WHERE id = {$user_id}");
+    }
+
+    /**
+     * search users by nickname or mails
+     *
+     * @param $q
+     * @return Collection
+     */
+    public function search($q)
+    {
+        $language = config('values.fullTextSearchLanguage');
+        $q = str_replace(' ', ' & ', $q);
+        $users = User::from(
+            DB::raw("
+                (SELECT users.*, 
+                    ts_headline('{$language}', nickname,q,'StartSel=<searched-word>,StopSel=</searched-word>,MaxWords=50,MinWords=10') as searched_nickname, 
+                    ts_headline('{$language}', email,q,'StartSel=<searched-word>,StopSel=</searched-word>') as searched_email, 
+                    ts_rank_cd(searchable, q) as rank 
+                    FROM users, to_tsquery('{$language}', '{$q}') as q 
+                    WHERE searchable @@ q
+                ) as search
+            ")
+        )->orderBy('search.rank', 'desc')
+            ->take(7)
+            ->get();
+        return $users;
     }
 }

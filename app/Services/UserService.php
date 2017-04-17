@@ -45,6 +45,6 @@ class UserService
      */
     public function search($q)
     {
-        return $this->userRepository->searchByNickname($q);
+        return $this->userRepository->search($q);
     }
 }

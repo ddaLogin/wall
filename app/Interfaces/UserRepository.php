@@ -39,12 +39,12 @@ interface UserRepository
     public function store($data);
 
     /**
-     * search user by nickname
+     * search users by nickname or mails
      *
      * @param $q
      * @return Collection
      */
-    public function searchByNickname($q);
+    public function search($q);
 
     /**
      * update user photo

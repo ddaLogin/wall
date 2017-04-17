@@ -9,7 +9,8 @@
                     <li v-for="user in users">
                         <a v-bind:href="user.link" >
                             <img :src="user.photo_link_mini" alt="" class="photo-mini-search">
-                            {{user.nickname}}
+                            <span v-html="user.searched_nickname"></span><br>
+                            <span v-html="user.searched_email"></span>
                         </a>
                     </li>
                     <li v-if="!users" class="text-center text-warning">Users not found</li>
@@ -74,6 +75,10 @@
             setType: function (value) {
                 this.type = value;
                 $("#dropdown-toggle").addClass('open');
+                if (typeof(Storage) !== undefined) {
+                    localStorage.setItem("search_type", this.type);
+                    console.log(localStorage.getItem("search_type"));
+                }
             },
             toJson: function (tags) {
                 var t = JSON.parse(tags);
@@ -83,5 +88,10 @@
                 return '#'+tag;
             }
         },
+        mounted() {
+            if (typeof(Storage) !== undefined) {
+                this.type = localStorage.getItem("search_type");
+            }
+        }
     }
 </script>
