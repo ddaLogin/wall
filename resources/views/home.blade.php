@@ -9,9 +9,7 @@
         <h3>Top posts on the week</h3>
         <hr>
         @foreach($posts as $post)
-            <div class="col col-md-6">
-                @include('particles.post', $post)
-            </div>
+            @include('particles.post', $post)
         @endforeach
     </div>
 @endsection
