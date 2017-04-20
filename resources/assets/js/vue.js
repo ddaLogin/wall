@@ -32,6 +32,7 @@ Vue.component('subscriptionButton', require('./components/SubscriptionButton.vue
 Vue.component('subscriptionsTable', require('./components/SubscriptionsTable.vue'));
 Vue.component('avatarSetter', require('./components/AvatarSetter.vue'));
 Vue.component('notificator', require('./components/Notificator.vue'));
+Vue.component('conferenceContainer', require('./components/ConferenceContainer.vue'));
 
 const app = new Vue({
     el: '#app'

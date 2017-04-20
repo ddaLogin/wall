@@ -33,6 +33,8 @@
                             <li><a href="{{route('user.subscriptions', Auth::user()->id)}}"><i class="fa fa-users" aria-hidden="true"></i> Subscriptions</a></li>
                             <li><a href="{{route('user.settings')}}"><i class="fa fa-cogs" aria-hidden="true"></i> Settings</a></li>
                             <li role="separator" class="divider"></li>
+                            <li><a href="{{route('room.create')}}"><i class="fa fa-phone" aria-hidden="true"></i> Create conference</a></li>
+                            <li role="separator" class="divider"></li>
                             <li><a href="{{route('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i> Log Out</a></li>
                         </ul>
                     </li>
