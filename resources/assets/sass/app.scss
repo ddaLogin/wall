@@ -11,6 +11,8 @@
 
 @import "node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput";
 
+@import "conference";
+
 .search-dropdown-menu{
   left: auto !important;
 }
@@ -33,6 +35,14 @@
 
 .padding-5{
   padding: 5px !important;
+}
+
+.full-width{
+  width: 100%;
+}
+
+.full-height{
+  height: 100%;
 }
 
 .photo-mini{
