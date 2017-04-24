@@ -2,7 +2,7 @@
     <div>
         <form class="navbar-form navbar-left">
             <div class="form-group" id="dropdown-toggle">
-                <input v-on:keyup="search" v-model="q"  type="text" class="form-control" placeholder="Search" data-toggle="dropdown">
+                <input id="search-input" v-on:keyup="search" v-model="q"  type="text" class="form-control" placeholder="Search" data-toggle="dropdown">
                 <ul class="dropdown-menu search-dropdown-menu" aria-labelledby="dropdownMenuDivider" v-if="typeIs('user')">
                     <li class="dropdown-header">Users</li>
                     <li><hr class="margin-0 padding-0"></li>
@@ -89,7 +89,7 @@
             }
         },
         mounted() {
-            if (typeof(Storage) !== undefined) {
+            if (typeof(Storage) !== undefined && localStorage.getItem("search_type")!='' && localStorage.getItem("search_type")!=undefined) {
                 this.type = localStorage.getItem("search_type");
             }
         }

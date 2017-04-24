@@ -90,6 +90,8 @@ __webpack_require__(40);
 __webpack_require__(41);
 window.jCrop = __webpack_require__(42);
 
+__webpack_require__(79);
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -33175,6 +33177,18 @@ module.exports = function(module) {
 __webpack_require__(11);
 module.exports = __webpack_require__(13);
 
+
+/***/ }),
+
+/***/ 79:
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function($) {window.search = function (tag) {
+    var text = tag.replace('#', '');
+    $("#search-input").val(text);
+    $("#search-input").keyup();
+};
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ })
 

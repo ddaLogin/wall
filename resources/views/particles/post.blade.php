@@ -37,7 +37,7 @@
             </div>
             <div class="col col-md-10 text-right">
                 @foreach($post->hashtags as $tag)
-                    <span class="label label-primary">{{$tag}}</span>
+                    <span onclick="window.search('{{$tag}}')" class="label label-primary">{{$tag}}</span>
                 @endforeach
             </div>
         </div>
