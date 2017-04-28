@@ -46,6 +46,7 @@ class UserController extends Controller
             'posts' => $posts,
             'subscriptions' => $this->subscriptionRepository->getByUser($user->id),
             'subscribers' => $this->subscriptionRepository->getByTarget($user->id),
+            'tags' => $this->postRepository->getTagsByUser($user->id),
         ]);
     }
 

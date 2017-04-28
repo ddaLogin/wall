@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 63);
+/******/ 	return __webpack_require__(__webpack_require__.s = 64);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -73,10 +73,10 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_laravel_echo__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_laravel_echo__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_laravel_echo__);
 
-window._ = __webpack_require__(44);
+window._ = __webpack_require__(45);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -86,11 +86,11 @@ window._ = __webpack_require__(44);
 
 window.$ = window.jQuery = __webpack_require__(2);
 
-__webpack_require__(40);
 __webpack_require__(41);
-window.jCrop = __webpack_require__(42);
+__webpack_require__(42);
+window.jCrop = __webpack_require__(43);
 
-__webpack_require__(79);
+__webpack_require__(40);
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -10379,6 +10379,18 @@ return jQuery;
 /***/ 40:
 /***/ (function(module, exports, __webpack_require__) {
 
+/* WEBPACK VAR INJECTION */(function($) {window.search = function (tag) {
+    var text = tag.replace('#', '');
+    $("#search-input").val(text);
+    $("#search-input").keyup();
+};
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+
+/***/ }),
+
+/***/ 41:
+/***/ (function(module, exports, __webpack_require__) {
+
 /* WEBPACK VAR INJECTION */(function(jQuery) {/*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
@@ -12761,7 +12773,7 @@ if (typeof jQuery === 'undefined') {
 
 /***/ }),
 
-/***/ 41:
+/***/ 42:
 /***/ (function(module, exports) {
 
 (function ($) {
@@ -13431,7 +13443,7 @@ if (typeof jQuery === 'undefined') {
 
 /***/ }),
 
-/***/ 42:
+/***/ 43:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -15246,7 +15258,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ 43:
+/***/ 44:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(jQuery) {var asyncGenerator = function () {
@@ -16021,7 +16033,7 @@ module.exports = Echo;
 
 /***/ }),
 
-/***/ 44:
+/***/ 45:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -33110,7 +33122,7 @@ module.exports = Echo;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(62)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(63)(module)))
 
 /***/ }),
 
@@ -33142,7 +33154,7 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 62:
+/***/ 63:
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -33171,24 +33183,12 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 63:
+/***/ 64:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
 module.exports = __webpack_require__(13);
 
-
-/***/ }),
-
-/***/ 79:
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function($) {window.search = function (tag) {
-    var text = tag.replace('#', '');
-    $("#search-input").val(text);
-    $("#search-input").keyup();
-};
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ })
 

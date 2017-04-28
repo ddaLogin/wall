@@ -53,4 +53,12 @@ interface PostRepository
      * @return Collection
      */
     public function getTopPosts();
+
+    /**
+     * return all user's tags
+     *
+     * @param $user_id
+     * @return array
+     */
+    public function getTagsByUser($user_id);
 }

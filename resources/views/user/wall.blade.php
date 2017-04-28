@@ -18,7 +18,17 @@
         @if(!Auth::guest() && \Illuminate\Support\Facades\Auth::user()->can('subscribe', $user))
             <subscription-button subscribe-status="{{$user->subscribeByUser(Auth::user()->id)}}"
                           target-user-id="{{$user->id}}"></subscription-button>
+            <hr>
         @endif
+        <div>
+            <h4 class="text-center">Favorite tags</h4>
+            @foreach($tags as $tag)
+                <a class="btn btn-primary btn-xs" href="#">
+                    #{{$tag->tag}}
+                    <span class="badge">{{$tag->cnt}}</span>
+                </a>
+            @endforeach
+        </div>
     </div>
     <div class="col col-md-6">
         @foreach($posts as $post)

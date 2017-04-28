@@ -122,4 +122,24 @@ class PostRepository implements \App\Interfaces\PostRepository
         $language = config('values.fullTextSearchLanguage');
         DB::statement("UPDATE posts SET searchable = setweight(to_tsvector('{$language}', tags::text), 'B') ||' '|| setweight(to_tsvector('{$language}', text), 'D') WHERE id = {$post_id}");
     }
+
+    /**
+     * return all user's tags
+     *
+     * @param $user_id
+     * @return array
+     */
+    public function getTagsByUser($user_id)
+    {
+        $tags = DB::table('posts')
+                ->select(DB::raw('jsonb_array_elements_text(tags) as tag, COUNT(*) as cnt'))
+                ->from('posts')
+                ->where('posts.author_id', $user_id)
+                ->groupBy('tag')
+                ->orderBy('cnt', 'desc')
+                ->take('30')
+                ->get();
+
+        return $tags;
+    }
 }

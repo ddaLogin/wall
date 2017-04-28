@@ -27,7 +27,7 @@
         </div>
         <hr class="margin-0 padding-0">
         <div class="panel-footer">
-            <div class="col col-md-2">
+            <div class="col col-md-3">
                 @if(!Auth::guest() && Auth::user()->can('like', $post))
                     <like like-status="{{$post->likeStatusByUser(Auth::user()->id)->getStatusLikeInt()}}"
                           like-count="{{$post->likes()->count()}}"
@@ -35,7 +35,7 @@
                           post-id="{{$post->id}}"></like>
                 @endif
             </div>
-            <div class="col col-md-10 text-right">
+            <div class="col col-md-9 text-right">
                 @foreach($post->hashtags as $tag)
                     <span onclick="window.search('{{$tag}}')" class="label label-primary">{{$tag}}</span>
                 @endforeach
