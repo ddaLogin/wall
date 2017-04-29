@@ -34,7 +34,7 @@ class Post extends Model implements Validatable
      *
      * @var array
      */
-    protected $appends = ['link', 'hashtags'];
+    protected $appends = ['link'];
 
     /**
      * get url to post view page
@@ -44,21 +44,6 @@ class Post extends Model implements Validatable
     public function getLinkAttribute()
     {
         return $this->attributes['link'] = '#';
-    }
-
-    /**
-     * add '#' char to each tag
-     *
-     * @return bool
-     */
-    public function getHashtagsAttribute()
-    {
-        $hashtags = [];
-        foreach ($this->tags as $key=>$tag){
-            $hashtags[$key] = '#'.$tag;
-        }
-
-        return $this->attributes['hashtags'] = $hashtags;
     }
 
     public function author()

@@ -23,7 +23,7 @@
         <div>
             <h4 class="text-center">Favorite tags</h4>
             @foreach($tags as $tag)
-                <a class="btn btn-primary btn-xs" href="#">
+                <a class="btn btn-primary btn-xs" href="{{route('search',['q='.$tag->tag])}}">
                     #{{$tag->tag}}
                     <span class="badge">{{$tag->cnt}}</span>
                 </a>
@@ -34,11 +34,12 @@
         @foreach($posts as $post)
             @include('particles.post', $post)
         @endforeach
+        {{ $posts->links() }}
     </div>
     <div class="col col-md-3 text-center">
         <div class="row">
             <h4><a href="{{route('user.subscriptions', [$user->id, '#subscriptions'])}}">Subscriptions <small><span class="badge">{{$subscriptions->count()}}</span></small></a></h4>
-            @forelse($subscriptions->take(8)->chunk(4) as $chunk)
+            @forelse($subscriptions->chunk(config('values.user.wall.subscriptionsChunk')) as $chunk)
                 @foreach($chunk as $subscription)
                     <a class="col-md-3 padding-5" href="{{route('user.wall', $subscription->target->nickname)}}">
                         <img style="width: 100%;" src="{{($subscription->target->photo_mini)?Storage::disk('public')->url($subscription->target->photo_mini):config('values.noPhotoMini')}}"/>
@@ -53,7 +54,7 @@
         <hr>
         <div class="row">
             <h4><a href="{{route('user.subscriptions', [$user->id, '#subscribers'])}}">Subscribers <small><span class="badge">{{$subscribers->count()}}</span></small></a></h4>
-            @forelse($subscribers->take(8)->chunk(4) as $chunk)
+            @forelse($subscribers->chunk(config('values.user.wall.subscribersChunk')) as $chunk)
                 @foreach($chunk as $subscriber)
                     <a class="col-md-3 padding-5" href="{{route('user.wall', $subscriber->user->nickname)}}">
                         <img style="width: 100%;" src="{{($subscriber->user->photo_mini)?Storage::disk('public')->url($subscriber->user->photo_mini):config('values.noPhotoMini')}}"/>

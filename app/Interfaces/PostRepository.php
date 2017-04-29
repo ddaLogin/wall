@@ -35,30 +35,34 @@ interface PostRepository
      * return posts collections, by author id
      *
      * @param $authorId
+     * @param int $limit
      * @return Collection
      */
-    public function getByAuthorId($authorId);
+    public function getByAuthorId($authorId, $limit = null);
 
     /**
      * search posts by text
      *
      * @param $q
+     * @param int $limit
      * @return Collection
      */
-    public function search($q);
+    public function search($q, $limit = null);
 
     /**
      * get top posts for home page
      *
+     * @param int $limit
      * @return Collection
      */
-    public function getTopPosts();
+    public function getTopPosts($limit = null);
 
     /**
      * return all user's tags
      *
      * @param $user_id
+     * @param int $limit
      * @return array
      */
-    public function getTagsByUser($user_id);
+    public function getTagsByUser($user_id, $limit = null);
 }

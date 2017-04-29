@@ -42,9 +42,10 @@ interface UserRepository
      * search users by nickname or mails
      *
      * @param $q
+     * @param int $limit
      * @return Collection
      */
-    public function search($q);
+    public function search($q, $limit = null);
 
     /**
      * update user photo

@@ -54,24 +54,32 @@ class PostRepository implements \App\Interfaces\PostRepository
      * return posts collections, by author id
      *
      * @param $authorId
+     * @param int $limit
      * @return Collection
      */
-    public function getByAuthorId($authorId)
+    public function getByAuthorId($authorId, $limit = null)
     {
-        return Post::where('author_id', $authorId)->orderBy('created_at', 'desc')->get();
+        $query = Post::where('author_id', $authorId)->orderBy('created_at', 'desc');
+
+        if ($limit) {
+            return $query->paginate($limit);
+        }
+
+        return $query->get();
     }
 
     /**
      * search posts by text
      *
      * @param string $q
+     * @param int $limit
      * @return Collection
      */
-    public function search($q)
+    public function search($q, $limit = null)
     {
         $language = config('values.fullTextSearchLanguage');
         $q = str_replace(' ', ' & ', $q);
-        $posts = Post::from(
+        $query = Post::from(
             DB::raw("
                 (SELECT posts.*, 
                     ts_headline('{$language}', text,q,'StartSel=<searched-word>,StopSel=</searched-word>,MaxWords=50,MinWords=10') as searched_text, 
@@ -82,20 +90,30 @@ class PostRepository implements \App\Interfaces\PostRepository
                 ) as search
             ")
         )->with('author')
-            ->orderBy('search.rank', 'desc')
-            ->take(7)
-            ->get();
-        return $posts;
+            ->orderBy('search.rank', 'desc');
+
+        if ($limit) {
+            $query = $query->take($limit);
+        }
+
+        return $query->get();
     }
 
     /**
      * get top posts for home page
      *
+     *@param int $limit
      * @return Collection
      */
-    public function getTopPosts()
+    public function getTopPosts($limit = null)
     {
-        return Post::orderBy('created_at', 'desc')->take(10)->get();
+        $query = Post::orderBy('created_at', 'desc');
+
+        if ($limit) {
+            return $query->paginate($limit);
+        }
+
+        return $query->get();
     }
 
     /**
@@ -108,7 +126,6 @@ class PostRepository implements \App\Interfaces\PostRepository
     {
         return Post::whereIn('author_id', $usersIdArray)
             ->orderBy('created_at', 'desc')
-            ->take(20)
             ->get();
     }
 
@@ -127,19 +144,22 @@ class PostRepository implements \App\Interfaces\PostRepository
      * return all user's tags
      *
      * @param $user_id
+     * @param int $limit
      * @return array
      */
-    public function getTagsByUser($user_id)
+    public function getTagsByUser($user_id, $limit = null)
     {
-        $tags = DB::table('posts')
+        $query = DB::table('posts')
                 ->select(DB::raw('jsonb_array_elements_text(tags) as tag, COUNT(*) as cnt'))
                 ->from('posts')
                 ->where('posts.author_id', $user_id)
                 ->groupBy('tag')
-                ->orderBy('cnt', 'desc')
-                ->take('30')
-                ->get();
+                ->orderBy('cnt', 'desc');
 
-        return $tags;
+        if ($limit) {
+            $query = $query->take($limit);
+        }
+
+        return $query->get();
     }
 }

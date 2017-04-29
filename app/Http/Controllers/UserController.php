@@ -39,14 +39,14 @@ class UserController extends Controller
     public function wall(Request $request, $nickname)
     {
         $user = $this->userRepository->getByNickname($nickname);
-        $posts = $this->postRepository->getByAuthorId($user->id);
+        $posts = $this->postRepository->getByAuthorId($user->id, config('values.user.wall.postsLimit'));
 
         return view('user.wall')->with([
             'user' => $user,
             'posts' => $posts,
-            'subscriptions' => $this->subscriptionRepository->getByUser($user->id),
-            'subscribers' => $this->subscriptionRepository->getByTarget($user->id),
-            'tags' => $this->postRepository->getTagsByUser($user->id),
+            'subscriptions' => $this->subscriptionRepository->getByUser($user->id, config('values.user.wall.subscriptionsLimit')),
+            'subscribers' => $this->subscriptionRepository->getByTarget($user->id, config('values.user.wall.subscribersLimit')),
+            'tags' => $this->postRepository->getTagsByUser($user->id, config('values.user.wall.tagsLimit')),
         ]);
     }
 

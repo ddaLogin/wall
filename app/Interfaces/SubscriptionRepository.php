@@ -16,20 +16,22 @@ use Illuminate\Database\Eloquent\Collection;
 interface SubscriptionRepository
 {
     /**
-     * return all users subscriptions
+     * return users subscriptions
      *
      * @param $user_id
+     * @param int $limit
      * @return Collection
      */
-    public function getByUser($user_id);
+    public function getByUser($user_id, $limit = null);
 
     /**
-     * return all target subscribers
+     * return target subscribers
      *
      * @param $target_id
+     * @param int $limit
      * @return Collection
      */
-    public function getByTarget($target_id);
+    public function getByTarget($target_id, $limit = null);
 
     /**
      * return subscription by user and target

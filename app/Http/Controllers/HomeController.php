@@ -27,7 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $posts = $this->postRepository->getTopPosts();
+        $posts = $this->postRepository->getTopPosts(config('values.home.topPostsLimit'));
         return view('home')->with([
             'posts' => $posts
         ]);
@@ -91,15 +91,22 @@ class HomeController extends Controller
      * return all users by nickname
      *
      * @param Request $request
-     * @param $q
      * @param UserService $userService
      * @param PostService $postService
      * @return \Illuminate\Http\JsonResponse
      */
-    public function search(Request $request, $q, UserService $userService, PostService $postService)
+    public function search(Request $request, UserService $userService, PostService $postService)
     {
-        $data['users'] = $userService->search($q);
-        $data['posts'] = $postService->search($q);
-        return response()->json($data,200);
+        if ($request->ajax()){
+            $data['users'] = $userService->search($request->input('q'), config('values.fastSearchLimit'));
+            $data['posts'] = $postService->search($request->input('q'), config('values.fastSearchLimit'));
+            return response()->json($data,200);
+        } else {
+            return view('search')->with([
+                'users' => $userService->search($request->input('q'), null),
+                'posts' => $postService->search($request->input('q'), null),
+                'q' => $request->input('q'),
+            ]);
+        }
     }
 }

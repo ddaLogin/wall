@@ -93,13 +93,14 @@ class UserRepository implements \App\Interfaces\UserRepository
      * search users by nickname or mails
      *
      * @param $q
+     * @param int $limit
      * @return Collection
      */
-    public function search($q)
+    public function search($q, $limit = null)
     {
         $language = config('values.fullTextSearchLanguage');
         $q = str_replace(' ', ' & ', $q);
-        $users = User::from(
+        $query = User::from(
             DB::raw("
                 (SELECT users.*, 
                     ts_headline('{$language}', nickname,q,'StartSel=<searched-word>,StopSel=</searched-word>,MaxWords=50,MinWords=10') as searched_nickname, 
@@ -109,9 +110,12 @@ class UserRepository implements \App\Interfaces\UserRepository
                     WHERE searchable @@ q
                 ) as search
             ")
-        )->orderBy('search.rank', 'desc')
-            ->take(7)
-            ->get();
-        return $users;
+        )->orderBy('search.rank', 'desc');
+
+        if ($limit){
+            $query = $query->take($limit);
+        }
+
+        return $query->get();
     }
 }

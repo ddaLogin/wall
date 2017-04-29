@@ -1,8 +1,8 @@
 <template>
     <div>
-        <form class="navbar-form navbar-left">
+        <form class="navbar-form navbar-left" method="get" :action="action">
             <div class="form-group" id="dropdown-toggle">
-                <input id="search-input" v-on:keyup="search" v-model="q"  type="text" class="form-control" placeholder="Search" data-toggle="dropdown">
+                <input id="search-input" v-on:keyup="search" v-model="q" name="q"  type="text" class="form-control" placeholder="Search" autocomplete="off" data-toggle="dropdown">
                 <ul class="dropdown-menu search-dropdown-menu" aria-labelledby="dropdownMenuDivider" v-if="typeIs('user')">
                     <li class="dropdown-header">Users</li>
                     <li><hr class="margin-0 padding-0"></li>
@@ -56,12 +56,13 @@
                 type: 'user', //can be 'user', 'post'
             };
         },
+        props: ['action', 'oldQ'],
         methods: {
             search: function () {
                 if (this.q.length >= 3){
                     this.loading = true;
                     var q = encodeURIComponent(this.q);
-                    axios.get('/search/'+q).then(this.searchSuccess);
+                    axios.get('/search?q='+q).then(this.searchSuccess);
                 }
             },
             searchSuccess: function (response) {
@@ -92,6 +93,7 @@
             if (typeof(Storage) !== undefined && localStorage.getItem("search_type")!='' && localStorage.getItem("search_type")!=undefined) {
                 this.type = localStorage.getItem("search_type");
             }
+            this.q = this.oldQ;
         }
     }
 </script>

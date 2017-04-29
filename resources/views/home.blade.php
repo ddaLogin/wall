@@ -11,5 +11,6 @@
         @foreach($posts as $post)
             @include('particles.post', $post)
         @endforeach
+        {{ $posts->links() }}
     </div>
 @endsection

@@ -41,10 +41,11 @@ class UserService
      * return all users, by nickname
      *
      * @param $q
+     * @param $limit
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function search($q)
+    public function search($q, $limit)
     {
-        return $this->userRepository->search($q);
+        return $this->userRepository->search($q, $limit);
     }
 }

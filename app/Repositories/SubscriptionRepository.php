@@ -16,27 +16,35 @@ class SubscriptionRepository implements \App\Interfaces\SubscriptionRepository
 {
 
     /**
-     * return all users subscriptions
+     * return users subscriptions
      *
      * @param $user_id
+     * @param int $limit
      * @return Collection
      * @internal param User $user
      */
-    public function getByUser($user_id)
+    public function getByUser($user_id, $limit = null)
     {
-        return Subscription::where('user_id', $user_id)->with(['user', 'target'])->get();
+        return Subscription::where('user_id', $user_id)->with(['user', 'target'])->take($limit)->get();
     }
 
     /**
-     * return all
+     * return target subscribers
      *
      * @param $target_id
+     * @param int $limit
      * @return Collection
      * @internal param User $target
      */
-    public function getByTarget($target_id)
+    public function getByTarget($target_id, $limit = null)
     {
-        return Subscription::where('target_id', $target_id)->with(['user', 'target'])->get();
+        $query = Subscription::where('target_id', $target_id)->with(['user', 'target']);
+
+        if($limit){
+            $query = $query->take($limit);
+        }
+
+        return $query->get();
     }
 
     /**

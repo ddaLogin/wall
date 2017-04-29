@@ -63,11 +63,12 @@ class PostService
      * return all posts by text
      *
      * @param $q
+     * @param $limit
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function search($q)
+    public function search($q, $limit)
     {
-        return $this->postRepository->search($q);
+        return $this->postRepository->search($q, $limit);
     }
 
     /**

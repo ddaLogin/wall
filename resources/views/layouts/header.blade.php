@@ -18,7 +18,7 @@
                     <li><a href="{{route('user.feed')}}">Feed</a></li>
                 </ul>
             @endif
-            <search ref="search"></search>
+            <search ref="search" action="{{route('search')}}" old-q="{{$q or null}}"></search>
             <ul class="nav navbar-nav navbar-right">
                 @if(Auth::guest())
                     <li><a href="{{route('login')}}"><i class="fa fa-sign-in" aria-hidden="true"></i> Log In</a></li>

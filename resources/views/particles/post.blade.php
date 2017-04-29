@@ -1,3 +1,4 @@
+<?php /** @var \App\Models\Post $post */ ?>
 <div>
     <div class="panel panel-default panel-google-plus">
         @if(!Auth::guest() && Auth::user()->can('update', $post))
@@ -23,7 +24,11 @@
         </div>
         <hr class="margin-0 padding-0">
         <div class="panel-body margin-top-5">
-            <p>{{$post->text}}</p>
+            @if($post->searched_text)
+                <p>{!! $post->searched_text !!}</p>
+            @else
+                <p>{!! $post->text !!}</p>
+            @endif
         </div>
         <hr class="margin-0 padding-0">
         <div class="panel-footer">
@@ -36,9 +41,15 @@
                 @endif
             </div>
             <div class="col col-md-9 text-right">
-                @foreach($post->hashtags as $tag)
-                    <span onclick="window.search('{{$tag}}')" class="label label-primary">{{$tag}}</span>
-                @endforeach
+                @if($post->searched_tags)
+                    @foreach(json_decode($post->searched_tags) as $tag)
+                        <a href="{{route('search',['q='.strip_tags($tag)])}}"><span class="label label-primary">#{!! $tag !!}</span></a>
+                    @endforeach
+                @else
+                    @foreach($post->tags as $tag)
+                        <a href="{{route('search',['q='.$tag])}}"><span class="label label-primary">#{{$tag}}</span></a>
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>
