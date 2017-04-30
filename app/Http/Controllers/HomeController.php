@@ -80,7 +80,7 @@ class HomeController extends Controller
      */
     public function authenticate(Request $request)
     {
-        if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])){
+        if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')], $request->input('remember'))){
             return redirect()->intended();
         } else {
             return redirect()->back()->withInput()->withErrors(['authenticate' => 'Incorrect email or password']);

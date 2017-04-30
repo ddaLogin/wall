@@ -31,9 +31,9 @@
                         <input type="password" name="password_confirmation" class="form-control">
                         @if($errors->has('password_confirmation')) <span class="help-block">{{$errors->first('password_confirmation')}}</span> @endif
                     </div>
-                    <div class="form-group">
+                    <div class="form-group row">
                         <div class="col-md-6"><button type="submit" class="btn btn-success"><i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up</button></div>
-                        <div class="col-md-6 text-right"><a class="btn btn-info" href="{{route('login')}}">Log In</a></div>
+                        <div class="col-md-6 text-right"><a class="btn btn-primary" href="{{route('login')}}"><i class="fa fa-sign-in" aria-hidden="true"></i> Log In</a></div>
                     </div>
                 </form>
             </div>

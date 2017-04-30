@@ -27,9 +27,16 @@
                         <label class="control-label">Password</label>
                         <input type="password" name="password" class="form-control">
                     </div>
-                    <div class="form-group">
+
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="remember"> Remember me
+                        </label>
+                    </div>
+
+                    <div class="form-group row">
                         <div class="col-md-6"><button type="submit" class="btn btn-success"><i class="fa fa-sign-in" aria-hidden="true"></i> Log In</button></div>
-                        <div class="col-md-6 text-right"><a class="btn btn-info" href="{{route('signup')}}">Sing Up</a></div>
+                        <div class="col-md-6 text-right"><a class="btn btn-primary" href="{{route('signup')}}"><i class="fa fa-user-plus" aria-hidden="true"></i> Sing Up</a></div>
                     </div>
                 </form>
             </div>
