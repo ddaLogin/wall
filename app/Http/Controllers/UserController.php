@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangeMailRequest;
+use App\Http\Requests\ChangePasswordRequest;
 use App\Models\User;
 use App\Repositories\PostRepository;
 use App\Repositories\SubscriptionRepository;
 use App\Repositories\UserRepository;
 use App\Services\PostService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -109,5 +112,41 @@ class UserController extends Controller
             'unreadNotifications' => $unreadNotifications,
             'notifications' => $notifications,
         ]);
+    }
+
+    /**
+     * change user email
+     *
+     * @param ChangeMailRequest $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function changeMail(ChangeMailRequest $request)
+    {
+        if (!Auth::validate(['email' => Auth::user()->email, 'password' => $request->input('password')]))
+        {
+            return redirect()->back()->withInput()->withErrors(['password' => 'Incorrect password']);
+        }
+
+        $this->userRepository->changeMail(Auth::user()->id, $request->email);
+
+        return redirect()->route('user.wall', Auth::user()->nickname);
+    }
+
+    /**
+     * change user password
+     *
+     * @param ChangePasswordRequest $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        if (!Auth::validate(['email' => Auth::user()->email, 'password' => $request->input('currentPassword')]))
+        {
+            return redirect()->back()->withInput()->withErrors(['currentPassword' => 'Incorrect password']);
+        }
+
+        $this->userRepository->changePassword(Auth::user()->id, $request->input('newPassword'));
+
+        return redirect()->route('logout');
     }
 }

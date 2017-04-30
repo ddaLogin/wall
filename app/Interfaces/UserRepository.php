@@ -56,4 +56,22 @@ interface UserRepository
      * @return mixed
      */
     public function updatePhoto($user_id, $url, $urlMini);
+
+    /**
+     * change user email
+     *
+     * @param $user_id
+     * @param $email
+     * @return mixed
+     */
+    public function changeMail($user_id, $email);
+
+    /**
+     * change user password
+     *
+     * @param $user_id
+     * @param $password
+     * @return mixed
+     */
+    public function changePassword($user_id, $password);
 }

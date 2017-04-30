@@ -31,6 +31,8 @@ Route::group(['middleware' => 'auth'], function (){
 
     Route::get('/{user}/subscriptions', ['as' => 'user.subscriptions', 'uses' => 'UserController@subscriptions']);
     Route::get('/settings', ['as' => 'user.settings', 'uses' => 'UserController@settings']);
+    Route::post('/settings/change/mail', ['as' => 'user.settings.change.mail', 'uses' => 'UserController@changeMail']);
+    Route::post('/settings/change/password', ['as' => 'user.settings.change.password', 'uses' => 'UserController@changePassword']);
     Route::get('/feed', ['as' => 'user.feed', 'uses' => 'UserController@feed']);
     Route::get('/notifications', ['as' => 'user.notifications', 'uses' => 'UserController@notifications']);
 

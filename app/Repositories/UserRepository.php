@@ -118,4 +118,34 @@ class UserRepository implements \App\Interfaces\UserRepository
 
         return $query->get();
     }
+
+    /**
+     * change user email
+     *
+     * @param $user_id
+     * @param $email
+     * @return mixed
+     */
+    public function changeMail($user_id, $email)
+    {
+        $user = $this->getById($user_id);
+        $user->email = $email;
+        $user->save();
+        return $user;
+    }
+
+    /**
+     * change user password
+     *
+     * @param $user_id
+     * @param $password
+     * @return mixed
+     */
+    public function changePassword($user_id, $password)
+    {
+        $user = $this->getById($user_id);
+        $user->password = bcrypt($password);
+        $user->save();
+        return $user;
+    }
 }
