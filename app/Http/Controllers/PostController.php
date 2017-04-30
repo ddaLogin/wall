@@ -57,6 +57,14 @@ class PostController extends Controller
         return view('post.create')->with(['post' => $post]);
     }
 
+    /**
+     * update post
+     *
+     * @param PostStoreRequest $request
+     * @param Post $post
+     * @param PostService $postService
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(PostStoreRequest $request, Post $post, PostService $postService)
     {
         if(Auth::guest() || !Auth::user()->can('update', $post)){
@@ -65,5 +73,19 @@ class PostController extends Controller
 
         $post = $postService->update($post, $request);
         return redirect()->route('user.wall', ['nickname' => Auth::user()->nickname]);
+    }
+
+    /**
+     * return page to show post
+     *
+     * @param Request $request
+     * @param Post $post
+     * @return $this
+     */
+    public function show(Request $request, Post $post)
+    {
+        return view('post.show')->with([
+            'post' => $post
+        ]);
     }
 }

@@ -5,7 +5,7 @@ return [
     'noPhotoMini' => '/img/no_photo_mini.png',
     'fullTextSearchLanguage' => 'english',
     'fastSearchLimit' => 7,
-
+    'postShortTextWordCount' => 50,
     'home' => [
         'topPostsLimit' => 20
     ],

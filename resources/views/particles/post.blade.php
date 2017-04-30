@@ -24,10 +24,15 @@
         </div>
         <hr class="margin-0 padding-0">
         <div class="panel-body margin-top-5">
-            @if($post->searched_text)
-                <p>{!! $post->searched_text !!}</p>
+            @if(isset($show))
+                <p style="white-space: pre-wrap;">{{$post->text}}</p>
             @else
-                <p>{!! $post->text !!}</p>
+                @if($post->searched_text)
+                    <p>{!! $post->cutByWords($post->searched_text, config('values.postShortTextWordCount')) !!}</p>
+                @else
+                    <p>{{$post->cutByWords($post->text, config('values.postShortTextWordCount'))}}</p>
+                @endif
+                <h5 class="text-right padding-0 margin-0"><a href="{{route('post.show', $post->id)}}">view post</a></h5>
             @endif
         </div>
         <hr class="margin-0 padding-0">

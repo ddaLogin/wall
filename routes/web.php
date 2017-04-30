@@ -24,6 +24,7 @@ Route::group(['middleware' => 'auth'], function (){
     Route::post('/post/store', ['as' => 'post.store', 'uses' => 'PostController@store']);
     Route::get('/post/edit/{post}', ['as' => 'post.edit', 'uses' => 'PostController@edit']);
     Route::post('/post/update/{post}', ['as' => 'post.update', 'uses' => 'PostController@update']);
+    Route::get('/post/{post}', ['as' => 'post.show', 'uses' => 'PostController@show']);
 
     Route::post('/like/toggle', ['as' => 'like.toggle', 'uses' => 'LikeController@toggle']);
 

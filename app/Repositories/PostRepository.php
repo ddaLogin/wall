@@ -78,11 +78,13 @@ class PostRepository implements \App\Interfaces\PostRepository
     public function search($q, $limit = null)
     {
         $language = config('values.fullTextSearchLanguage');
+        $minWordsCount = config('values.postShortTextWordCount');
+        $maxWordsCount = $minWordsCount + 2;
         $q = str_replace(' ', ' & ', $q);
         $query = Post::from(
             DB::raw("
                 (SELECT posts.*, 
-                    ts_headline('{$language}', text,q,'StartSel=<searched-word>,StopSel=</searched-word>,MaxWords=50,MinWords=10') as searched_text, 
+                    ts_headline('{$language}', text,q,'StartSel=<searched-word>,StopSel=</searched-word>,MaxWords={$maxWordsCount},MinWords={$minWordsCount}') as searched_text, 
                     ts_headline('{$language}', tags::text,q,'StartSel=<searched-word>,StopSel=</searched-word>') as searched_tags, 
                     ts_rank_cd(searchable, q) as rank 
                     FROM posts, to_tsquery('{$language}', '{$q}') as q 

@@ -64,7 +64,7 @@ class UserLiked extends Notification
             'post_id' => $this->post->id,
             'user_id' => $this->user->id,
             'icon' => $this->user->photo_link,
-            'text' => '<a href="'.route('user.wall', $this->user->nickname).'">'.$this->user->nickname.'</a> liked your <a href="#">post</a>.'
+            'text' => '<a href="'.route('user.wall', $this->user->nickname).'">'.$this->user->nickname.'</a> liked your <a href="'.route('post.show', $this->post->id).'">post</a>.'
         ];
     }
 }

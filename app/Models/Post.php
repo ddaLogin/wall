@@ -88,4 +88,28 @@ class Post extends Model implements Validatable
             'tags' => 'required|array',
         ];
     }
+
+    /**
+     * return first n words from text, don't mind html tags
+     *
+     * @param $text
+     * @param $count
+     * @param string $appends
+     * @return mixed|string
+     */
+    public function cutByWords($text, $count, $appends = ' ...')
+    {
+        $count++;
+        $clearText = preg_replace("|[\s]+|is", " ", $text);
+        $words = explode(' ', $clearText, $count);
+        if (count($words) >= $count) {
+            array_pop($words);
+        } else {
+            $appends = '';
+        }
+
+        $clearText = implode(' ', $words);
+
+        return $clearText.$appends;
+    }
 }
