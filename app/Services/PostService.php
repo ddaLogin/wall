@@ -75,11 +75,12 @@ class PostService
      * return all feed posts
      *
      * @param $user_id
+     * @param null $limit
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function feedPosts($user_id)
+    public function feedPosts($user_id, $limit = null)
     {
         $subscriptions = $this->subscriptionRepository->getByUser($user_id);
-        return $this->postRepository->getByUsers($subscriptions->pluck('target_id'));
+        return $this->postRepository->getByUsers($subscriptions->pluck('target_id'), $limit);
     }
 }

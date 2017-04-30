@@ -19,4 +19,7 @@ return [
             'subscribersChunk' => 4,
         ],
     ],
+    'feed' => [
+        'postsLimit' => 20,
+    ],
 ];

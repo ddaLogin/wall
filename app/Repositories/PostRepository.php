@@ -120,13 +120,19 @@ class PostRepository implements \App\Interfaces\PostRepository
      * returns all the users posts
      *
      * @param array $usersIdArray
+     * @param null $limit
      * @return Collection
      */
-    public function getByUsers($usersIdArray)
+    public function getByUsers($usersIdArray, $limit = null)
     {
-        return Post::whereIn('author_id', $usersIdArray)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $query = Post::whereIn('author_id', $usersIdArray)
+            ->orderBy('created_at', 'desc');
+
+        if($limit){
+            return $query->paginate($limit);
+        }
+
+        return $query->get();
     }
 
     /**

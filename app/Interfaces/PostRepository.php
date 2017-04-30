@@ -58,6 +58,15 @@ interface PostRepository
     public function getTopPosts($limit = null);
 
     /**
+     * returns all the users posts
+     *
+     * @param array $usersIdArray
+     * @param null $limit
+     * @return Collection
+     */
+    public function getByUsers($usersIdArray, $limit = null);
+
+    /**
      * return all user's tags
      *
      * @param $user_id

@@ -89,7 +89,7 @@ class UserController extends Controller
     {
         return view('user.feed')->with([
             'user' => Auth::user(),
-            'posts' => $postService->feedPosts(Auth::user()->id),
+            'posts' => $postService->feedPosts(Auth::user()->id, config('values.feed.postsLimit')),
         ]);
     }
 
