@@ -25,7 +25,13 @@ class SubscriptionRepository implements \App\Interfaces\SubscriptionRepository
      */
     public function getByUser($user_id, $limit = null)
     {
-        return Subscription::where('user_id', $user_id)->with(['user', 'target'])->take($limit)->get();
+        $query = Subscription::where('user_id', $user_id)->with(['user', 'target']);
+
+        if($limit){
+            $query = $query->take($limit);
+        }
+
+        return $query->get();
     }
 
     /**

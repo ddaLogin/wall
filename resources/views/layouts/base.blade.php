@@ -24,7 +24,7 @@
     <div id="app">
         @yield('body')
     </div>
-    <script src="/js/vue.js"></script>
     @yield('js')
+    <script src="/js/vue.js"></script>
 </body>
 </html>

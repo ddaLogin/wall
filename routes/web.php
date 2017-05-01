@@ -40,7 +40,8 @@ Route::group(['middleware' => 'auth'], function (){
     Route::post('/file/photo', ['as' => 'file.photo', 'uses' => 'FileController@photo']);
 
     Route::get('/room/create', ['as' => 'room.create', 'uses' => 'RoomController@create']);
-    Route::get('/room/{link}', ['as' => 'room.join', 'uses' => 'RoomController@join']);
+    Route::get('/room/{room}', ['as' => 'room.join', 'uses' => 'RoomController@join']);
+    Route::get('/room/{room}/invite/{user}', ['as' => 'room.invite', 'uses' => 'RoomController@invite']);
 });
 
 Route::get('/{nickname}', ['as' => 'user.wall', 'uses' => 'UserController@wall']);

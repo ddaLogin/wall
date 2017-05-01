@@ -9,7 +9,10 @@
 namespace App\Services;
 
 use App\Models\Room;
+use App\Models\User;
+use App\Notifications\InviteToRoom;
 use App\Repositories\RoomRepository;
+use Illuminate\Support\Facades\Notification;
 
 class RoomService
 {
@@ -32,5 +35,17 @@ class RoomService
     public function createRoom()
     {
         return $this->roomRepository->store();
+    }
+
+    /**
+     * invite target user to room by user
+     *
+     * @param User $user
+     * @param User $target
+     * @param Room $room
+     */
+    public function invite(User $user, User $target, Room $room)
+    {
+        return Notification::send($target, new InviteToRoom($room, $user));
     }
 }

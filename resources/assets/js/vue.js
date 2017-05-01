@@ -34,6 +34,13 @@ Vue.component('avatarSetter', require('./components/AvatarSetter.vue'));
 Vue.component('notificator', require('./components/Notificator.vue'));
 Vue.component('conferenceContainer', require('./components/ConferenceContainer.vue'));
 
+
+//special mix object to extend default vue instance
+if (!window.hasOwnProperty('mix')) {
+    window.mix = {};
+}
+
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    mixins: [window.mix]
 });

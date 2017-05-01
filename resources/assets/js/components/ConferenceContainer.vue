@@ -3,17 +3,26 @@
 
         <div class="streams-container">
             <button v-if="!connection" v-on:click="join" class="btn btn-success">
-                <span v-if="!connecting">Join to conference</span>
+                <span v-if="!connecting">
+                    <i class="fa fa-sign-in" aria-hidden="true"></i>
+                    Join to conference
+                </span>
                 <span v-if="connecting"><i class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i></span>
             </button>
 
-            <div v-if="connection" v-for="stream in streams" class="col col-md-3">
-                <video id="remoteStream" :src="stream" controls autoplay="true"></video>
+            <div v-if="connection" v-for="stream in streams" class="stream">
+                <video class="stream" id="remoteStream" :src="stream" controls autoplay="true"></video>
             </div>
         </div>
 
         <div class="conference-sidebar">
-            <h4>Participants</h4>
+            <h4>
+                <i class="fa fa-users" aria-hidden="true"></i>
+                Participants
+                <button v-if="connection" v-on:click="showFriendList" class="btn btn-success btn-xs">
+                    <i class="fa fa-user-plus" aria-hidden="true"></i>
+                </button>
+            </h4>
             <hr>
             <ul class="list-group text-left">
                 <li v-for="participant in participants" class="list-group-item margin-0 padding-0">
@@ -50,15 +59,17 @@
         </div>
 
         <div class="local-stream-container-mini">
-            <video class="stream" id="stream" autoplay="true"></video>
+            <video class="stream" id="stream" autoplay="true" muted></video>
             <img v-if="!this.video"  :src="this.photo" class="stream-photo">
+            <canvas id="micro" class="micro"></canvas>
             <div class="btn-group pull-right stream-control" role="group" aria-label="...">
                 <button v-on:click="soundToggle" type="button" class="btn btn-default btn-xs">
                     <i v-if="this.audio" class="fa fa-microphone text-success" aria-hidden="true"></i>
                     <i v-if="!this.audio" class="fa fa-microphone-slash text-danger" aria-hidden="true"></i>
                 </button>
                 <button v-on:click="videoToggle" type="button" class="btn btn-default btn-xs ">
-                    <i class="fa fa-video-camera text-success" aria-hidden="true"></i>
+                    <i v-if="this.video" class="fa fa-video-camera text-success" aria-hidden="true"></i>
+                    <i v-if="!this.video" class="fa fa-video-camera text-danger" aria-hidden="true"></i>
                 </button>
             </div>
         </div>
@@ -108,7 +119,7 @@
                 var streamConstraints = {
                     "audio": true,
                     "video": {
-                        "mandatory": { "maxWidth": "320", "maxHeight": "240", "maxFrameRate": "25" },
+                        "mandatory": { "maxWidth": "640", "maxHeight": "480", "maxFrameRate": "25" },
                         "optional": []
                     }
                 };
@@ -124,6 +135,37 @@
                 this.stream = stream;
                 this.video = true;
                 this.audio = true;
+
+                window.AudioContext = window.AudioContext || window.webkitAudioContext;
+                var audioContext = new AudioContext();
+                var microphone = audioContext.createMediaStreamSource(stream);
+                var javascriptNode = audioContext.createScriptProcessor(1024, 1, 1);
+                var max_level_L = 0;
+                var old_level_L = 0;
+                var cnvs = document.getElementById("micro");
+                var cnvs_cntxt = cnvs.getContext("2d");
+
+                microphone.connect(javascriptNode);
+                javascriptNode.connect(audioContext.destination);
+                javascriptNode.onaudioprocess = function(event){
+
+                    var inpt_L = event.inputBuffer.getChannelData(0);
+                    var instant_L = 0.0;
+
+                    var sum_L = 0.0;
+                    for(var i = 0; i < inpt_L.length; ++i) {
+                        sum_L += inpt_L[i] * inpt_L[i];
+                    }
+                    instant_L = Math.sqrt(sum_L / inpt_L.length);
+                    max_level_L = Math.max(max_level_L, instant_L);
+                    instant_L = Math.max( instant_L, old_level_L -0.008 );
+                    old_level_L = instant_L;
+
+                    cnvs_cntxt.clearRect(0, 0, cnvs.width, cnvs.height);
+                    cnvs_cntxt.fillStyle = '#00ff00';
+                    cnvs_cntxt.fillRect(10,10,(cnvs.width-20)*(instant_L/max_level_L),(cnvs.height-20)); // x,y,w,h
+
+                }
             },
             getMediaStreamError: function (error) {
                 console.error('Could\'t get user media stream: ' + error);
@@ -287,6 +329,9 @@
                     var container = vm.$el.querySelector(".messages");
                     container.scrollTop = container.scrollHeight;
                 }, 100);
+            },
+            showFriendList: function () {
+                this.$emit('friends');
             },
         },
     }
