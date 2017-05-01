@@ -35,17 +35,23 @@
         </div>
 
         <div class="chat-container">
-            <div class="messages-container">
-                <ul class="messages">
-                    <li v-for="message in messages" :class="isMy(message.user.id)">
-                        <img :src="message.user.photo_mini" alt="" class="avatar">
-                        <div class="text_wrapper">
-                            <div class="text">
-                                {{message.text}}
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+            <div class="messages-container panel-body msg_container_base">
+
+                <div v-for="message in messages" class="row msg_container" v-bind:class="{ 'base_sent': isMy(message.user.id), 'base_receive': !isMy(message.user.id) }">
+                    <div v-if="!isMy(message.user.id)" class="avatar">
+                        <img :src="message.user.photo_mini" class=" img-responsive ">
+                    </div>
+                    <div class="messages" v-bind:class="{ 'msg_sent': isMy(message.user.id), 'msg_receive': !isMy(message.user.id) }">
+                        <p>
+                            <label v-if="!isMy(message.user.id)">{{message.user.nickname}}:</label>
+                            {{message.text}}
+                        </p>
+                    </div>
+                    <div v-if="isMy(message.user.id)" class="avatar">
+                        <img :src="message.user.photo_mini" class=" img-responsive ">
+                    </div>
+                </div>
+
             </div>
             <div class="chat-input">
                 <div class="input-group">
@@ -317,16 +323,12 @@
 
             //helpers
             isMy: function (userId) {
-                if (this.userId == userId){
-                    return 'message right appeared';
-                } else {
-                    return 'message left appeared';
-                }
+                return (this.userId == userId);
             },
             scrollToEnd: function() {
                 var vm = this;
                 setTimeout(function(){
-                    var container = vm.$el.querySelector(".messages");
+                    var container = vm.$el.querySelector(".messages-container");
                     container.scrollTop = container.scrollHeight;
                 }, 100);
             },
