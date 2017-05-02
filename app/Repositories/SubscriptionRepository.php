@@ -10,6 +10,7 @@ namespace App\Repositories;
 
 
 use App\Models\Subscription;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
 class SubscriptionRepository implements \App\Interfaces\SubscriptionRepository
@@ -92,5 +93,23 @@ class SubscriptionRepository implements \App\Interfaces\SubscriptionRepository
     {
         Subscription::where('id', $id)->delete();
         return true;
+    }
+
+    /**
+     * return all friends of user
+     * friend - user's who has mutual subscription to this user
+     *
+     * @param $user_id
+     * @return Collection - of class Models\User
+     */
+    public function friends($user_id)
+    {
+        $subscriptions = (new SubscriptionRepository())->getByUser($user_id);
+        $subscribers = (new SubscriptionRepository())->getByTarget($user_id);
+        $friends = User::whereIn('id', $subscriptions->pluck('target_id'))
+            ->whereIn('id', $subscribers->pluck('user_id'))
+            ->get();
+
+        return $friends;
     }
 }

@@ -48,9 +48,7 @@ class RoomController extends Controller
      */
     public function join(Request $request, Room $room)
     {
-        //TODO: fix this, change subscriptions, on friends
-        $subs = $this->subscriptionRepository->getByUser(Auth::user()->id);
-        $friends = $subs->pluck('target');
+        $friends = $this->subscriptionRepository->friends(Auth::user()->id);
         return view('room.join')->with([
             'room' => $room,
             'friends' => $friends

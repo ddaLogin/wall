@@ -16,7 +16,7 @@
         <hr>
         <h3>All notifications</h3>
         <ul class="list-group">
-            @forelse($notifications as $notification)
+            @forelse($readNotifications as $notification)
                 @include('particles.notification', $notification)
             @empty
                 <h5 class="text-center text-warning">You have no notifications</h5>

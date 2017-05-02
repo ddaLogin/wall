@@ -13,7 +13,8 @@
                             <span v-html="user.searched_email"></span>
                         </a>
                     </li>
-                    <li v-if="!users" class="text-center text-warning">Users not found</li>
+                    <h3 v-if="loading"  class="text-center"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i></h3>
+                    <li v-if="!users && !loading" class="text-center text-warning">Users not found</li>
                     <li class="text-center">
                         <hr class="margin-0 padding-5">
                         <button v-on:click.stop="setType('post')" type="button" class="btn btn-primary btn-xs">go to posts</button>
@@ -30,7 +31,8 @@
                             <span v-html="post.searched_text"></span>
                         </a>
                     </li>
-                    <li v-if="!posts" class="text-center text-warning">Posts not found</li>
+                    <h3 v-if="loading"  class="text-center"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i></h3>
+                    <li v-if="!posts && !loading" class="text-center text-warning">Posts not found</li>
                     <li class="text-center">
                         <hr class="margin-0 padding-5">
                         <button v-on:click.stop="setType('user')" type="button" class="btn btn-primary btn-xs">go to users</button>

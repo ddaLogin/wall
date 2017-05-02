@@ -10,7 +10,6 @@ namespace App\Interfaces;
 
 
 use App\Models\Subscription;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
 interface SubscriptionRepository
@@ -57,4 +56,13 @@ interface SubscriptionRepository
      * @return boolean
      */
     public function delete($id);
+
+    /**
+     * return all friends of user
+     * friend - user's who has mutual subscription to this user
+     *
+     * @param $user_id
+     * @return Collection
+     */
+    public function friends($user_id);
 }
