@@ -8,6 +8,7 @@ use App\Repositories\PostRepository;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
@@ -47,6 +48,7 @@ class HomeController extends Controller
      */
     public function logout()
     {
+        Cache::forget('User::'.Auth::user()->id.'::status');
         Auth::logout();
         return redirect()->route('login');
     }

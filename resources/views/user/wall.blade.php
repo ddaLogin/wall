@@ -14,6 +14,9 @@
         <hr>
         <h4>{{$user->nickname}}</h4>
         <h4>{{$user->email}}</h4>
+        @if($user->status)
+            <label for="">Online</label>
+        @endif
         <hr>
         @if(!Auth::guest() && \Illuminate\Support\Facades\Auth::user()->can('subscribe', $user))
             <subscription-button subscribe-status="{{$user->subscribeByUser(Auth::user()->id)}}"

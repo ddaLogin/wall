@@ -6,6 +6,7 @@ use App\Interfaces\Validatable;
 use App\Repositories\SubscriptionRepository;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable implements Validatable
@@ -35,7 +36,7 @@ class User extends Authenticatable implements Validatable
      *
      * @var array
      */
-    protected $appends = ['link', 'photo_link', 'photo_link_mini'];
+    protected $appends = ['link', 'photo_link', 'photo_link_mini', 'status'];
 
     /**
      * ganarate url to user wall
@@ -66,6 +67,17 @@ class User extends Authenticatable implements Validatable
     {
         return $this->attributes['photo_link_mini'] = ($this->photo)?Storage::disk('public')->url($this->photo_mini):config('values.noPhotoMini');
     }
+
+    /**
+     * generate url to user photo
+     *
+     * @return bool
+     */
+    public function getStatusAttribute()
+    {
+        return $this->attributes['status'] = Cache::get('User::'.$this->id.'::status', false);
+    }
+
 
     public function subscribers()
     {

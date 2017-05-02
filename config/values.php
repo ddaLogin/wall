@@ -1,14 +1,20 @@
 <?php
 
 return [
+    'statusBufferTime' => 1,
+
     'noPhoto' => '/img/no_photo.png',
     'noPhotoMini' => '/img/no_photo_mini.png',
+
     'fullTextSearchLanguage' => 'english',
     'fastSearchLimit' => 7,
+
     'postShortTextWordCount' => 50,
+
     'home' => [
         'topPostsLimit' => 20
     ],
+
     'user' => [
         'wall' => [
             'tagsLimit' => 30,
@@ -19,6 +25,7 @@ return [
             'subscribersChunk' => 4,
         ],
     ],
+
     'feed' => [
         'postsLimit' => 20,
     ],
