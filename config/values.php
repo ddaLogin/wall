@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'statusBufferTime' => 1,
+    'statusBufferTime' => 5,
 
     'noPhoto' => '/img/no_photo.png',
     'noPhotoMini' => '/img/no_photo_mini.png',

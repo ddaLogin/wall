@@ -69,11 +69,11 @@
             <img v-if="!this.video"  :src="this.photo" class="stream-photo">
             <canvas id="micro" class="micro"></canvas>
             <div class="btn-group pull-right stream-control" role="group" aria-label="...">
-                <button v-on:click="soundToggle" type="button" class="btn btn-default btn-xs">
+                <button v-on:click="soundToggle" type="button" class="btn btn-default btn-xs" id="audio_controller">
                     <i v-if="this.audio" class="fa fa-microphone text-success" aria-hidden="true"></i>
                     <i v-if="!this.audio" class="fa fa-microphone-slash text-danger" aria-hidden="true"></i>
                 </button>
-                <button v-on:click="videoToggle" type="button" class="btn btn-default btn-xs ">
+                <button v-on:click="videoToggle" type="button" class="btn btn-default btn-xs" id="video_controller">
                     <i v-if="this.video" class="fa fa-video-camera text-success" aria-hidden="true"></i>
                     <i v-if="!this.video" class="fa fa-video-camera text-danger" aria-hidden="true"></i>
                 </button>
@@ -139,8 +139,19 @@
             getMediaStreamSuccess: function (stream) {
                 document.getElementById('stream').src = URL.createObjectURL(stream);
                 this.stream = stream;
-                this.video = true;
-                this.audio = true;
+                if (this.stream.getAudioTracks().length){
+                    this.audio = this.stream.getAudioTracks()[0].enabled;
+                } else {
+                    this.audio = false;
+                    document.getElementById('audio_controller').disabled = true;
+                }
+
+                if (this.stream.getVideoTracks().length){
+                    this.video = this.stream.getVideoTracks()[0].enabled;
+                } else {
+                    this.video = false;
+                    document.getElementById('video_controller').disabled = true;
+                }
 
                 window.AudioContext = window.AudioContext || window.webkitAudioContext;
                 var audioContext = new AudioContext();
@@ -180,12 +191,22 @@
                 this.streams.push(URL.createObjectURL(event.stream));
             },
             soundToggle: function () {
-                this.stream.getAudioTracks()[0].enabled = !(this.stream.getAudioTracks()[0].enabled);
-                this.audio = !this.audio;
+                if (this.stream.getAudioTracks().length) {
+                    this.stream.getAudioTracks()[0].enabled = !(this.stream.getAudioTracks()[0].enabled);
+                    this.audio = !this.audio;
+                } else {
+                    console.log('You microphone not found');
+                    document.getElementById('audio_controller').disabled = true;
+                }
             },
             videoToggle: function () {
-                this.stream.getVideoTracks()[0].enabled = !(this.stream.getVideoTracks()[0].enabled);
-                this.video = !this.video;
+                if (this.stream.getVideoTracks().length) {
+                    this.stream.getVideoTracks()[0].enabled = !(this.stream.getVideoTracks()[0].enabled);
+                    this.video = !this.video;
+                } else {
+                    console.log('You web camera not found');
+                    document.getElementById('video_controller').disabled = true;
+                }
             },
 
 
@@ -215,16 +236,17 @@
                     });
             },
             leave: function () {
-//                this.peers.forEach(function (item) {
-//                    item.connection.close();
-//                });
-//                this.connection = false;
-//                this.participants = {};
-//                this.connection= false;
-//                this.connecting= false;
-//                this.streams= [];
-//                this.participants= {};
-//                this.peers= {};
+                this.peers.forEach(function (item) {
+                    item.connection.close();
+                });
+                this.connection = false;
+                this.participants = {};
+                this.connection= false;
+                this.connecting= false;
+                this.streams= [];
+                this.participants= {};
+                this.peers= {};
+                window.location  = '/';
             },
             here: function (members) { //when we complete join, open peer
                 this.connection = true;

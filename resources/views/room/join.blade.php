@@ -23,8 +23,10 @@
                     <hr>
                     <ul class="list-group">
                         <li v-for="friend in filteredFriends" class="list-group-item">
-                            <a target="_blank" :href="friend.link">
+                            <a target="_blank" :href="friend.link" :class="{'online-2': friend.status}">
                                 <img class="photo-mini" :src="friend.photo_link_mini" alt="">
+                            </a>
+                            <a target="_blank" :href="friend.link">
                                 @{{friend.nickname}}
                             </a>
                             <button v-if="!friend.invited" v-on:click="invite(friend)" type="button" class="pull-right btn btn-primary btn-xs">
@@ -57,6 +59,7 @@
             computed: {
                 filteredFriends : function () {
                     var friends = this.friends;
+                    friends = _.orderBy(friends, ['status'], ['desc']);
                     var q = this.q.toLowerCase();
                     var data = [];
                     friends.forEach(function (element, index, array) {

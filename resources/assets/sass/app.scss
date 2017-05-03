@@ -13,6 +13,30 @@
 
 @import "conference";
 
+.online:after{
+  top: 2%;
+  left: 2%;
+  border: 2px solid #fff;
+  height: 12px;
+  width: 12px;
+  content: '';
+  position: absolute;
+  background-color: #8ac176;
+  border-radius: 50%;
+}
+
+.online-2:after{
+  top: 12%;
+  left: 1%;
+  border: 2px solid #fff;
+  height: 12px;
+  width: 12px;
+  content: '';
+  position: absolute;
+  background-color: #8ac176;
+  border-radius: 50%;
+}
+
 .search-dropdown-menu{
   left: auto !important;
 }
@@ -70,7 +94,7 @@ searched-word{
   width: 100%;
 }
 
-/** Element from bootsnipp http://bootsnipp.com/snippets/featured/google-plus-styled-post **/
+/** Post css, from  bootsnipp http://bootsnipp.com/snippets/featured/google-plus-styled-post **/
 .panel-google-plus {
   position: relative;
   border-radius: 0px;

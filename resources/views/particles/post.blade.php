@@ -15,10 +15,10 @@
                 </ul>
             </div>
         @endif
-        <div class="panel-heading">
+        <div class="panel-heading @if($post->author->status) online-2 @endif">
             <img class="photo-medium pull-left" src="{{($post->author->photo_mini)?Storage::disk('public')->url($post->author->photo_mini):config('values.noPhoto')}}" alt="" />
             <a href="{{route('user.wall', $post->author->nickname)}}">
-                <h3 class="margin-0">{{$post->author->nickname}}</h3>
+                <h4 class="margin-0">{{$post->author->nickname}}</h4>
             </a>
             <h5><span>Shared publicly</span> - <span>{{$post->created_at->diffForHumans()}}</span> </h5>
         </div>

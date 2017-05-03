@@ -17,7 +17,7 @@
             <div role="tabpanel" class="tab-pane" v-bind:class="{'active': isTabNeeded('#subscriptions')}"  id="subscriptions">
                 <ul class="list-group">
                     <li v-for="subscription in filteredSubscriptions" class="list-group-item">
-                        <a :href="subscription.target.link">
+                        <a :class="{'online-2': subscription.target.status}" :href="subscription.target.link">
                             <img class="photo-mini" :src="subscription.target.photo_link_mini" alt="">
                             {{subscription.target.nickname}}
                         </a>
@@ -29,7 +29,7 @@
             <div role="tabpanel" class="tab-pane" v-bind:class="{'active': isTabNeeded('#subscribers')}"  id="subscribers">
                 <ul class="list-group">
                     <li v-for="subscriber in filteredSubscribers" class="list-group-item">
-                        <a :href="subscriber.user.link">
+                        <a :class="{'online-2': subscriber.user.status}" :href="subscriber.user.link">
                             <img class="photo-mini" :src="subscriber.user.photo_link_mini" alt="">
                             {{subscriber.user.nickname}}
                         </a>
