@@ -24,7 +24,7 @@
 - [Run migration](https://laravel.com/docs/5.4/migrations#running-migrations) `php artisan migrate`
 - [Add link](https://laravel.com/docs/5.4/filesystem#the-public-disk) to storage directory `php artisan storage:link`
 - [Install](https://docs.npmjs.com/cli/install) js/css dependencies `sudo npm install`
-- [Run script](https://docs.npmjs.com/cli/run-script) to build js/css files `sudo npm run production'
+- [Run script](https://docs.npmjs.com/cli/run-script) to build js/css files `sudo npm run production`
 - Install [Laravel Echo Server](https://github.com/tlaverdure/laravel-echo-server) ,then init it and run.
 
 You can use [seeds](https://laravel.com/docs/5.4/seeding#running-seeders) for seeding your database with test data, after that you can use default account
