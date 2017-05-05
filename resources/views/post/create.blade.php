@@ -46,38 +46,40 @@
 
 @section('js')
     <script>
+        $('document').ready(function () {
+            $('#tagsinput').tagsinput({
+                freeInput: true,
+                maxTags: 10,
+                maxChars: 15,
+                tagClass: 'label label-primary',
+                itemText: function(item) {
+                    var tag = item.replace(new RegExp('#', 'g'), '');
+                    return '#'+tag;
+                }
+            });
 
-        $('#tagsinput').tagsinput({
-            freeInput: true,
-            maxTags: 10,
-            maxChars: 15,
-            tagClass: 'label label-primary',
-            itemText: function(item) {
-                var tag = item.replace(new RegExp('#', 'g'), '');
-                return '#'+tag;
+            //TODO: this event doesn't work
+            $('#tagsinput').on('itemAddedOnInit', function(event) {
+                tagAdd(event.item);
+            });
+
+            $('#tagsinput').on('itemAdded', function(event) {
+                tagAdd(event.item);
+            });
+
+            $('#tagsinput').on('itemRemoved', function(event) {
+                tagRemove(event.item);
+            });
+
+            function tagAdd(tag) {
+                var id = 'tag_'+tag.replace(new RegExp(' ', 'g'), '_');
+                $("#tag-container").append('<input id="'+id+'" type="text" name="tags[]" value="'+tag+'"/>');
+            }
+
+            function tagRemove(tag) {
+                var id = 'tag_'+tag.replace(new RegExp(' ', 'g'), '_');
+                $("#"+id).remove();
             }
         });
-
-        $('#tagsinput').on('itemAddedOnInit', function(event) {
-            tagAdd(event.item);
-        });
-
-        $('#tagsinput').on('itemAdded', function(event) {
-            tagAdd(event.item);
-        });
-
-        $('#tagsinput').on('itemRemoved', function(event) {
-            tagRemove(event.item);
-        });
-
-        function tagAdd(tag) {
-            var id = 'tag_'+tag.replace(new RegExp(' ', 'g'), '_');
-            $("#tag-container").append('<input id="'+id+'" type="text" name="tags[]" value="'+tag+'"/>');
-        }
-
-        function tagRemove(tag) {
-            var id = 'tag_'+tag.replace(new RegExp(' ', 'g'), '_');
-            $("#"+id).remove();
-        }
     </script>
 @endsection

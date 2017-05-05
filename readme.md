@@ -30,14 +30,14 @@ How to make all of this, you can read in [documentation of npm](https://docs.npm
 
 ###### Web Sockets
 
-For the operation of sockets, you should install [Laravel Echo Server](https://github.com/tlaverdure/laravel-echo-server), after installing you should run it from project directory.
+For the operation of sockets, you should install [Laravel Echo Server](https://github.com/tlaverdure/laravel-echo-server), after installing you should init and run it from project directory.
 Also for the operation of sockets is required to be installed [Redis](https://redis.io/) and the [app must be configured](https://laravel.com/docs/5.4/redis#configuration) to work with it.
 
 ---
 
 ###### Conference 
 
-Conference based on [WebRTC](https://webrtc.org/) technology by Google. It used only on client machine, and you don't need additional server-side elements, but app must run with [https](https://en.wikipedia.org/wiki/HTTPS) protocol. To make this you will needed [SSL](https://www.globalsign.com/en/ssl-information-center/what-is-an-ssl-certificate/) certificate, you can buy real certificate, or [generate fake certificate](http://www.akadia.com/services/ssh_test_certificate.html)  or you can use mine fake certificate, from root of this repository, [Laravel Echo Server](https://github.com/tlaverdure/laravel-echo-server) also  must use https protocol with SSL certificate, my echo config alredy have link to mine fake certificate and ready to work on https. For conferences you must use Google Chrome , in the future i make conference to mozila.
+Conference based on [WebRTC](https://webrtc.org/) technology by Google. It used only on client machine, and you don't need additional server-side elements, but app must run with [https](https://en.wikipedia.org/wiki/HTTPS) protocol. To make this you will needed [SSL](https://www.globalsign.com/en/ssl-information-center/what-is-an-ssl-certificate/) certificate, you can buy real certificate, or [generate fake certificate](http://www.akadia.com/services/ssh_test_certificate.html)  or you can use mine fake certificate, from root of this repository, [Laravel Echo Server](https://github.com/tlaverdure/laravel-echo-server) also  must use https protocol with SSL certificate. For conferences you must use Google Chrome , in the future i make conference to mozila.
 
 ---
 

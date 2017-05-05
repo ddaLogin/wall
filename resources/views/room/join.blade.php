@@ -48,7 +48,7 @@
     </div>
 @endsection
 
-@section('js')
+@section('vue-js')
     <script>
         window.mix = {
             data: {
