@@ -11,7 +11,8 @@
             </button>
 
             <div v-if="connection" v-for="stream in streams" class="stream">
-                <video class="stream" id="remoteStream" :src="stream" controls autoplay="true"></video>
+                <video class="stream" id="remoteStream" :src="stream.stream" controls autoplay="true"></video>
+                <h4 class="text-center nickname text-primary">{{stream.user.nickname}}</h4>
             </div>
         </div>
 
@@ -188,14 +189,34 @@
                 console.error('Could\'t get user media stream: ' + error);
             },
             onRemoteStream: function (event) {
-                this.streams.push(URL.createObjectURL(event.stream));
+                var stream = URL.createObjectURL(event.stream);
+                var video = (event.stream.getVideoTracks().length)?event.stream.getVideoTracks()[0].enabled:false;
+                var user;
+
+                _.forEach(this.peers, function(value, key) {
+                    if (event.target == value.connection){
+                        user = value.targetUser;
+                    }
+                });
+
+                _.forEach(this.participants, function(value, key) {
+                    if (user == value.id){
+                        user = value;
+                    }
+                });
+
+                this.streams.push({
+                    stream:stream,
+                    user:user,
+                    video:video
+                });
             },
             soundToggle: function () {
                 if (this.stream.getAudioTracks().length) {
                     this.stream.getAudioTracks()[0].enabled = !(this.stream.getAudioTracks()[0].enabled);
                     this.audio = !this.audio;
                 } else {
-                    console.log('You microphone not found');
+                    console.log('Your microphone not found');
                     document.getElementById('audio_controller').disabled = true;
                 }
             },
@@ -204,7 +225,7 @@
                     this.stream.getVideoTracks()[0].enabled = !(this.stream.getVideoTracks()[0].enabled);
                     this.video = !this.video;
                 } else {
-                    console.log('You web camera not found');
+                    console.log('Your web camera not found');
                     document.getElementById('video_controller').disabled = true;
                 }
             },
@@ -236,8 +257,8 @@
                     });
             },
             leave: function () {
-                this.peers.forEach(function (item) {
-                    item.connection.close();
+                _.forEach(this.peers, function(value, key) {
+                    value.connection.close();
                 });
                 this.connection = false;
                 this.participants = {};

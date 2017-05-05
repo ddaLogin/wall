@@ -20,7 +20,7 @@
                     {{csrf_field()}}
                     <div class="form-group">
                         <label>Tags for search</label><br>
-                        <input id="tagsinput" placeholder="enter tag" class="col-md-12" type="text" value="{{(old('tags'))?implode(',', old('tags')):($post->exists)?implode(',', $post->tags):''}}" />
+                        <input id="tagsinput" placeholder="enter tag" class="col-md-12" type="text"/>
                         <div id="tag-container" class="hidden"></div>
                     </div>
                     <hr>
@@ -58,11 +58,6 @@
                 }
             });
 
-            //TODO: this event doesn't work
-            $('#tagsinput').on('itemAddedOnInit', function(event) {
-                tagAdd(event.item);
-            });
-
             $('#tagsinput').on('itemAdded', function(event) {
                 tagAdd(event.item);
             });
@@ -70,6 +65,16 @@
             $('#tagsinput').on('itemRemoved', function(event) {
                 tagRemove(event.item);
             });
+
+            @if(old('tags'))
+                @foreach(old('tags') as $tag)
+                    $('#tagsinput').tagsinput('add', '{{$tag}}');
+                @endforeach
+            @elseif($post->exists)
+                @foreach($post->tags as $tag)
+                    $('#tagsinput').tagsinput('add', '{{$tag}}');
+                @endforeach
+            @endif
 
             function tagAdd(tag) {
                 var id = 'tag_'+tag.replace(new RegExp(' ', 'g'), '_');

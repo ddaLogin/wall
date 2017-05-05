@@ -1,4 +1,4 @@
-<p align="center"><img src="https://s8.hostingkartinok.com/uploads/images/2017/05/27bb4b850fc5a3d90fbc14838eda8591.png"></p>
+<p align="center"><img src="./resource/assets/img/logo.png"></p>
 
 ## About "Wall"
 "Wall" is a simple social portal. Where users can:

@@ -13,6 +13,15 @@
   bottom: 0;
   width: 240px;
   height: 240px;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  background-color: black;
+}
+
+.nickname{
+  position: relative;
+  top: -100%;
+  margin: 0;
 }
 
 .stream{

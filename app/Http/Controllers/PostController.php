@@ -39,7 +39,7 @@ class PostController extends Controller
         }
 
         $post = $postService->publish($request);
-        return redirect()->route('user.wall', ['nickname' => Auth::user()->nickname]);
+        return redirect()->route('post.show', $post);
     }
 
     /**
@@ -72,7 +72,8 @@ class PostController extends Controller
         }
 
         $post = $postService->update($post, $request);
-        return redirect()->route('user.wall', ['nickname' => Auth::user()->nickname]);
+        return redirect()->route('post.show', $post);
+
     }
 
     /**
