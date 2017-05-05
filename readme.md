@@ -19,25 +19,31 @@
 - For web socket, used [Laravel Echo Server](https://github.com/tlaverdure/laravel-echo-server) with [Node.js](https://nodejs.org/en/) and [Redis](https://redis.io/)
 - For conferences, used [WebRTC](https://webrtc.org/) technology by Google
 
-####Technical details and about deploy
+#### Technical details and about deploy
 
-######Frontend tools
+###### Frontend tools
 
 For that would build frontend part, you need use [npm](https://www.npmjs.com/) tool, for download all javascript dependencies, and then run script "production" to build js and css code.
 How to make all of this, you can read in [documentation of npm](https://docs.npmjs.com/)
 
 ---
 
-######Web Sockets
+###### Web Sockets
 
 For the operation of sockets, you should install [Laravel Echo Server](https://github.com/tlaverdure/laravel-echo-server), after installing you should run it from project directory.
 Also for the operation of sockets is required to be installed [Redis](https://redis.io/) and the [app must be configured](https://laravel.com/docs/5.4/redis#configuration) to work with it.
 
 ---
 
-######Conference 
+###### Conference 
 
 Conference based on [WebRTC](https://webrtc.org/) technology by Google. It used only on client machine, and you don't need additional server-side elements, but app must run with [https](https://en.wikipedia.org/wiki/HTTPS) protocol. To make this you will needed [SSL](https://www.globalsign.com/en/ssl-information-center/what-is-an-ssl-certificate/) certificate, you can buy real certificate, or [generate fake certificate](http://www.akadia.com/services/ssh_test_certificate.html)  or you can use mine fake certificate, from root of this repository, [Laravel Echo Server](https://github.com/tlaverdure/laravel-echo-server) also  must use https protocol with SSL certificate, my echo config alredy have link to mine fake certificate and ready to work on https. For conferences you must use Google Chrome , in the future i make conference to mozila.
+
+---
+
+###### Search
+
+Search on site based on [Full Text Search by PostgreSQL](https://www.postgresql.org/docs/9.5/static/textsearch.html) database
 
 ---
 <small>This app was made only for portfolio, you can't watch it in the web.</small>
