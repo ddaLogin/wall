@@ -35,6 +35,13 @@ You can use [seeds](https://laravel.com/docs/5.4/seeding#running-seeders) for se
 
 Also all default users, except admin, have password `secret`
 
+## Testing
+For testing you should create second pgsql database, and after that set db name in phpunit.xml.
+
+Default db name set as `wall_test`.
+
+`<env name="DB_DATABASE" value="wall_test"/>`
+
 ---
 
 For use all site's abilities like **html5 notification** or **WebRTC conference** , you must use [https](https://en.wikipedia.org/wiki/HTTPS) for site and Laravel Echo Server
