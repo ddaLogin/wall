@@ -7,7 +7,7 @@ use App\Models\Post;
 use App\Services\PostService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\Finder\Exception\AccessDeniedException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class PostController extends Controller
 {
@@ -18,10 +18,6 @@ class PostController extends Controller
      */
     public function create()
     {
-        if(Auth::guest() || !Auth::user()->can('create', new Post())){
-            throw new AccessDeniedException("Could not create post");
-        }
-
         return view('post.create')->with(['post' => new Post()]);
     }
 
@@ -34,10 +30,6 @@ class PostController extends Controller
      */
     public function store(PostStoreRequest $request, PostService $postService)
     {
-        if(Auth::guest() || !Auth::user()->can('create', new Post())){
-            throw new AccessDeniedException("Could not create post");
-        }
-
         $post = $postService->publish($request);
         return redirect()->route('post.show', $post);
     }
@@ -51,7 +43,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         if(Auth::guest() || !Auth::user()->can('update', $post)){
-            throw new AccessDeniedException("Could not update post - {$post->id}");
+            throw new AccessDeniedHttpException("Could not update post - {$post->id}");
         }
 
         return view('post.create')->with(['post' => $post]);
@@ -68,7 +60,7 @@ class PostController extends Controller
     public function update(PostStoreRequest $request, Post $post, PostService $postService)
     {
         if(Auth::guest() || !Auth::user()->can('update', $post)){
-            throw new AccessDeniedException("Could not update post - {$post->id}");
+            throw new AccessDeniedHttpException("Could not update post - {$post->id}");
         }
 
         $post = $postService->update($post, $request);

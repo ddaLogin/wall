@@ -14,13 +14,9 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     static $password;
-    $photo = $faker->image(storage_path('app/public/photos'), 500, 500, null, false);
-    $photo = ($photo)?'photos/'.$photo:null;
     return [
         'nickname' => $faker->unique()->firstName,
         'email' => $faker->unique()->safeEmail,
-        'photo' => $photo,
-        'photo_mini' => $photo,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
     ];

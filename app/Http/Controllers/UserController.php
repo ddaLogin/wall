@@ -12,6 +12,8 @@ use App\Services\PostService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class UserController extends Controller
 {
@@ -41,7 +43,10 @@ class UserController extends Controller
      */
     public function wall(Request $request, $nickname)
     {
-        $user = $this->userRepository->getByNickname($nickname);
+        if (!$user = $this->userRepository->getByNickname($nickname)) {
+            throw new NotFoundHttpException('Could not find user by nickname: '.$nickname);
+        }
+
         $posts = $this->postRepository->getByAuthorId($user->id, config('values.user.wall.postsLimit'));
 
         return view('user.wall')->with([
