@@ -2,11 +2,11 @@
 <?php /** @var \Illuminate\Database\Eloquent\Collection $posts */ ?>
 @extends('layouts.main')
 
-@section('title', 'Feed')
+@section('title', __('content.user.feed.title'))
 
 @section('content')
     <div class="container">
-        <h3>Feed</h3>
+        <h3>@lang('content.user.feed.header')</h3>
         <hr>
         @foreach($posts as $post)
             @include('particles.post', $post)

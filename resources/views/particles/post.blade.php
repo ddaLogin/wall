@@ -7,11 +7,7 @@
                 <span class="glyphicon glyphicon-chevron-down"></span>
             </span>
                 <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{route('post.edit', $post->id)}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-                    <li role="presentation" class="divider"></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+                    <li><a href="{{route('post.edit', $post->id)}}"><i class="fa fa-pencil" aria-hidden="true"></i> @lang('content.particles.post.edit')</a></li>
                 </ul>
             </div>
         @endif
@@ -20,7 +16,7 @@
             <a href="{{route('user.wall', $post->author->nickname)}}">
                 <h4 class="margin-0">{{$post->author->nickname}}</h4>
             </a>
-            <h5><span>Shared publicly</span> - <span>{{$post->created_at->diffForHumans()}}</span> </h5>
+            <h5><span>@lang('content.particles.post.publishDate')</span> - <span>{{$post->created_at->diffForHumans()}}</span> </h5>
         </div>
         <hr class="margin-0 padding-0">
         <div class="panel-body margin-top-5">
@@ -32,7 +28,7 @@
                 @else
                     <p>{{$post->cutByWords($post->text, config('values.postShortTextWordCount'))}}</p>
                 @endif
-                <h5 class="text-right padding-0 margin-0"><a href="{{route('post.show', $post->id)}}">view post</a></h5>
+                <h5 class="text-right padding-0 margin-0"><a href="{{route('post.show', $post->id)}}">@lang('content.particles.post.view')</a></h5>
             @endif
         </div>
         <hr class="margin-0 padding-0">

@@ -4,11 +4,11 @@
 <?php /** @var \App\Models\Subscription $subscription */ ?>
 @extends('layouts.main')
 
-@section('title', 'Subscriptions')
+@section('title', __('content.user.subscriptions.title'))
 
 @section('content')
     <div class="container">
-        <h3 class="text-center">Subscriptions</h3>
+        <h3 class="text-center">@lang('content.user.subscriptions.header')</h3>
         <subscriptions-table :subscriptions="{{json_encode($subscriptions)}}" :subscribers="{{json_encode($subscribers)}}"></subscriptions-table>
     </div>
 @endsection

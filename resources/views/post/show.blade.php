@@ -1,7 +1,7 @@
 <?php /** @var \App\Models\Post $post */ ?>
 @extends('layouts.main')
 
-@section('title', 'Post view')
+@section('title', __('content.post.show.title'))
 
 @section('content')
     <div class="container">

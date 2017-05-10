@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Wall conference')
+@section('title', __('content.room.join.title'))
 
 @section('body')
     <conference-container v-on:friends="showFriendList" room-link="{{$room->link}}" photo="{{Auth::user()->photo_link}}"></conference-container>
@@ -11,7 +11,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="friendsListLabel">Invite to conference</h4>
+                    <h4 class="modal-title" id="friendsListLabel">@lang('content.room.join.inviteHeader')</h4>
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal">
@@ -31,17 +31,17 @@
                             </a>
                             <button v-if="!friend.invited" v-on:click="invite(friend)" type="button" class="pull-right btn btn-primary btn-xs">
                                 <i class="fa fa-user-plus" aria-hidden="true"></i>
-                                Invite
+                                @lang('content.room.join.invite')
                             </button>
                             <button v-if="friend.invited" type="button" class="pull-right btn btn-success btn-xs">
                                 <i class="fa fa-check" aria-hidden="true"></i>
-                                Invited
+                                @lang('content.room.join.invited')
                             </button>
                         </li>
                     </ul>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">@lang('content.room.join.cancel')</button>
                 </div>
             </div>
         </div>

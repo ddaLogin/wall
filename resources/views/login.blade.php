@@ -1,12 +1,12 @@
 @extends('layouts.main')
 
-@section('title', 'Log in')
+@section('title', __('content.login.title'))
 
 @section('content')
     <div class="col col-md-6 col-md-offset-3">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-sign-in" aria-hidden="true"></i> Authentication</h3>
+                <h3 class="panel-title"><i class="fa fa-sign-in" aria-hidden="true"></i> @lang('content.login.header')</h3>
             </div>
             <div class="panel-body">
                 <form action="{{route('authenticate')}}" method="post">
@@ -20,23 +20,22 @@
                     @endif
 
                     <div class="form-group">
-                        <label class="control-label">Email address</label>
+                        <label class="control-label">@lang('content.login.email')</label>
                         <input type="email" name="email" class="form-control" value="{{old('email')}}">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Password</label>
+                        <label class="control-label">@lang('content.login.password')</label>
                         <input type="password" name="password" class="form-control">
                     </div>
 
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="remember"> Remember me
+                            <input type="checkbox" name="remember"> @lang('content.login.rememberMe')
                         </label>
                     </div>
 
-                    <div class="form-group row">
-                        <div class="col-md-6"><button type="submit" class="btn btn-success"><i class="fa fa-sign-in" aria-hidden="true"></i> Log In</button></div>
-                        <div class="col-md-6 text-right"><a class="btn btn-primary" href="{{route('signup')}}"><i class="fa fa-user-plus" aria-hidden="true"></i> Sing Up</a></div>
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-success"><i class="fa fa-sign-in" aria-hidden="true"></i> @lang('content.login.login')</button>
                     </div>
                 </form>
             </div>

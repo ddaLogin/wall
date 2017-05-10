@@ -92,8 +92,8 @@ class HomeControllerTest extends TestCase
         $response = $this->get(route('search', ['q' => 'some text for test search']));
 
         $response->assertStatus(200);
-        $response->assertSee('Posts not found');
-        $response->assertSee('Users not found');
+        $response->assertSee(__('content.search.postNotFound'));
+        $response->assertSee(__('content.search.userNotFound'));
     }
 
     public function testSearchPost()
@@ -109,7 +109,7 @@ class HomeControllerTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee($q);
-        $response->assertDontSee('Posts not found');
+        $response->assertDontSee(__('content.search.postNotFound'));
     }
 
     public function testSearchUser()
@@ -120,6 +120,6 @@ class HomeControllerTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee($q);
-        $response->assertDontSee('Users not found');
+        $response->assertDontSee(__('content.search.userNotFound'));
     }
 }

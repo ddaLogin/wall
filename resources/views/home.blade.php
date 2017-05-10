@@ -2,11 +2,11 @@
 <?php /** @var \App\Models\Post $post */ ?>
 @extends('layouts.main')
 
-@section('title', 'Welcome')
+@section('title', __('content.home.title'))
 
 @section('content')
     <div class="container">
-        <h3>Top posts on the week</h3>
+        <h3>@lang('content.home.header')</h3>
         <hr>
         @foreach($posts as $post)
             @include('particles.post', $post)

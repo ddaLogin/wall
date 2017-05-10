@@ -1,18 +1,18 @@
 <?php /** @var App\Models\User $user */ ?>
 @extends('layouts.main')
 
-@section('title', 'Settings')
+@section('title', __('content.user.settings.title'))
 
 @section('content')
     <div class="container">
         <div class="col col-md-8">
             <form class="form-horizontal" action="{{route('user.settings.change.mail')}}" method="post">
-                <h4 class="text-center">Change E-mail</h4>
+                <h4 class="text-center">@lang('content.user.settings.changeMailHeader')</h4>
 
                 {{csrf_field()}}
 
                 <div class="form-group @if($errors->has('email')) has-error @endif">
-                    <label>Enter your new E-mail address</label>
+                    <label>@lang('content.user.settings.changeMailEmail')</label>
                     <div class="input-group">
                     <span class="input-group-addon">
                         <i class="fa fa-envelope-o" aria-hidden="true"></i>
@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="form-group @if($errors->has('password')) has-error @endif">
-                    <label>Enter your password</label>
+                    <label>@lang('content.user.settings.changeMailPassword')</label>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fa fa-lock" aria-hidden="true"></i>
@@ -36,18 +36,18 @@
                 <div class="form-group text-right">
                     <button class="btn btn-success" type="submit">
                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                        Save
+                        @lang('content.user.settings.changeMailSubmit')
                     </button>
                 </div>
             </form>
             <hr>
             <form class="form-horizontal" action="{{route('user.settings.change.password')}}" method="post">
-                <h4 class="text-center">Change password</h4>
+                <h4 class="text-center">@lang('content.user.settings.changePasswordHeader')</h4>
 
                 {{csrf_field()}}
 
                 <div class="form-group @if($errors->has('newPassword')) has-error @endif">
-                    <label>Enter your new password</label>
+                    <label>@lang('content.user.settings.changePasswordNewPassword')</label>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fa fa-unlock-alt" aria-hidden="true"></i>
@@ -58,7 +58,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Confirm your new password</label>
+                    <label>@lang('content.user.settings.changePasswordNewPasswordConfirm')</label>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fa fa-unlock-alt" aria-hidden="true"></i>
@@ -68,7 +68,7 @@
                 </div>
 
                 <div class="form-group @if($errors->has('currentPassword')) has-error @endif">
-                    <label>Enter your current password</label>
+                    <label>@lang('content.user.settings.changePasswordCurrentPassword')</label>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fa fa-lock" aria-hidden="true"></i>
@@ -81,7 +81,7 @@
                 <div class="form-group text-right">
                     <button class="btn btn-success" type="submit">
                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                        Save
+                        @lang('content.user.settings.changePasswordSubmit')
                     </button>
                 </div>
             </form>

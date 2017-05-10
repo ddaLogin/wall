@@ -24,7 +24,7 @@ class PostControllerTest extends TestCase
         $this->actingAs($user);
         $response = $this->get(route('post.create'));
         $response->assertStatus(200);
-        $response->assertSee('Create');
+        $response->assertSee(__('content.post.create.header'));
     }
 
     public function testStoreAuthFail()
@@ -95,7 +95,7 @@ class PostControllerTest extends TestCase
         $this->actingAs($user);
         $response = $this->get(route('post.edit', $post->id));
         $response->assertStatus(200);
-        $response->assertSee('Edit');
+        $response->assertSee(__('content.post.edit.header'));
     }
 
     public function testUpdateAuthFail()
