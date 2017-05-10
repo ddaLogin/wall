@@ -19,18 +19,8 @@ class PostPolicy
         //
     }
 
-    public function create(Models\User $user, Models\Post $post)
-    {
-        return ($user && $user->id);
-    }
-
     public function update(Models\User $user, Models\Post $post)
     {
         return ($user && $user->id == $post->author_id);
-    }
-
-    public function like(Models\User $user, Models\Post $post)
-    {
-        return ($user && $user->id);
     }
 }

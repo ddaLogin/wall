@@ -35,7 +35,6 @@ class Like extends Model implements Validatable
     public function rules()
     {
         return [
-            'user_id' => 'exists:users,id',
             'post_id' => 'required|exists:posts,id',
             'like' => 'required|boolean',
         ];

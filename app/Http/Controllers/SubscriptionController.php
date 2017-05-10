@@ -6,10 +6,8 @@ use App\Http\Requests\SubscriptionStoreRequest;
 use App\Repositories\SubscriptionRepository;
 use App\Repositories\UserRepository;
 use App\Services\SubscriptionService;
-use App\Services\UserService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\Finder\Exception\AccessDeniedException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class SubscriptionController extends Controller
 {
@@ -39,7 +37,7 @@ class SubscriptionController extends Controller
     {
         $targetUser = $this->userRepository->getById($request->input('target_id'));
         if(Auth::guest() || !Auth::user()->can('subscribe', $targetUser)){
-            throw new AccessDeniedException("Could not subscribe on {$targetUser->id}");
+            throw new AccessDeniedHttpException("Could not subscribe on {$targetUser->id}");
         }
 
         $subscription = $subscriptionService->toggleSubscription(Auth::user()->id, $request->input('target_id'));

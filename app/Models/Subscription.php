@@ -33,8 +33,7 @@ class Subscription extends Model implements Validatable
     public function rules()
     {
         return [
-            'user_id' => 'exists:users,id',
-            'target_id' => 'exists:users,id',
+            'target_id' => 'required|exists:users,id',
         ];
     }
 }

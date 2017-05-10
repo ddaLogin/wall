@@ -41,3 +41,12 @@ $factory->define(App\Models\Subscription::class, function (Faker\Generator $fake
         'target_id' => 2,
     ];
 });
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Models\Like::class, function (Faker\Generator $faker) {
+    return [
+        'user_id' => 1,
+        'post_id' => 1,
+        'like' => true,
+    ];
+});
