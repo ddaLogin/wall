@@ -83,4 +83,15 @@ class PostService
         $subscriptions = $this->subscriptionRepository->getByUser($user_id);
         return $this->postRepository->getByUsers($subscriptions->pluck('target_id'), $limit);
     }
+
+    /**
+     * return top of posts
+     *
+     * @param int $limit
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function topPosts($limit = 10)
+    {
+        return $this->postRepository->getTopPosts($limit);
+    }
 }

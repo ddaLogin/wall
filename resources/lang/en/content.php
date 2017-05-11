@@ -133,4 +133,12 @@ return [
             'cancel' => 'Cancel',
         ],
     ],
+
+    'errors' => [
+        '404' => [
+            'title' => 'Error',
+            'text' => 'Sorry, page <mark> :url </mark> doesn\'t exist!',
+            'link' => 'Try going to our homepage',
+        ],
+    ],
 ];

@@ -9,26 +9,18 @@ use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-    private $postRepository;
-
-    /**
-     * HomeController constructor.
-     * @param $postRepository
-     */
-    public function __construct(PostRepository $postRepository)
-    {
-        $this->postRepository = $postRepository;
-    }
-
     /**
      * return home page
+     * @param PostService $postService
+     * @return View
      */
-    public function index()
+    public function index(PostService $postService)
     {
-        $posts = $this->postRepository->getTopPosts(config('values.home.topPostsLimit'));
+        $posts = $postService->topPosts(config('values.home.topPostsLimit'));
         return view('home')->with([
             'posts' => $posts
         ]);
