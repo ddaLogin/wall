@@ -50,3 +50,10 @@ $factory->define(App\Models\Like::class, function (Faker\Generator $faker) {
         'like' => true,
     ];
 });
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+$factory->define(App\Models\Room::class, function (Faker\Generator $faker) {
+    return [
+        'link' => uniqid().uniqid()
+    ];
+});

@@ -75,6 +75,19 @@ class PostControllerTest extends TestCase
         $response->assertRedirect(route('login'));
     }
 
+    public function testEditNotFound()
+    {
+        $user = factory(Models\User::class)->create();
+
+        $this->actingAs($user);
+
+        $response = $this->get(route('post.edit', '-1'));
+        $response->assertStatus(404);
+        $response->assertSee(__('content.errors.404.text', [
+            'url' => route('post.edit', '-1')
+        ]));
+    }
+
     public function testEditAccessDenied()
     {
         $author = factory(Models\User::class)->create();
@@ -106,6 +119,19 @@ class PostControllerTest extends TestCase
         $response = $this->post(route('post.update', $post->id));
         $response->assertStatus(302);
         $response->assertRedirect(route('login'));
+    }
+
+    public function testUpdateNotFound()
+    {
+        $user = factory(Models\User::class)->create();
+
+        $this->actingAs($user);
+
+        $response = $this->post(route('post.update', '-1'));
+        $response->assertStatus(404);
+        $response->assertSee(__('content.errors.404.text', [
+            'url' => route('post.update', '-1')
+        ]));
     }
 
     public function testUpdateValidate()
@@ -169,6 +195,15 @@ class PostControllerTest extends TestCase
             'author_id' => $user->id,
             'text' => $post->text,
         ]);
+    }
+
+    public function testShowNotFound()
+    {
+        $response = $this->get(route('post.show', '-1'));
+        $response->assertStatus(404);
+        $response->assertSee(__('content.errors.404.text', [
+            'url' => route('post.show', '-1')
+        ]));
     }
 
     public function testShow()
