@@ -22,8 +22,8 @@ Route::get('/search', ['as' => 'search', 'uses' => 'HomeController@search']);
 Route::group(['middleware' => 'auth'], function (){
     Route::get('/post/create', ['as' => 'post.create', 'uses' => 'PostController@create']);
     Route::post('/post/store', ['as' => 'post.store', 'uses' => 'PostController@store']);
-    Route::get('/post/edit/{post}', ['as' => 'post.edit', 'uses' => 'PostController@edit']);
-    Route::post('/post/update/{post}', ['as' => 'post.update', 'uses' => 'PostController@update']);
+    Route::get('/post/edit/{post}', ['as' => 'post.edit', 'uses' => 'PostController@edit'])->where('post', '[0-9]+');
+    Route::post('/post/update/{post}', ['as' => 'post.update', 'uses' => 'PostController@update'])->where('post', '[0-9]+');
 
     Route::post('/like/toggle', ['as' => 'like.toggle', 'uses' => 'LikeController@toggle']);
 
@@ -43,5 +43,5 @@ Route::group(['middleware' => 'auth'], function (){
     Route::get('/room/{room}/invite/{user}', ['as' => 'room.invite', 'uses' => 'RoomController@invite']);
 });
 
-Route::get('/post/{post}', ['as' => 'post.show', 'uses' => 'PostController@show']);
+Route::get('/post/{post}', ['as' => 'post.show', 'uses' => 'PostController@show'])->where('post', '[0-9]+');
 Route::get('/{nickname}', ['as' => 'user.wall', 'uses' => 'UserController@wall']);

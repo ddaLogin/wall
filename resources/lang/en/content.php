@@ -140,5 +140,15 @@ return [
             'text' => 'Sorry, page <mark> :url </mark> doesn\'t exist!',
             'link' => 'Try going to our homepage',
         ],
+        '403' => [
+            'title' => 'Error',
+            'text' => 'You are not authorized to access this page',
+            'link' => 'Try going to our homepage',
+        ],
+        '500' => [
+            'title' => 'Error',
+            'text' => 'OOOPS!!! Something went wrong.',
+            'link' => 'Try going to our homepage',
+        ],
     ],
 ];

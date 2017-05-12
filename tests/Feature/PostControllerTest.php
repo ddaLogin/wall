@@ -98,6 +98,7 @@ class PostControllerTest extends TestCase
         $this->actingAs($user);
         $response = $this->get(route('post.edit', $post->id));
         $response->assertStatus(403);
+        $response->assertSee(__('content.errors.403.text'));
     }
 
     public function testEdit()
@@ -165,6 +166,7 @@ class PostControllerTest extends TestCase
             'text' => 'text for test post update method',
         ]);
         $response->assertStatus(403);
+        $response->assertSee(__('content.errors.403.text'));
         $this->assertDatabaseHas((new Models\Post())->getTable(), [
             'author_id' => $author->id,
             'text' => $post->text,
