@@ -38,44 +38,36 @@ class UserRepository implements \App\Interfaces\UserRepository
     }
 
     /**
-     * store new user
+     * store user
      *
      * @param $data
+     * @param null $user_id
      * @return User
      */
-    public function store($data)
+    public function store($data, $user_id = null)
     {
-        $user = new User($data);
-        $user->password = bcrypt($user->password);
+        $user = ($user_id)?$this->getById($user_id):new User($data);
+        $user->fill($data);
+
+        if (key_exists('password', $data)){
+            $user->password = bcrypt($data['password']);
+        }
+
+        if (key_exists('photo', $data)){
+            if ($user->photo != null) Storage::delete($user->photo);
+
+            $user->photo = $data['photo'];
+        }
+
+        if (key_exists('photo_mini', $data)){
+            if ($user->photo_mini != null) Storage::delete($user->photo_mini);
+
+            $user->photo_mini = $data['photo_mini'];
+        }
+
         $user->save();
 
         return $user;
-    }
-
-    /**
-     * update user photo
-     *
-     * @param $user_id
-     * @param $url
-     * @param $urlMini
-     * @return mixed
-     */
-    public function updatePhoto($user_id, $url, $urlMini)
-    {
-        $user = $this->getById($user_id);
-        if($user->photo != null){
-            Storage::delete($user->photo);
-        }
-
-        if($user->photo_mini != null){
-            Storage::delete($user->photo_mini);
-        }
-
-        $user->photo = $url;
-        $user->photo_mini = $urlMini;
-        $user->save();
-
-        return true;
     }
 
     /**
@@ -117,35 +109,5 @@ class UserRepository implements \App\Interfaces\UserRepository
         }
 
         return $query->get();
-    }
-
-    /**
-     * change user email
-     *
-     * @param $user_id
-     * @param $email
-     * @return mixed
-     */
-    public function changeMail($user_id, $email)
-    {
-        $user = $this->getById($user_id);
-        $user->email = $email;
-        $user->save();
-        return $user;
-    }
-
-    /**
-     * change user password
-     *
-     * @param $user_id
-     * @param $password
-     * @return mixed
-     */
-    public function changePassword($user_id, $password)
-    {
-        $user = $this->getById($user_id);
-        $user->password = bcrypt($password);
-        $user->save();
-        return $user;
     }
 }

@@ -31,12 +31,13 @@ interface UserRepository
     public function getByNickname($nickname);
 
     /**
-     * store new user
+     * store user
      *
      * @param $data
+     * @param null $user_id
      * @return User
      */
-    public function store($data);
+    public function store($data, $user_id = null);
 
     /**
      * search users by nickname or mails
@@ -46,32 +47,4 @@ interface UserRepository
      * @return Collection
      */
     public function search($q, $limit = null);
-
-    /**
-     * update user photo
-     *
-     * @param $user_id
-     * @param $url
-     * @param $urlMini
-     * @return mixed
-     */
-    public function updatePhoto($user_id, $url, $urlMini);
-
-    /**
-     * change user email
-     *
-     * @param $user_id
-     * @param $email
-     * @return mixed
-     */
-    public function changeMail($user_id, $email);
-
-    /**
-     * change user password
-     *
-     * @param $user_id
-     * @param $password
-     * @return mixed
-     */
-    public function changePassword($user_id, $password);
 }

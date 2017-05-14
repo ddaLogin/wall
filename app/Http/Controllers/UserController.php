@@ -132,7 +132,9 @@ class UserController extends Controller
             return redirect()->back()->withInput()->withErrors(['password' => 'Incorrect password']);
         }
 
-        $this->userRepository->changeMail(Auth::user()->id, $request->email);
+        $this->userRepository->store([
+            'email' => $request->email
+        ], Auth::user()->id);
 
         return redirect()->route('user.wall', Auth::user()->nickname);
     }
@@ -150,7 +152,9 @@ class UserController extends Controller
             return redirect()->back()->withInput()->withErrors(['currentPassword' => 'Incorrect password']);
         }
 
-        $this->userRepository->changePassword(Auth::user()->id, $request->input('newPassword'));
+        $this->userRepository->store([
+            'password' => $request->input('newPassword')
+        ], Auth::user()->id);
 
         return redirect()->route('logout');
     }

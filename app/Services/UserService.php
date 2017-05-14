@@ -78,7 +78,10 @@ class UserService
         $image->resize(100, 100);
         Storage::disk('public')->put($pathForMini, (string) $image->encode());
 
-        $this->userRepository->updatePhoto($user_id, $path, $pathForMini);
+        $this->userRepository->store([
+            'photo' => $path,
+            'photo_mini' => $pathForMini,
+        ], $user_id);
 
         return Storage::disk('public')->url($path);
     }

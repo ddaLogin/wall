@@ -19,7 +19,7 @@ class User extends Authenticatable implements Validatable
      * @var array
      */
     protected $fillable = [
-        'nickname', 'email', 'password', 'photo', 'photo_mini'
+        'nickname', 'email'
     ];
 
     /**
@@ -29,6 +29,15 @@ class User extends Authenticatable implements Validatable
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [
+        'password', 'photo', 'photo_mini'
     ];
 
     /**
