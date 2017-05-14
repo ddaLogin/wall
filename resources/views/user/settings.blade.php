@@ -87,7 +87,7 @@
             </form>
         </div>
         <div class="col col-md-3 col-md-offset-1">
-            <avatar-setter src="{{($user->photo)?Storage::disk('public')->url($user->photo):config('values.noPhoto')}}"></avatar-setter>
+            <avatar-setter upload-url="{{route('file.avatar')}}" src="{{($user->photo)?Storage::disk('public')->url($user->photo):config('values.noPhoto')}}"></avatar-setter>
         </div>
     </div>
 @endsection

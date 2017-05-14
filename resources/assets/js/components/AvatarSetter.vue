@@ -30,7 +30,7 @@
                 coordinate: null,
             }
         },
-        props: ['src'],
+        props: ['src', 'uploadUrl'],
         methods:  {
             photoChooseDialog: function () {
                 document.getElementById("photoInput").click();
@@ -61,7 +61,7 @@
                 data.append('y', Math.ceil(this.coordinate.y));
                 data.append('h', Math.ceil(this.coordinate.w));
                 data.append('w', Math.ceil(this.coordinate.w));
-                axios.post('/file/photo', data).then(this.photoUploadSuccess);
+                axios.post(this.uploadUrl, data).then(this.photoUploadSuccess);
             },
             photoUploadSuccess: function (response) {
                 this.photoSelected = false;

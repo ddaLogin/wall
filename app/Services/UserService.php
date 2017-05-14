@@ -12,6 +12,8 @@ namespace App\Services;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class UserService
 {
@@ -47,5 +49,37 @@ class UserService
     public function search($q, $limit)
     {
         return $this->userRepository->search($q, $limit);
+    }
+
+    /**
+     * upload, crop and save avatar
+     * return link to new avatar
+     *
+     * @param $file
+     * @param $cropInfo
+     * @param $user_id
+     * @return string
+     */
+    public function uploadAvatar($file, $cropInfo, $user_id)
+    {
+        $path = $file->hashName('photos');
+
+        //crop image
+        $image = Image::make($file);
+        $image->crop(
+            $cropInfo['w'], $cropInfo['h'],
+            $cropInfo['x'],  $cropInfo['y']
+        );
+        Storage::disk('public')->put($path, (string) $image->encode());
+
+        //make mini copy of photo
+        $path_parts = pathinfo($path);
+        $pathForMini = $path_parts['dirname'].'/'.$path_parts['filename'].'_mini.'.$path_parts['extension'];
+        $image->resize(100, 100);
+        Storage::disk('public')->put($pathForMini, (string) $image->encode());
+
+        $this->userRepository->updatePhoto($user_id, $path, $pathForMini);
+
+        return Storage::disk('public')->url($path);
     }
 }

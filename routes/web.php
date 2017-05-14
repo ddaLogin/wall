@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth'], function (){
     Route::get('/feed', ['as' => 'user.feed', 'uses' => 'UserController@feed']);
     Route::get('/notifications', ['as' => 'user.notifications', 'uses' => 'UserController@notifications']);
 
-    Route::post('/file/photo', ['as' => 'file.photo', 'uses' => 'FileController@photo']);
+    Route::post('/file/avatar', ['as' => 'file.avatar', 'uses' => 'FileController@avatar']);
 
     Route::get('/room/create', ['as' => 'room.create', 'uses' => 'RoomController@create']);
     Route::get('/room/{room}', ['as' => 'room.join', 'uses' => 'RoomController@join']);
