@@ -50,18 +50,14 @@ class UserRepository implements \App\Interfaces\UserRepository
         $user->fill($data);
 
         if (key_exists('password', $data)){
-            $user->password = bcrypt($data['password']);
+            $user->password = $data['password'];
         }
 
         if (key_exists('photo', $data)){
-            if ($user->photo != null) Storage::delete($user->photo);
-
             $user->photo = $data['photo'];
         }
 
         if (key_exists('photo_mini', $data)){
-            if ($user->photo_mini != null) Storage::delete($user->photo_mini);
-
             $user->photo_mini = $data['photo_mini'];
         }
 

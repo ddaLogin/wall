@@ -75,7 +75,7 @@ class HomeControllerTest extends TestCase
 
     public function testAuthenticate()
     {
-        $user = factory(Models\User::class)->create(['password' => bcrypt('secret')]);
+        $user = factory(Models\User::class)->create(['password' => 'secret']);
 
         $response = $this->post(route('authenticate'), [
             'email' => $user->email,

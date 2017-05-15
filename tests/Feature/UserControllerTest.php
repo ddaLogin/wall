@@ -130,7 +130,7 @@ class UserControllerTest extends TestCase
 
     public function testChangeMailPasswordValidate()
     {
-        $user = factory(Models\User::class)->create(['password' => bcrypt('secret')]);
+        $user = factory(Models\User::class)->create(['password' => 'secret']);
 
         $this->actingAs($user);
         $response = $this->post(route('user.settings.change.mail'),[
@@ -143,7 +143,7 @@ class UserControllerTest extends TestCase
 
     public function testChangeMail()
     {
-        $user = factory(Models\User::class)->create(['password' => bcrypt('secret')]);
+        $user = factory(Models\User::class)->create(['password' => 'secret']);
 
         $this->actingAs($user);
         $response = $this->post(route('user.settings.change.mail'),[
@@ -182,7 +182,7 @@ class UserControllerTest extends TestCase
 
     public function testChangePasswordPasswordValidate()
     {
-        $user = factory(Models\User::class)->create(['password' => bcrypt('secret')]);
+        $user = factory(Models\User::class)->create(['password' => 'secret']);
 
         $this->actingAs($user);
         $response = $this->post(route('user.settings.change.password'),[
@@ -196,7 +196,7 @@ class UserControllerTest extends TestCase
 
     public function testChangePassword()
     {
-        $user = factory(Models\User::class)->create(['password' => bcrypt('secret')]);
+        $user = factory(Models\User::class)->create(['password' => 'secret']);
 
         $this->actingAs($user);
         $response = $this->post(route('user.settings.change.password'),[

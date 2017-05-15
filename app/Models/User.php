@@ -87,6 +87,16 @@ class User extends Authenticatable implements Validatable
         return $this->attributes['status'] = Cache::get('User::'.$this->id.'::status', false);
     }
 
+    /**
+     * Set the password
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
 
     public function subscribers()
     {

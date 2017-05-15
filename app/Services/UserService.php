@@ -31,12 +31,12 @@ class UserService
     /**
      * Registration user
      *
-     * @param Request $request
+     * @param array $data
      * @return User
      */
-    public function registration(Request $request)
+    public function registration(array $data)
     {
-        return $this->userRepository->store($request->all());
+        return $this->userRepository->store($data);
     }
 
     /**
@@ -77,6 +77,10 @@ class UserService
         $pathForMini = $path_parts['dirname'].'/'.$path_parts['filename'].'_mini.'.$path_parts['extension'];
         $image->resize(100, 100);
         Storage::disk('public')->put($pathForMini, (string) $image->encode());
+
+        $user = $this->userRepository->getById($user_id);
+        Storage::disk('public')->delete($user->photo);
+        Storage::disk('public')->delete($user->photo_mini);
 
         $this->userRepository->store([
             'photo' => $path,

@@ -62,7 +62,7 @@ class HomeController extends Controller
      */
     public function registration(UserStoreRequest $request, UserService $userService)
     {
-        $userService->registration($request);
+        $userService->registration($request->only(['nickname', 'email', 'password']));
         return redirect()->route('login');
     }
 
