@@ -34,7 +34,7 @@
         <hr class="margin-0 padding-0">
         <div class="panel-footer">
             <div class="col col-md-3">
-                @if(!Auth::guest() && Auth::user()->can('like', $post))
+                @if(!Auth::guest())
                     <like like-status="{{$post->likeStatusByUser(Auth::user()->id)->getStatusLikeInt()}}"
                           like-count="{{$post->likes()->count()}}"
                           dislike-count="{{$post->dislikes()->count()}}"

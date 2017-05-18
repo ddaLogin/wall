@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models;
+use App\Repositories\UserRepository;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
@@ -64,7 +65,10 @@ class UserLiked extends Notification
             'post_id' => $this->post->id,
             'user_id' => $this->user->id,
             'icon' => $this->user->photo_link,
-            'text' => '<a href="'.route('user.wall', $this->user->nickname).'">'.$this->user->nickname.'</a> liked your <a href="'.route('post.show', $this->post->id).'">post</a>.'
+            'text' => __('notifications.App\Notifications\UserLiked', [
+                    'user' =>  '<a href="'.route('user.wall', $this->user->nickname).'">'.$this->user->nickname.'</a>',
+                    'post' =>  '<a href="'.route('post.show', $this->post->id).'">post</a>',
+                ]),
         ];
     }
 }

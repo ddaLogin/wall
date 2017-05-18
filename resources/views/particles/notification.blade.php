@@ -1,3 +1,4 @@
+<?php /** @var \Illuminate\Notifications\DatabaseNotification $notification */ ?>
 <li class="list-group-item">
     {!! $notification->data['text'] !!}
     <span class="pull-right">

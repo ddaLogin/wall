@@ -63,7 +63,10 @@ class InviteToRoom extends Notification
             'room_link' => $this->room->link,
             'user_id' => $this->user->id,
             'icon' => $this->user->photo_link,
-            'text' => '<a href="'.route('user.wall', $this->user->nickname).'">'.$this->user->nickname.'</a> invite you to <a href="'.route('room.join', $this->room->link).'">conference</a>.'
+            'text' => __('notifications.App\Notifications\InviteToRoom', [
+                'user' =>  '<a href="'.route('user.wall', $this->user->nickname).'">'.$this->user->nickname.'</a>',
+                'room' =>  '<a href="'.route('room.join', $this->room->link).'">conference</a>',
+            ]),
         ];
     }
 }
