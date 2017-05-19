@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Interfaces\Validatable;
-use App\Repositories\SubscriptionRepository;
+use App\Repositories\PgSqlSubscriptionRepository;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Cache;
@@ -111,7 +111,7 @@ class User extends Authenticatable implements Validatable
      */
     public function subscribeByUser($user_id)
     {
-        $subscriptionRepository = new SubscriptionRepository();
+        $subscriptionRepository = new PgSqlSubscriptionRepository();
         if ($subscriptionRepository->getByUserAndTarget($user_id, $this->id)) {
             return true;
         } else {

@@ -8,11 +8,11 @@
 
 namespace App\Services;
 
+use App\Interfaces\LikeRepository;
+use App\Interfaces\PostRepository;
+use App\Interfaces\UserRepository;
 use App\Notifications;
 use App\Models\Like;
-use App\Repositories\LikeRepository;
-use App\Repositories\PostRepository;
-use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Notification;
 
 class LikeService

@@ -16,14 +16,11 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 });
 
 Broadcast::channel('Room.{link}', function ($user, $link) {
-    $room = (new \App\Repositories\RoomRepository())->getByLink($link);
-    if($room){
-        return [
-            'id' => $user->id,
-            'nickname' => $user->nickname,
-            'link' => $user->link,
-            'photo' => $user->photo_link,
-            'photo_mini' => $user->photo_link_mini,
-        ];
-    }
+    return [
+        'id' => $user->id,
+        'nickname' => $user->nickname,
+        'link' => $user->link,
+        'photo' => $user->photo_link,
+        'photo_mini' => $user->photo_link_mini,
+    ];
 });

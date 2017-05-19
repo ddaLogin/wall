@@ -12,7 +12,7 @@ use App\Models\Post;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
-class PostRepository implements \App\Interfaces\PostRepository
+class PgSqlPostRepository implements \App\Interfaces\PostRepository
 {
     /**
      * return post by id

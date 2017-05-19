@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SubscriptionStoreRequest;
-use App\Repositories\SubscriptionRepository;
-use App\Repositories\UserRepository;
+use App\Interfaces\SubscriptionRepository;
+use App\Interfaces\UserRepository;
 use App\Services\SubscriptionService;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -18,7 +18,6 @@ class SubscriptionController extends Controller
      * SubscriptionController constructor.
      * @param SubscriptionRepository $subscriptionRepository
      * @param UserRepository $userRepository
-     * @internal param $subscription
      */
     public function __construct(SubscriptionRepository $subscriptionRepository, UserRepository $userRepository)
     {

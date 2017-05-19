@@ -8,9 +8,9 @@
 
 namespace App\Services;
 
+use App\Interfaces\SubscriptionRepository;
+use App\Interfaces\UserRepository;
 use App\Notifications;
-use App\Repositories\SubscriptionRepository;
-use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Notification;
 
 class SubscriptionService

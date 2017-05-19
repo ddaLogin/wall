@@ -13,7 +13,7 @@ use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
-class SubscriptionRepository implements \App\Interfaces\SubscriptionRepository
+class PgSqlSubscriptionRepository implements \App\Interfaces\SubscriptionRepository
 {
 
     /**
@@ -104,8 +104,8 @@ class SubscriptionRepository implements \App\Interfaces\SubscriptionRepository
      */
     public function friends($user_id)
     {
-        $subscriptions = (new SubscriptionRepository())->getByUser($user_id);
-        $subscribers = (new SubscriptionRepository())->getByTarget($user_id);
+        $subscriptions = (new PgSqlSubscriptionRepository())->getByUser($user_id);
+        $subscribers = (new PgSqlSubscriptionRepository())->getByTarget($user_id);
         $friends = User::whereIn('id', $subscriptions->pluck('target_id'))
             ->whereIn('id', $subscribers->pluck('user_id'))
             ->get();

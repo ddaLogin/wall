@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Interfaces\RoomRepository;
+use App\Interfaces\SubscriptionRepository;
 use App\Models\Room;
 use App\Models\User;
-use App\Repositories\RoomRepository;
-use App\Repositories\SubscriptionRepository;
 use App\Services\RoomService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

@@ -3,24 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PhotoUploadRequest;
-use App\Repositories\UserRepository;
 use App\Services\UserService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class FileController extends Controller
 {
-    private $userRepository;
-
-    /**
-     * FileController constructor.
-     * @param UserRepository $userRepository
-     */
-    public function __construct(UserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;
-    }
-
     /**
      * upload user avatar
      *

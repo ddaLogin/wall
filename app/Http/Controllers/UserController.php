@@ -4,16 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ChangeMailRequest;
 use App\Http\Requests\ChangePasswordRequest;
+use App\Interfaces\PostRepository;
+use App\Interfaces\SubscriptionRepository;
+use App\Interfaces\UserRepository;
 use App\Models\User;
-use App\Repositories\PostRepository;
-use App\Repositories\SubscriptionRepository;
-use App\Repositories\UserRepository;
 use App\Services\PostService;
-use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 class UserController extends Controller
 {

@@ -9,9 +9,8 @@
 namespace App\Services;
 
 
+use App\Interfaces\UserRepository;
 use App\Models\User;
-use App\Repositories\UserRepository;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 

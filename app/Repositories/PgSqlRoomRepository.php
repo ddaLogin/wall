@@ -12,7 +12,7 @@ use App\Models\Room;
 use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
-class RoomRepository implements \App\Interfaces\RoomRepository
+class PgSqlRoomRepository implements \App\Interfaces\RoomRepository
 {
 
     /**

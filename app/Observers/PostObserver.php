@@ -9,18 +9,28 @@
 namespace App\Observers;
 
 
+use App\Interfaces\PostRepository;
 use App\Models\Post;
-use App\Repositories\PostRepository;
 
 class PostObserver
 {
+    private $postRepository;
+    /**
+     * PostObserver constructor.
+     * @param PostRepository $postRepository
+     */
+    public function __construct(PostRepository $postRepository)
+    {
+        $this->postRepository = $postRepository;
+    }
+
     public function created(Post $post)
     {
-        (new PostRepository())->updateFullTextSearchField($post->id);
+        $this->postRepository->updateFullTextSearchField($post->id);
     }
 
     public function updated(Post $post)
     {
-        (new PostRepository())->updateFullTextSearchField($post->id);
+        $this->postRepository->updateFullTextSearchField($post->id);
     }
 }

@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models;
-use App\Repositories\RoomRepository;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 

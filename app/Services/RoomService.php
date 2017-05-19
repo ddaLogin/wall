@@ -8,10 +8,10 @@
 
 namespace App\Services;
 
+use App\Interfaces\RoomRepository;
 use App\Models\Room;
 use App\Models\User;
 use App\Notifications\InviteToRoom;
-use App\Repositories\RoomRepository;
 use Illuminate\Support\Facades\Notification;
 
 class RoomService

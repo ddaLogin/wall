@@ -9,13 +9,12 @@
 namespace App\Services;
 
 
+use App\Interfaces\PostRepository;
+use App\Interfaces\SubscriptionRepository;
+use App\Interfaces\UserRepository;
 use App\Models\Post;
-use App\Repositories\PostRepository;
-use App\Repositories\SubscriptionRepository;
-use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\Finder\Exception\AccessDeniedException;
 
 class PostService
 {

@@ -9,18 +9,29 @@
 namespace App\Observers;
 
 
+use App\Interfaces\UserRepository;
 use App\Models\User;
-use App\Repositories\UserRepository;
 
 class UserObserver
 {
+    private $userRepository;
+
+    /**
+     * UserObserver constructor.
+     * @param UserRepository $userRepository
+     */
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     public function created(User $user)
     {
-        (new UserRepository())->updateFullTextSearchField($user->id);
+        $this->userRepository->updateFullTextSearchField($user->id);
     }
 
     public function updated(User $user)
     {
-        (new UserRepository())->updateFullTextSearchField($user->id);
+        $this->userRepository->updateFullTextSearchField($user->id);
     }
 }

@@ -12,7 +12,7 @@ use App\Models\Like;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
-class LikeRepository implements \App\Interfaces\LikeRepository
+class PgSqlLikeRepository implements \App\Interfaces\LikeRepository
 {
 
     /**

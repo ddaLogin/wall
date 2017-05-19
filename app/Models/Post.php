@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Interfaces\Validatable;
-use App\Repositories\LikeRepository;
+use App\Repositories\PgSqlLikeRepository;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model implements Validatable
@@ -69,7 +69,7 @@ class Post extends Model implements Validatable
      */
     public function likeStatusByUser($user_id)
     {
-        $likeRepository = new LikeRepository();
+        $likeRepository = new PgSqlLikeRepository();
         $like = $likeRepository->getByUserAndPost($user_id, $this->id);
         if (isset($like)){
             return $like->like;

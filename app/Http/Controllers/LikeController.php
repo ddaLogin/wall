@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LikeToggleRequest;
-use App\Repositories\LikeRepository;
+use App\Interfaces\LikeRepository;
 use App\Services\LikeService;
 use Illuminate\Support\Facades\Auth;
 

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Interfaces;
 use App\Models\Post;
 use App\Models\User;
 use App\Observers\PostObserver;
@@ -28,6 +29,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(Interfaces\LikeRepository::class, config('repositories.LikeRepository'));
+        $this->app->bind(Interfaces\PostRepository::class, config('repositories.PostRepository'));
+        $this->app->bind(Interfaces\RoomRepository::class, config('repositories.RoomRepository'));
+        $this->app->bind(Interfaces\SubscriptionRepository::class, config('repositories.SubscriptionRepository'));
+        $this->app->bind(Interfaces\UserRepository::class, config('repositories.UserRepository'));
     }
 }
