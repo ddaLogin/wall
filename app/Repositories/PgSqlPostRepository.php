@@ -8,11 +8,12 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\PostRepository;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
-class PgSqlPostRepository implements \App\Interfaces\PostRepository
+class  PgSqlPostRepository implements PostRepository
 {
     /**
      * return post by id
@@ -69,39 +70,6 @@ class PgSqlPostRepository implements \App\Interfaces\PostRepository
     }
 
     /**
-     * search posts by text
-     *
-     * @param string $q
-     * @param int $limit
-     * @return Collection
-     */
-    public function search($q, $limit = null)
-    {
-        $language = config('values.fullTextSearchLanguage');
-        $minWordsCount = config('values.postShortTextWordCount');
-        $maxWordsCount = $minWordsCount + 2;
-        $q = str_replace(' ', ' & ', $q);
-        $query = Post::from(
-            DB::raw("
-                (SELECT posts.*, 
-                    ts_headline('{$language}', text,q,'StartSel=<searched-word>,StopSel=</searched-word>,MaxWords={$maxWordsCount},MinWords={$minWordsCount}') as searched_text, 
-                    ts_headline('{$language}', tags::text,q,'StartSel=<searched-word>,StopSel=</searched-word>') as searched_tags, 
-                    ts_rank_cd(searchable, q) as rank 
-                    FROM posts, to_tsquery('{$language}', '{$q}') as q 
-                    WHERE searchable @@ q
-                ) as search
-            ")
-        )->with('author')
-            ->orderBy('search.rank', 'desc');
-
-        if ($limit) {
-            $query = $query->take($limit);
-        }
-
-        return $query->get();
-    }
-
-    /**
      * get top posts for home page
      *
      *@param int $limit
@@ -135,17 +103,6 @@ class PgSqlPostRepository implements \App\Interfaces\PostRepository
         }
 
         return $query->get();
-    }
-
-    /**
-     * Update search field for Postgres Full Text Search system
-     *
-     * @param $post_id
-     */
-    public function updateFullTextSearchField($post_id)
-    {
-        $language = config('values.fullTextSearchLanguage');
-        DB::statement("UPDATE posts SET searchable = setweight(to_tsvector('{$language}', tags::text), 'B') ||' '|| setweight(to_tsvector('{$language}', text), 'D') WHERE id = {$post_id}");
     }
 
     /**

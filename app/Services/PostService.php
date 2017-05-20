@@ -10,6 +10,7 @@ namespace App\Services;
 
 
 use App\Interfaces\PostRepository;
+use App\Interfaces\SearchRepository;
 use App\Interfaces\SubscriptionRepository;
 use App\Interfaces\UserRepository;
 use App\Models\Post;
@@ -21,18 +22,21 @@ class PostService
     private $postRepository;
     private $userRepository;
     private $subscriptionRepository;
+    private $searchRepository;
 
     /**
      * PostService constructor.
      * @param PostRepository $postRepository
      * @param UserRepository $userRepository
      * @param SubscriptionRepository $subscriptionRepository
+     * @param SearchRepository $searchRepository
      */
-    public function __construct(PostRepository $postRepository, UserRepository $userRepository, SubscriptionRepository $subscriptionRepository)
+    public function __construct(PostRepository $postRepository, UserRepository $userRepository, SubscriptionRepository $subscriptionRepository, SearchRepository $searchRepository)
     {
         $this->postRepository = $postRepository;
         $this->userRepository = $userRepository;
         $this->subscriptionRepository = $subscriptionRepository;
+        $this->searchRepository = $searchRepository;
     }
 
     /**
@@ -67,7 +71,7 @@ class PostService
      */
     public function search($q, $limit)
     {
-        return $this->postRepository->search($q, $limit);
+        return $this->searchRepository->searchPosts($q, $limit);
     }
 
     /**

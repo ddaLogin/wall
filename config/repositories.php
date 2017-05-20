@@ -6,4 +6,5 @@ return [
     'RoomRepository' => \App\Repositories\PgSqlRoomRepository::class,
     'SubscriptionRepository' => \App\Repositories\PgSqlSubscriptionRepository::class,
     'UserRepository' => \App\Repositories\PgSqlUserRepository::class,
+    'SearchRepository' => \App\Repositories\PgSqlSearchRepository::class,
 ];

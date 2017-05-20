@@ -8,11 +8,12 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\RoomRepository;
 use App\Models\Room;
 use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
-class PgSqlRoomRepository implements \App\Interfaces\RoomRepository
+class PgSqlRoomRepository implements RoomRepository
 {
 
     /**

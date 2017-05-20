@@ -41,15 +41,6 @@ interface PostRepository
     public function getByAuthorId($authorId, $limit = null);
 
     /**
-     * search posts by text
-     *
-     * @param $q
-     * @param int $limit
-     * @return Collection
-     */
-    public function search($q, $limit = null);
-
-    /**
      * get top posts for home page
      *
      * @param int $limit

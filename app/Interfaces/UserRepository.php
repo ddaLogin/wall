@@ -38,13 +38,4 @@ interface UserRepository
      * @return User
      */
     public function store($data, $user_id = null);
-
-    /**
-     * search users by nickname or mails
-     *
-     * @param $q
-     * @param int $limit
-     * @return Collection
-     */
-    public function search($q, $limit = null);
 }

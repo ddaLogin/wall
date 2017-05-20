@@ -9,11 +9,12 @@
 namespace App\Repositories;
 
 
+use App\Interfaces\SubscriptionRepository;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
-class PgSqlSubscriptionRepository implements \App\Interfaces\SubscriptionRepository
+class PgSqlSubscriptionRepository implements SubscriptionRepository
 {
 
     /**

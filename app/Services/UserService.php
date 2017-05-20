@@ -9,6 +9,7 @@
 namespace App\Services;
 
 
+use App\Interfaces\SearchRepository;
 use App\Interfaces\UserRepository;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
@@ -21,10 +22,12 @@ class UserService
     /**
      * UserService constructor.
      * @param UserRepository $userRepository
+     * @param SearchRepository $searchRepository
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, SearchRepository $searchRepository)
     {
         $this->userRepository = $userRepository;
+        $this->searchRepository = $searchRepository;
     }
 
     /**
@@ -47,7 +50,7 @@ class UserService
      */
     public function search($q, $limit)
     {
-        return $this->userRepository->search($q, $limit);
+        return $this->searchRepository->searchUsers($q, $limit);
     }
 
     /**

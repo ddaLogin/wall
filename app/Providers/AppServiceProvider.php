@@ -34,5 +34,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(Interfaces\RoomRepository::class, config('repositories.RoomRepository'));
         $this->app->bind(Interfaces\SubscriptionRepository::class, config('repositories.SubscriptionRepository'));
         $this->app->bind(Interfaces\UserRepository::class, config('repositories.UserRepository'));
+        $this->app->bind(Interfaces\SearchRepository::class, config('repositories.SearchRepository'));
     }
 }

@@ -8,11 +8,12 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\LikeRepository;
 use App\Models\Like;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
-class PgSqlLikeRepository implements \App\Interfaces\LikeRepository
+class PgSqlLikeRepository implements LikeRepository
 {
 
     /**
