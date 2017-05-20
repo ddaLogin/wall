@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
         $users[] = factory(\App\Models\User::class)->make([
             'nickname' => 'admin',
             'email' => 'admin@gmail.com',
-            'password' => bcrypt('admin')
+            'password' => 'admin'
         ]);
 
         $users->each(function ($item) use($faker){

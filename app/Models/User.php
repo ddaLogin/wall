@@ -2,16 +2,20 @@
 
 namespace App\Models;
 
+use App\Interfaces\SubscriptionRepository;
 use App\Interfaces\Validatable;
 use App\Repositories\PgSqlSubscriptionRepository;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable implements Validatable
 {
     use Notifiable;
+
+    private $subscriptionRepository;
 
     /**
      * The attributes that are mass assignable.
@@ -46,6 +50,16 @@ class User extends Authenticatable implements Validatable
      * @var array
      */
     protected $appends = ['link', 'photo_link', 'photo_link_mini', 'status'];
+
+    /**
+     * User constructor.
+     * @param array $attributes
+     */
+    public function __construct($attributes = array())
+    {
+        parent::__construct($attributes);
+        $this->subscriptionRepository = App::make(SubscriptionRepository::class);
+    }
 
     /**
      * ganarate url to user wall
@@ -111,8 +125,7 @@ class User extends Authenticatable implements Validatable
      */
     public function subscribeByUser($user_id)
     {
-        $subscriptionRepository = new PgSqlSubscriptionRepository();
-        if ($subscriptionRepository->getByUserAndTarget($user_id, $this->id)) {
+        if ($this->subscriptionRepository->getByUserAndTarget($user_id, $this->id)) {
             return true;
         } else {
             return false;

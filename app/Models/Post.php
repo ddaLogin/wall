@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use App\Interfaces\LikeRepository;
 use App\Interfaces\Validatable;
 use App\Repositories\PgSqlLikeRepository;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 
 class Post extends Model implements Validatable
 {
+    private $likeRepository;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -35,6 +39,16 @@ class Post extends Model implements Validatable
      * @var array
      */
     protected $appends = ['link'];
+
+    /**
+     * Post constructor.
+     * @param array $attributes
+     */
+    public function __construct($attributes = array())
+    {
+        parent::__construct($attributes);
+        $this->likeRepository = App::make(LikeRepository::class);
+    }
 
     /**
      * get url to post view page
@@ -69,8 +83,7 @@ class Post extends Model implements Validatable
      */
     public function likeStatusByUser($user_id)
     {
-        $likeRepository = new PgSqlLikeRepository();
-        $like = $likeRepository->getByUserAndPost($user_id, $this->id);
+        $like = $this->likeRepository->getByUserAndPost($user_id, $this->id);
         if (isset($like)){
             return $like->like;
         } else return new \App\Classes\Like(null);
